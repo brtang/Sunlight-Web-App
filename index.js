@@ -4,10 +4,10 @@ const express = require('express');
       pg = require('pg');
       
 var client = new pg.Client({
-  user: 'bitnami',
-  password: 'bitnami',
+  user: 'xxxxxxx',
+  password: 'xxxxxxx',
   host: 'localhost',
-  database: 'bitnami',
+  database: 'xxxxxxx',
   port: 5432, 
 });
 
