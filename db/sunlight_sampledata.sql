@@ -9,17 +9,17 @@ INSERT INTO Groups(Name, Group_Id, Region_Id, Number_Of_Poles) VALUES('Outer cir
 INSERT INTO Groups(Name, Group_Id, Region_Id, Number_Of_Poles) VALUES('Inner cube', 2, 1, 3);
 INSERT INTO Groups(Name, Group_Id, Region_Id, Number_Of_Poles) VALUES('Outer cube', 3, 1, 2);
 
-INSERT INTO Pole(Pole_Id, Group_Id, Region_Id) VALUES(0, 0, 0);
-INSERT INTO Pole(Pole_Id, Group_Id, Region_Id) VALUES(1, 0, 0);
-INSERT INTO Pole(Pole_Id, Group_Id, Region_Id) VALUES(2, 1, 0);
-INSERT INTO Pole(Pole_Id, Group_Id, Region_Id) VALUES(3, 1, 0);
-INSERT INTO Pole(Pole_Id, Group_Id, Region_Id) VALUES(4, 1, 0);
+INSERT INTO Pole(Pole_Id, Group_Id, Region_Id, Company_Id) VALUES(0, 0, 0, 0);
+INSERT INTO Pole(Pole_Id, Group_Id, Region_Id, Company_Id) VALUES(1, 0, 0, 0);
+INSERT INTO Pole(Pole_Id, Group_Id, Region_Id, Company_Id) VALUES(2, 1, 0, 0);
+INSERT INTO Pole(Pole_Id, Group_Id, Region_Id, Company_Id) VALUES(3, 1, 0, 0);
+INSERT INTO Pole(Pole_Id, Group_Id, Region_Id, Company_Id) VALUES(4, 1, 0, 0);
 
-INSERT INTO Pole(Pole_Id, Group_Id, Region_Id) VALUES(5, 2, 1);
-INSERT INTO Pole(Pole_Id, Group_Id, Region_Id) VALUES(6, 2, 1);
-INSERT INTO Pole(Pole_Id, Group_Id, Region_Id) VALUES(7, 2, 1);
-INSERT INTO Pole(Pole_Id, Group_Id, Region_Id) VALUES(8, 3, 1);
-INSERT INTO Pole(Pole_Id, Group_Id, Region_Id) VALUES(9, 3, 1);
+INSERT INTO Pole(Pole_Id, Group_Id, Region_Id, Company_Id) VALUES(5, 2, 1, 0);
+INSERT INTO Pole(Pole_Id, Group_Id, Region_Id, Company_Id) VALUES(6, 2, 1, 0);
+INSERT INTO Pole(Pole_Id, Group_Id, Region_Id, Company_Id) VALUES(7, 2, 1, 0);
+INSERT INTO Pole(Pole_Id, Group_Id, Region_Id, Company_Id) VALUES(8, 3, 1, 0);
+INSERT INTO Pole(Pole_Id, Group_Id, Region_Id, Company_Id) VALUES(9, 3, 1, 0);
 
 INSERT INTO Users(Name, User_Id, Company_Id, Role) VALUES ('Frank', 0, 0, 'Admin');
 INSERT INTO Users(Name, User_Id, Company_Id, Role) VALUES ('Rob', 1, 0, 'User');
