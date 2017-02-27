@@ -27,15 +27,49 @@ app.get('/', function(req,res){
   res.send("Hi! This is the great!");
 });
 
-//Find user by name
-app.get('/users/find/:name', (req,res) => {
+//Insert new user into db
+app.get('/users/insert/:name', (req,res) => {
     db.users.find(req.params.name)
         .then(data => {
             console.log("This is data: ", data);
+            if(data){
+              res.json({
+                success: false,
+                error: 'User already exists'
+            });
+            }
+            
+        })
+        .catch(error => {
+            console.log("Error: ", error);
             res.json({
-              success:true,
-              data
-            });  
+                success: false,
+                error: error.message || error
+            });
+        });        
+    var user_id;
+    db.users.count()
+        .then(data => {
+            user_id = data;
+            console.log("This is user_id for new user: ", user_id);
+        })
+        .catch(error => {
+            console.log("Error: ", error);
+            res.json({
+                success: false,
+                error: error.message || error
+            });
+        });   
+    
+            
+});
+
+//Find user by name
+app.get('/users/find/:name', (req,res) => { 
+    db.users.find(req.params.name)
+        .then(data => {
+            console.log("This is data: ", data);
+            
         })
         .catch(error => {
             console.log("Error: ", error);
