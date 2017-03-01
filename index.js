@@ -3,23 +3,17 @@
 const express = require('express');
       pg = require('pg');
       db = require('./db');
+      bodyParser = require('body-parser'); 
       config = require('./config/config');
 
-/*      
-var client = new pg.Client({
-  user: config.user,
-  password: config.password,
-  host: config.host,
-  database: config.database,
-  port: config.port, 
-});
-
-client.connect(function (err) {
-  if (err) throw err;
-  console.log("Connected to postgres");
-});*/
 
 var app = express();
+
+//Configure the app to use bodyParser()
+app.use(bodyParser.urlencoded({
+   extended: true
+}));
+
 app.set('port', process.env.PORT || 8080);
 
 
@@ -28,7 +22,7 @@ app.get('/', function(req,res){
 });
 
 //Insert new user into db
-app.get('/users/insert/:name', (req,res) => {
+app.post('/users/insert/:name', (req,res) => {
     db.users.find(req.params.name)
         .then(data => {
             console.log("This is data: ", data);
@@ -48,20 +42,35 @@ app.get('/users/insert/:name', (req,res) => {
             });
         });        
     var user_id;
-    db.users.count()
-        .then(data => {
-            user_id = data;
-            console.log("This is user_id for new user: ", user_id);
-        })
-        .catch(error => {
-            console.log("Error: ", error);
-            res.json({
-                success: false,
-                error: error.message || error
-            });
-        });   
-    
-            
+    db.task(t => {
+          return t.users.count()
+            .then(count => {
+                user_id = count;
+                return  t.users.insert({
+                        Name: req.params.name, 
+                        User_Id: user_id, 
+                        Company_Id: req.body.company,
+                        Role: req.body.role                        
+                })
+                .then(data => {
+                  console.log("Inside here?", data);
+                  res.json({
+                    succss: true,
+                    reason: 'New user name and new user id',
+                    name: data[0].name,
+                    user_id: data[0].user_id
+                  });
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                    res.json({
+                        success: false,
+                        error: error.message || error
+                    });
+                });     
+            });    
+       })
+      
 });
 
 //Find user by name

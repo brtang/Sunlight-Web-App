@@ -1,12 +1,16 @@
 module.exports = (rep, pgp) => {
    return{
       count:() =>
-         rep.oneOrNone('SELECT count(*) FROM Users', a => +a.count),
+         
+         rep.oneOrNone('SELECT count(*) FROM Users', [], a => +a.count),
       
       insert: values =>
-        rep.one('INSERT INTO Users(Name, User_Id, Company_Id, Role) VALUES ($1, $2, $3, $4)',values, user => user.Name),
+        rep.any('INSERT INTO Users(Name, User_Id, Company_Id, Role) VALUES (${Name}, ${User_Id} , ${Company_Id}, ${Role}) RETURNING Name, User_Id',values, user => user.Name && user.User_Id),
         
-      find: name =>
-         rep.oneOrNone('SELECT * FROM Users WHERE Name = $1', name)
+      find: name => {
+          console.log("Name is:", name);
+          return rep.oneOrNone('SELECT * FROM Users WHERE Name = $1', name)
+         }
+          
    };
 };
