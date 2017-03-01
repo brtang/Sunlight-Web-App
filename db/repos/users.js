@@ -1,7 +1,6 @@
 module.exports = (rep, pgp) => {
    return{
       count:() =>
-         
          rep.oneOrNone('SELECT count(*) FROM Users', [], a => +a.count),
       
       insert: values =>
@@ -10,7 +9,9 @@ module.exports = (rep, pgp) => {
       find: name => {
           console.log("Name is:", name);
           return rep.oneOrNone('SELECT * FROM Users WHERE Name = $1', name)
-         }
-          
+         },
+      
+      updateName: values =>
+        rep.any('UPDATE Users SET Name = ${newName} WHERE Name = ${Name} RETURNING Name', values, user => user.Name)       
    };
 };

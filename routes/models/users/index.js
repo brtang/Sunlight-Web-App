@@ -5,11 +5,18 @@ users.get('/find/:name', (req,res) => {
     db.users.find(req.params.name)
         .then(data => {
             console.log("This is data: ", data);
-            res.json({
-                success: true,
-                reason: 'Correct user name',
-                data
-            });
+            if(!data){
+              res.json({
+                success: false,
+                error: 'User does not exist'
+              });
+            }else{
+                res.json({
+                    success: true,
+                    reason: 'Correct user name',
+                    data
+                });
+            }
         })
         .catch(error => {
             console.log("Error: ", error);
@@ -29,7 +36,7 @@ users.post('/insert/:name', (req,res) => {
               res.json({
                 success: false,
                 error: 'User already exists'
-            });
+              });
             }
             
         })
@@ -71,6 +78,48 @@ users.post('/insert/:name', (req,res) => {
        })
       
 });
+
+//Update User element
+users.post('/update/:name', (req,res) => {
+        
+    db.task(t => {
+        return t.users.find(req.params.name)
+            .then(data => {
+                console.log("This is data: ", data);
+                if(!data){
+                    res.json({
+                        success: false,
+                        error: 'User does not exist'
+                    });    
+                }
+                 return  t.users.updateName({
+                        newName: req.body.newName,
+                        Name: req.params.name
+                                              
+                })
+                .then(data => {
+                  console.log("Inside here?", data);
+                  res.json({
+                    succss: true,
+                    reason: 'Updated new user name',
+                    name: data[0].name,    
+                  });
+                })
+            
+            })
+            .catch(error => {
+                console.log("Error: ", error);
+                res.json({
+                    success: false,
+                    error: error.message || error
+                });
+            });  
+    })    
+        
+});
+
+
+//Delete User
 
 
 module.exports = users;
