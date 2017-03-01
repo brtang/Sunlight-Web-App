@@ -2,8 +2,11 @@ const users = require('express').Router();
 
 
 //Read user by name
-users.get('/find/:name', (req,res) => { 
-    db.users.find(req.params.name)
+users.post('/find/:name', (req,res) => { 
+    db.users.find({
+        Name: req.params.name,
+        Company_Id: req.body.company,
+        User_Id: req.body.userId})
         .then(data => {
             console.log("This is data: ", data);
             if(!data){
@@ -12,6 +15,7 @@ users.get('/find/:name', (req,res) => {
                 error: 'User does not exist'
               });
             }else{
+                console.log("Data:", data);
                 res.json({
                     success: true,
                     reason: 'Correct user name',

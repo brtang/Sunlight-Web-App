@@ -3,15 +3,12 @@ module.exports = (rep, pgp) => {
       countId: () =>
           rep.any('SELECT User_Id FROM Users ORDER BY User_Id DESC LIMIT 1', [], a => +a.count),      
        
-      count:() =>
-         rep.oneOrNone('SELECT count(*) FROM Users', [], a => +a.count),
-      
       insert: values =>
         rep.any('INSERT INTO Users(Name, User_Id, Company_Id, Role) VALUES (${Name}, ${User_Id} , ${Company_Id}, ${Role}) RETURNING Name, User_Id',values, user => user.Name && user.User_Id),
         
-      find: name => {
-          console.log("Name is:", name);
-          return rep.oneOrNone('SELECT * FROM Users WHERE Name = $1', name)
+      find: values => {
+          
+          return rep.many('SELECT * FROM Users WHERE Name = ${Name} OR User_Id = ${User_Id} OR Company_Id = ${Company_Id}', values, users )
          },
       
       updateName: values =>
