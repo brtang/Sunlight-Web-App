@@ -5,7 +5,7 @@ const express = require('express');
       db = require('./db');
       bodyParser = require('body-parser'); 
       config = require('./config/config');
-
+      routes = require('./routes');
 
 var app = express();
 
@@ -16,10 +16,9 @@ app.use(bodyParser.urlencoded({
 
 app.set('port', process.env.PORT || 8080);
 
+app.use('/', routes);
 
-app.get('/', function(req,res){
-  res.send("Hi! This is the great!");
-});
+/*
 
 //Insert new user into db
 app.post('/users/insert/:name', (req,res) => {
@@ -126,6 +125,7 @@ app.get('/company/find/:name', (req,res) => {
             });
         });        
 });
+*/
 
 app.listen(app.get('port'), function(){
    console.log('Express started on http://localhost:' + 

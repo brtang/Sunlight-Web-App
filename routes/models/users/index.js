@@ -1,0 +1,76 @@
+const users = require('express').Router();
+
+//Find user by name
+users.get('/find/:name', (req,res) => { 
+    db.users.find(req.params.name)
+        .then(data => {
+            console.log("This is data: ", data);
+            res.json({
+                success: true,
+                reason: 'Correct user name',
+                data
+            });
+        })
+        .catch(error => {
+            console.log("Error: ", error);
+            res.json({
+                success: false,
+                error: error.message || error
+            });
+        });        
+}); 
+
+//Insert new user into db
+users.post('/insert/:name', (req,res) => {
+    db.users.find(req.params.name)
+        .then(data => {
+            console.log("This is data: ", data);
+            if(data){
+              res.json({
+                success: false,
+                error: 'User already exists'
+            });
+            }
+            
+        })
+        .catch(error => {
+            console.log("Error: ", error);
+            res.json({
+                success: false,
+                error: error.message || error
+            });
+        });        
+    var user_id;
+    db.task(t => {
+          return t.users.count()
+            .then(count => {
+                user_id = count;
+                return  t.users.insert({
+                        Name: req.params.name, 
+                        User_Id: user_id, 
+                        Company_Id: req.body.company,
+                        Role: req.body.role                        
+                })
+                .then(data => {
+                  console.log("Inside here?", data);
+                  res.json({
+                    succss: true,
+                    reason: 'New user name and new user id',
+                    name: data[0].name,
+                    user_id: data[0].user_id
+                  });
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                    res.json({
+                        success: false,
+                        error: error.message || error
+                    });
+                });     
+            });    
+       })
+      
+});
+
+
+module.exports = users;
