@@ -1,4 +1,4 @@
-const users = require('express').Router();
+const users = require('express').Router({ mergeParams: true});
 
 
 //Read user by name
@@ -158,5 +158,7 @@ users.post('/delete/:name', (req,res) => {
     })    
         
 });
+
+
 
 module.exports = users;

@@ -34,8 +34,8 @@ PRIMARY KEY(Group_Id)
 
 CREATE TABLE Pole(
 Pole_Id int NOT NULL,
-Group_Id int NOT NULL REFERENCES Groups(Group_Id),
-Region_Id int NOT NULL REFERENCES Region(Region_Id),
+Group_Id int REFERENCES Groups(Group_Id),
+Region_Id int REFERENCES Region(Region_Id),
 Company_Id int NOT NULL REFERENCES Company(Company_Id),
 Batt_Volt int,
 Batt_Current int,
@@ -48,4 +48,40 @@ MAN_LED_Override varchar(50),
 LED varchar(50),
 Arch_light varchar(50),
 PRIMARY KEY(Pole_Id)
+);
+
+CREATE TABLE PoleLog(
+Pole_Id int NOT NULL,
+Time_stamp timestamp NOT NULL,
+Date_stamp date NOT NULL,
+Batt_Volt int,
+Batt_Current int,
+Panel_Volt int,
+Panel_Current int,
+Temperature int,
+Power_source varchar(50),
+Brightness_level int,
+MAN_LED_Override varchar(50),
+LED varchar(50),
+Arch_light varchar(50),
+PRIMARY KEY(Pole_Id)
+);
+
+CREATE TABLE PoleSchedule(
+Pole_Id int NOT NULL,
+Time_stamp_start timestamp,
+Date_stamp_start date,
+Time_stamp_end timestamp,
+Date_stamp_end date,
+Brightness_level int,
+LED varchar(50),
+Arch_light varchar(50),
+PRIMARY KEY(Pole_Id)
+);
+
+CREATE TABLE GroupSchedule(
+
+);
+
+CREATE TABLE RegionSchedule(
 );
