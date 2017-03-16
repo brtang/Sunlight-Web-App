@@ -1,7 +1,8 @@
 var config = require('../config/config');
 
 var repos = {
-    users: require('./repos/users')
+    users: require('./repos/users'),
+    companies: require('./repos/companies')
 };
 
 var options = {
@@ -12,7 +13,7 @@ var options = {
         // Do not use 'require()' here, because this event occurs for every task
         // and transaction being executed, which should be as fast as possible.
         obj.users = repos.users(obj, pgp);
- 
+        obj.companies = repos.companies(obj, pgp);
     }
 
 };

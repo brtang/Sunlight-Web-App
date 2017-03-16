@@ -4,6 +4,7 @@ const routes = require('express').Router();
 routes.use('/', models);
 
 routes.get('/', (req, res) => {
+  console.log("We got a req: ", req);
   res.status(200).json({ message: 'Connected!'});
 });
 
