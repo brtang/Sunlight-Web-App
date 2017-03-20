@@ -34,6 +34,7 @@ PRIMARY KEY(Group_Id)
 
 CREATE TABLE Pole(
 Pole_Id SERIAL NOT NULL,
+XBee_MAC_addr varchar(50) NOT NULL,
 Group_Id SERIAL REFERENCES Groups(Group_Id),
 Region_Id SERIAL REFERENCES Region(Region_Id),
 Company_Id SERIAL NOT NULL REFERENCES Company(Company_Id),
