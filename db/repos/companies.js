@@ -1,7 +1,7 @@
 module.exports = (rep, pgp) => {
    return{
       findAll: () =>
-         rep.any('SELECT * FROM Company', [], company),
+         rep.any('SELECT * FROM Company', []),
       
       countId: () =>
           rep.any('SELECT Company_Id FROM Company ORDER BY Company_Id DESC LIMIT 1', [], a => +a.count),      
