@@ -2,7 +2,7 @@ var config = require('../config/config');
 
 var repos = {
     users: require('./repos/users'),
-    companies: require('./repos/companies')
+    companies: require('./repos/companies'),
     poles: require('./repos/poles')
 };
 
@@ -15,7 +15,7 @@ var options = {
         // and transaction being executed, which should be as fast as possible.
         obj.users = repos.users(obj, pgp);
         obj.companies = repos.companies(obj, pgp);
-        obj.poles = repos.poles(obj.pgp);
+        obj.poles = repos.poles(obj, pgp);
     }
 
 };

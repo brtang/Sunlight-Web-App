@@ -4,11 +4,11 @@ module.exports = (rep, pgp) => {
          rep.any('SELECT * FROM Pole', []),
       
       insert: values =>
-        rep.any('INSERT INTO Pole(Name, Number_Of_Users) VALUES (${Name}, ${Number_Of_Users}) RETURNING Name ',values, pole => pole.Name),
+        rep.any('INSERT INTO Pole(XBee_MAC_addr, Group_Id, Region_Id, Company_Id) VALUES (${XBee_MAC_addr}, ${Group_Id}, ${Region_Id}, ${Company_Id}) RETURNING XBee_MAC_addr ',values, pole => pole.XBee_MAC_addr),
         
       find: values => {
           
-          return rep.any('SELECT * FROM Pole WHERE Name = ${Name} ', values, pole => pole.Name )
+          return rep.any('SELECT * FROM Pole WHERE XBee_MAC_addr = ${XBee_MAC_addr} ', [] )
          },
       
       updateUsers: values =>

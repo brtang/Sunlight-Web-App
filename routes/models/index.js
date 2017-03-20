@@ -8,6 +8,6 @@ const models = require('express').Router();
       
 models.use('/users', users);
 models.use('/companies', companies);
-models.use('poles', poles);
+models.use('/poles', poles);
 
 module.exports = models;
