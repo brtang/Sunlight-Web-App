@@ -56,48 +56,7 @@ companies.post('/find/:name', (req,res) => {
 
 //Create and insert new Company into db
 companies.post('/insert/:name', (req,res) => {
-    /*
-    db.companies.find({
-     Name: req.params.name,
-     })
-        .then(data => {
-            console.log("This is data: ", data);
-            if(data[0]){
-              res.json({
-                success: false,
-                error: 'Company already exists'
-              });
-            }
-            
-        })
-        .catch(error => {
-            console.log("Error: ", error);
-            res.json({
-                success: false,
-                error: error.message || error
-            });
-        });  
-    
-    db.companies.insert({
-        Name: req.params.name, 
-        Number_Of_Users: req.body.numUsers                       
-    })
-    .then(data => {
-       console.log("This is data: ", data);
-       res.json({
-        success: true,
-        data: data
-       }); 
-    })
-    .catch(error => {
-        console.log("Error: ", error);
-        res.json({
-          success: false,
-          error: error.message || error
-        });
-    });    
-    */
-    
+   
     db.task(t => {
           return t.companies.find({
             Name: req.params.name
@@ -144,7 +103,7 @@ companies.post('/update/:name/:numUsers', (req,res) => {
         return t.companies.find(req.params.name)
             .then(data => {
                 console.log("This is data: ", data);
-                if(!data){
+                if(data.length == 0){
                     res.json({
                         success: false,
                         error: 'Company does not exist'
