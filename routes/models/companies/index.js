@@ -30,17 +30,18 @@ companies.post('/find/:name', (req,res) => {
         Number_Of_Users: req.body.numUsers})
         .then(data => {
             console.log("This is data: ", data);
-            if(!data){
-              res.json({
-                success: false,
-                error: 'Company does not exist'
-              });
-            }else{
+            if(data.length > 0){
                 console.log("Data:", data);
                 res.json({
                     success: true,
                     reason: 'Correct company name',
                     data
+                });
+              
+            }else{
+                res.json({
+                    success: false,
+                    error: 'Company does not exist'
                 });
             }
         })
