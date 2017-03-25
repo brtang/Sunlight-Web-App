@@ -3,7 +3,8 @@ var config = {
    password: 'bitnami',
    host: 'localhost',
    database: 'bitnami',
-   port: 5432
+   port: 5432,
+   secret: 'supersecretrandompassword'
 };
 
 module.exports = config;

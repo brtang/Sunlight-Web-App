@@ -5,6 +5,7 @@ const express = require('express');
       db = require('./db');
       request = require('request');
       bodyParser = require('body-parser'); 
+      bcrypt = require('bcrypt-nodejs');
       config = require('./config/config');
       routes = require('./routes');
       
