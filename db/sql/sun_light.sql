@@ -1,3 +1,5 @@
+CREATE TYPE roles AS ENUM('Member', 'Client', 'Owner', 'Admin');
+
 CREATE TABLE Company(
 Name varchar(50) UNIQUE NOT NULL,
 Company_Id SERIAL,
@@ -7,9 +9,10 @@ PRIMARY KEY (Company_Id)
 
 CREATE TABLE Users(
 Name varchar(50) UNIQUE NOT NULL,
+Password varchar(50),
+Role roles NOT NULL,
 User_Id SERIAL,
 Company_Id SERIAL NOT NULL REFERENCES Company(Company_Id), 
-Role varchar(50),
 PRIMARY KEY (User_Id)
 );
 
