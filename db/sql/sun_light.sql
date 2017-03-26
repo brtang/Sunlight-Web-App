@@ -9,10 +9,12 @@ PRIMARY KEY (Company_Id)
 
 CREATE TABLE Users(
 Name varchar(50) UNIQUE NOT NULL,
-Password varchar(50),
-Role roles NOT NULL,
+Password varchar(50) NOT NULL,
+Email varchar(50) NOT NULL,
+Role roles,
 User_Id SERIAL,
-Company_Id SERIAL NOT NULL REFERENCES Company(Company_Id), 
+--Company_Id SERIAL NOT NULL REFERENCES Company(Company_Id), 
+Company varchar(50) NOT NULL,
 PRIMARY KEY (User_Id)
 );
 

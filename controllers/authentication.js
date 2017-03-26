@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
       bcrypt = require('bcrypt');
+      config = require('../config/config');
       ADMIN = 'Admin';
       OWNER = 'Owner';
       CLIENT = 'Client';
@@ -23,13 +24,15 @@ function comparePassword(candidatePassword, hash){
   bcrypt.compare(candidatePassword, hash, function(err, isMatch){
     if (err) return cb(err);
     if(isMatch == false){
-      //Do something
+      console.log("Password incorrect");
     }
   });
 }
 
 //Registration route
 exports.register = function(req, res, next){
+    console.log("Reached registration route...");
+    
     const email = req.body.email;
     const name = req.body.name;
     const company = req.body.company;
@@ -75,9 +78,23 @@ exports.register = function(req, res, next){
             
         return db.users.insert({
                   Name: name,
-                  Email: email,
-                  
-               })        
+                  Password: password,
+                  Email: email,                
+                  Company: company
+               })  
+               .then(data => {
+                  console.log("Reaching here means new User was created: ", data);
+                  var token = jwt.sign(data, config.secret, {
+                        expiresIn: 60*180*999999999 // expires in 180 mins
+                  });
+                  res.status(201).json({
+                    succss: true,
+                    reason: 'New user name and new user id',
+                    token: token,
+                    name: data[0].name,
+                    user_id: data[0].user_id
+                  });
+                })
     })
     .catch(error => {
         console.log("Error: ", error);
@@ -92,8 +109,9 @@ exports.register = function(req, res, next){
 };
 
 
-//Login route
+/*Login route
 exports.login = function( req, res, next) {
   
 
 };
+*/

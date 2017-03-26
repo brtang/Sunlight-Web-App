@@ -4,11 +4,11 @@ module.exports = (rep, pgp) => {
           rep.any('SELECT User_Id FROM Users ORDER BY User_Id DESC LIMIT 1', [], a => +a.count),      
        
       insert: values =>
-        rep.any('INSERT INTO Users(Name, User_Id, Company_Id, Role) VALUES (${Name}, ${User_Id} , ${Company_Id}, ${Role}) RETURNING Name, User_Id',values, user => user.Name && user.User_Id),
+        rep.any('INSERT INTO Users(Name, Password, Email, Company) VALUES (${Name}, ${Password} , ${Email}, ${Company}) RETURNING Name, User_Id',values, user => user.Name && user.User_Id),
         
       find: values => {
           
-          return rep.many('SELECT * FROM Users WHERE Name = ${Name} OR User_Id = ${User_Id} OR Company_Id = ${Company_Id}', values, users )
+          return rep.many('SELECT * FROM Users WHERE Name = ${Name} OR User_Id = ${User_Id} OR Company = ${Company} OR Email = ${Email}', values, users )
          },
       
       updateName: values =>
