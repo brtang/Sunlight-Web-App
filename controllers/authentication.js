@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
       bcrypt = require('bcrypt-nodejs');
+      
       config = require('../config/config');
       ADMIN = 'Admin';
       OWNER = 'Owner';

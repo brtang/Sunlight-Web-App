@@ -20,7 +20,8 @@ app.use(bodyParser.urlencoded({
 app.set('port', process.env.PORT || 8080);
 
 //Handle all routes in routes middleware
-app.use('/', routes);
+//app.use('/', routes);
+routes(app);
 
 request.get(' https://devicecloud.digi.com/ws/DataPoint/00000000-00000000-00409DFF-FF78D78D/serial_data').auth('Sunlight', 'SunLight1!', true)
     .on('response', function(response){
