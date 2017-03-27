@@ -8,7 +8,7 @@ module.exports = (rep, pgp) => {
         
       find: values => {
           
-          return rep.many('SELECT * FROM Users WHERE Name = ${Name} OR User_Id = ${User_Id} OR Company = ${Company} OR Email = ${Email}', values, users )
+          return rep.many('SELECT * FROM Users WHERE Email = ${Email}', values, users )
          },
       
       updateName: values =>

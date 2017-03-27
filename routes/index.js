@@ -9,7 +9,7 @@ routes.get('/', (req, res) => {
   res.status(200).json({ message: 'Connected!'});
 });
 
-routes.post('/register', AuthenticationController.register);
+routes.post('/registration', AuthenticationController.register);
 
 
 module.exports = routes;

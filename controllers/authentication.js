@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-      bcrypt = require('bcrypt');
+      bcrypt = require('bcrypt-nodejs');
       config = require('../config/config');
       ADMIN = 'Admin';
       OWNER = 'Owner';
@@ -66,7 +66,6 @@ exports.register = function(req, res, next){
     })
     
     //Query DB for user
-    //Todo: modify db.users.find to take in email argument
     db.users.find({
         Email: email
     })
@@ -75,7 +74,7 @@ exports.register = function(req, res, next){
         if(data){            
             return res.status(422).send({ error: 'Email address is already in use.' });
         }
-            
+         /*   
         return db.users.insert({
                   Name: name,
                   Password: password,
@@ -94,7 +93,7 @@ exports.register = function(req, res, next){
                     name: data[0].name,
                     user_id: data[0].user_id
                   });
-                })
+                })*/
     })
     .catch(error => {
         console.log("Error: ", error);
