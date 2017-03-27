@@ -71,11 +71,11 @@ exports.register = function(req, res, next){
     })
     .then(data => {
         console.log("This is data returned from User query: ", data);
-        if(data){            
+        if(data.length > 0){            
             return res.status(422).send({ error: 'Email address is already in use.' });
-        }
-         /*   
-        return db.users.insert({
+        }else{
+           console.log("No data returned, email has not been registered in the database!");
+            return db.users.insert({
                   Name: name,
                   Password: password,
                   Email: email,                
@@ -83,17 +83,19 @@ exports.register = function(req, res, next){
                })  
                .then(data => {
                   console.log("Reaching here means new User was created: ", data);
-                  var token = jwt.sign(data, config.secret, {
+                  var token = jwt.sign({ Name: name}, config.secret, {
                         expiresIn: 60*180*999999999 // expires in 180 mins
                   });
                   res.status(201).json({
                     succss: true,
-                    reason: 'New user name and new user id',
+                    reason: 'New email address and new user id',
                     token: token,
                     name: data[0].name,
                     user_id: data[0].user_id
                   });
-                })*/
+                })
+        }
+       
     })
     .catch(error => {
         console.log("Error: ", error);
