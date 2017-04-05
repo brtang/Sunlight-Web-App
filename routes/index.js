@@ -3,6 +3,7 @@ const routes = require('express').Router();
       express = require('express');
       config = require('../config/config');
       jwt = require('jsonwebtoken');
+      passport = require('passport');
       AuthenticationController = require('../controllers/authentication');
       
 
@@ -18,7 +19,7 @@ routes.get('/', (req, res) => {
 routes.use('/models', models);
 
 //General Registration route
-app.post('/registration', AuthenticationController.register);
+app.post('/registration', AuthenticationController.generalregister);
 
 var apiRoutes = express.Router(); 
 

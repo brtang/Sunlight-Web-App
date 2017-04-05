@@ -31,7 +31,7 @@ function comparePassword(candidatePassword, hash){
 }
 
 //Registration route
-exports.register = function(req, res, next){
+exports.generalregister = function(req, res, next){
     console.log("Reached registration route...");
     
     const email = req.body.email;
@@ -80,7 +80,8 @@ exports.register = function(req, res, next){
                   Name: name,
                   Password: password,
                   Email: email,                
-                  Company: company
+                  Company: company,
+                  Role: CLIENT
                })  
                .then(data => {
                   console.log("Reaching here means new User was created: ", data);
