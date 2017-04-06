@@ -5,7 +5,8 @@ const routes = require('express').Router();
       jwt = require('jsonwebtoken');
       passport = require('passport');
       AuthenticationController = require('../controllers/authentication');
-      
+      passportService = require('../config/passport');
+      requireAuth = passport.authenticate('jwt', {session: false});
 
 
 module.exports = function(app){
@@ -23,6 +24,11 @@ app.post('/registration', AuthenticationController.generalregister);
 
 var apiRoutes = express.Router(); 
 
+ apiRoutes.post('/protected', requireAuth, (req, res) => {
+    res.send({ content: 'The protected test route is functional!' });
+  });
+
+
 //Middleware to verify incoming JWT token
 apiRoutes.use(function(req, res, next){
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -35,7 +41,7 @@ apiRoutes.use(function(req, res, next){
                              "reason": 'Failed to authenticate'});
           }else{
              req.decoded = decoded;
-             console.log("Decoded: ", decoded.Name);
+             console.log("Decoded: ", decoded);
              
              /* TODO: Role authentication here, check for Role claim
              */

@@ -16,8 +16,23 @@ const jwtOptions = {
     secretOrKey: config.secret
 };
 
-cosnt jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
-
+const jwtUserLogin = new JwtStrategy(jwtOptions, (payload, done) => {
+    jwt.verify(jwtOptions.jwtFromRequest, config.secret, function(err, decoded){
+          if(err){
+            return res.json({"type": 'response',
+                             "success": false,
+                             "reason": 'Failed to authenticate'});
+          }else{
+             req.decoded = decoded;
+             console.log("Decoded: ", decoded.Role);
+             
+             /* TODO: Role authentication here, check for Role claim
+             */
+             
+            return done(null, user);
+          }
+       });
+    
 });
 
-passport.use(jwtLogin);
+passport.use(jwtUserLogin);

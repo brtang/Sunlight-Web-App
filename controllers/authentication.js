@@ -34,6 +34,7 @@ function comparePassword(candidatePassword, hash){
 exports.generalregister = function(req, res, next){
     console.log("Reached registration route...");
     
+
     const email = req.body.email;
     const name = req.body.name;
     const company = req.body.company;
@@ -85,7 +86,7 @@ exports.generalregister = function(req, res, next){
                })  
                .then(data => {
                   console.log("Reaching here means new User was created: ", data);
-                  var token = jwt.sign({ Name: name}, config.secret, {
+                  var token = jwt.sign({ role: data[0].role}, config.secret, {
                         expiresIn: 60*180*999999999 // expires in 180 mins
                   });
                   res.status(201).json({
@@ -93,7 +94,8 @@ exports.generalregister = function(req, res, next){
                     reason: 'New email address and new user id',
                     token: token,
                     name: data[0].name,
-                    user_id: data[0].user_id
+                    //user_id: data[0].user_id,
+                    role: data[0].Role
                   });
                 })
         }
