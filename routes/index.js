@@ -22,6 +22,9 @@ routes.use('/models', models);
 //General Registration route
 app.post('/registration', AuthenticationController.generalregister);
 
+//General Log-in route
+app.post('/login', AuthenticationController.login);
+
 app.use(passportService.initialize());
 
  app.post('/protected', passportService.authenticate(), (req, res) => {
