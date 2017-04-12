@@ -12,27 +12,25 @@ const config = require('./config'),
       
 //JWT strategy options
 const jwtOptions = {
-    jwtFromRequest: ExtractJwt.fromAuthHeader(),
+    jwtFromRequest: ExtractJwt.fromHeader('x-access-token'),
     secretOrKey: config.secret
 };
 
-const jwtUserLogin = new JwtStrategy(jwtOptions, (payload, done) => {
-    jwt.verify(jwtOptions.jwtFromRequest, config.secret, function(err, decoded){
-          if(err){
-            return res.json({"type": 'response',
-                             "success": false,
-                             "reason": 'Failed to authenticate'});
-          }else{
-             req.decoded = decoded;
-             console.log("Decoded: ", decoded.Role);
-             
-             /* TODO: Role authentication here, check for Role claim
-             */
-             
-            return done(null, user);
-          }
-       });
-    
-});
 
-passport.use(jwtUserLogin);
+
+module.exports = function(){
+   var strategy = new JwtStrategy(jwtOptions, function(payload, done) {
+        console.log("Reached here??");
+       console.log("Payload: ", payload);
+   });
+   passport.use(strategy);
+   return {
+        initialize: function() {
+            return passport.initialize();
+        },
+        authenticate: function(){
+            return passport.authenticate("jwt", { session: false });
+        }
+   };
+};   
+//passport.use(jwtUserLogin);

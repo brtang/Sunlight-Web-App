@@ -76,10 +76,11 @@ exports.generalregister = function(req, res, next){
         if(data.length > 0){            
             return res.status(422).send({ error: 'Email address is already in use.' });
         }else{
-           console.log("No data returned, email has not been registered in the database!");
+            var hash = bcrypt.hashSync(password);
+            console.log("No data returned, email has not been registered in the database!");
             return db.users.insert({
                   Name: name,
-                  Password: password,
+                  Password: hash,
                   Email: email,                
                   Company: company,
                   Role: CLIENT

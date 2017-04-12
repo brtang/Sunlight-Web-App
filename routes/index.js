@@ -5,8 +5,8 @@ const routes = require('express').Router();
       jwt = require('jsonwebtoken');
       passport = require('passport');
       AuthenticationController = require('../controllers/authentication');
-      passportService = require('../config/passport');
-      requireAuth = passport.authenticate('jwt', {session: false});
+      passportService = require('../config/passport')();
+      
 
 
 module.exports = function(app){
@@ -22,11 +22,14 @@ routes.use('/models', models);
 //General Registration route
 app.post('/registration', AuthenticationController.generalregister);
 
-var apiRoutes = express.Router(); 
+app.use(passportService.initialize());
 
- apiRoutes.post('/protected', requireAuth, (req, res) => {
+ app.post('/protected', passportService.authenticate(), (req, res) => {
     res.send({ content: 'The protected test route is functional!' });
   });
+
+
+var apiRoutes = express.Router(); 
 
 
 //Middleware to verify incoming JWT token

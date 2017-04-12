@@ -9,6 +9,7 @@
   "author": "Brian Tang",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.2",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.16.1",
     "express": "^4.14.1",

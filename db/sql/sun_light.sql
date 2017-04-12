@@ -9,7 +9,7 @@ PRIMARY KEY (Company_Id)
 
 CREATE TABLE Users(
 Name varchar(50) UNIQUE NOT NULL,
-Password varchar(50) NOT NULL,
+Password text NOT NULL,
 Email varchar(50) NOT NULL,
 Role roles,
 User_Id SERIAL,
