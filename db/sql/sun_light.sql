@@ -22,7 +22,7 @@ PRIMARY KEY (User_Id)
 CREATE TABLE Region(
 Name varchar(50) UNIQUE NOT NULL,
 Region_Id SERIAL,
-Company_Id SERIAL NOT NULL REFERENCES Company(Company_Id),
+Company_Id int NOT NULL REFERENCES Company(Company_Id),
 Location varchar(50),
 Longitude int,
 Latitude int,
@@ -32,18 +32,18 @@ PRIMARY KEY (Region_Id)
 
 CREATE TABLE Groups(
 Name varchar(50) NOT NULL,
-Group_Id SERIAL,
-Region_Id SERIAL NOT NULL REFERENCES Region(Region_Id),
+Group_Id int,
+Region_Id int NOT NULL REFERENCES Region(Region_Id),
 Number_Of_Poles int,
 PRIMARY KEY(Group_Id)
 );
 
 CREATE TABLE Pole(
-Pole_Id SERIAL NOT NULL,
+Pole_Id SERIAL,
 XBee_MAC_addr varchar(50) NOT NULL,
-Group_Id SERIAL REFERENCES Groups(Group_Id),
-Region_Id SERIAL REFERENCES Region(Region_Id),
-Company_Id SERIAL NOT NULL REFERENCES Company(Company_Id),
+Group_Id int REFERENCES Groups(Group_Id),
+Region_Id int REFERENCES Region(Region_Id),
+Company_Id int NOT NULL REFERENCES Company(Company_Id),
 Batt_Volt int,
 Batt_Current int,
 Panel_Volt int,
