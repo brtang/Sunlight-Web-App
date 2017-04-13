@@ -27,8 +27,11 @@ app.post('/login', AuthenticationController.login);
 
 app.use(passportService.initialize());
 
- app.post('/protected', passportService.authenticate(), (req, res) => {
-    res.send({ content: 'The protected test route is functional!' });
+ app.post('/protected', passportService.authenticateClient(), (req, res) => {
+    res.send({ content: 'The protected Client test route is functional!' });
+  });
+app.post('/protectedAdmin', passportService.authenticateAdmin(), (req, res) => {
+    res.send({ content: 'The protected Admin test route is functional!' });
   });
 
 
