@@ -19,25 +19,29 @@ const jwtOptions = {
 
 
 module.exports = function(){
+   //Jwt strategy to authenticate user's with Client role
    passport.use('jwt-1',  new JwtStrategy(jwtOptions, function(payload, done) {
-        console.log("Reached here??");
-       console.log("Payload: ", payload["role"]);
-       var string = payload["role"];
-       if(string === 'Client'){
+        console.log("Payload: ", payload["role"]);
+        var string = payload["role"];
+        if(string === 'Client'){
+            return done(null, true);
+        }else{
             return done(null, false);
-       }
-       done(null, true);
+        }
    }));
-   //passport.use(strategy);
+   
+   //Jwt strategy to authenticate user's with Admin role
    passport.use('jwt-2',  new JwtStrategy(jwtOptions, function(payload, done) {
-        console.log("Reached here??");
-       console.log("Payload: ", payload["role"]);
-       var string = payload["role"];
-       if(string === 'Admin'){
+        console.log("Payload: ", payload["role"]);
+        var string = payload["role"];
+        if(string === 'Admin'){
+            return done(null, true);
+        }else{
             return done(null, false);
-       }
-       done(null, true);
+        }
+        
    }));
+   
    return {
         initialize: function() {
             return passport.initialize();
@@ -50,4 +54,3 @@ module.exports = function(){
         }
    };
 };   
-//passport.use(jwtUserLogin);
