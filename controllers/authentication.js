@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
       CLIENT = 'Client';
       MEMBER = 'Member';
 
-
+/* Unused function
 function getRole(checkRole){
    var role;
    
@@ -20,32 +20,28 @@ function getRole(checkRole){
    }
    return role;
 };
+*/
 
-function comparePassword(candidatePassword, hash){
-  bcrypt.compare(candidatePassword, hash, function(err, isMatch){
-    if (err) return cb(err);
-    if(isMatch == false){
-      console.log("Password incorrect");
-    }
-  });
-}
-
-//Registration route
+//Registration route for Client role
 exports.generalregister = function(req, res, next){
     console.log("Reached registration route...");
     
-    const email = req.body.email;
-    const name = req.body.name;
-    const company = req.body.company;
-    const password = req.body.password;
+    const email = req.body.email,
+          firstName = req.body.firstName,
+          lastName = req.body.lastName,
+          company = req.body.company,
+          password = req.body.password;
     
     //Check for registration errors
     //422 error code: Server understands the content type of request but was unable to process contained instructions
     if(!email){
         return res.status(422).send({ error: 'You must enter an email address. ' });        
     }
-    if(!name){
-        return res.status(422).send({ error: 'You must enter a name. '});
+    if(!firstName){
+        return res.status(422).send({ error: 'You must enter a first name. '});
+    }
+    if(!lastName){
+        return res.status(422).send({ error: 'You must enter a last name. '});
     }
     if(!password){
         return res.status(422).send({ error: 'You must enter a password. '});
@@ -78,7 +74,8 @@ exports.generalregister = function(req, res, next){
             var hash = bcrypt.hashSync(password);
             console.log("No data returned, email has not been registered in the database!");
             return db.users.insert({
-                  Name: name,
+                  First_Name: firstName,
+                  Last_Name: lastName,
                   Password: hash,
                   Email: email,                
                   Company: company,
@@ -90,12 +87,12 @@ exports.generalregister = function(req, res, next){
                         expiresIn: 60*180*999999999 // expires in 180 mins
                   });
                   res.status(201).json({
-                    success: true,
-                    reason: 'New email address and new user id.',
+                    Success: true,
+                    Reason: 'New email address and new user id.',
                     token: token,
-                    name: data[0].name,
-                    //user_id: data[0].user_id,
-                    role: data[0].Role
+                    Email: data[0].email,
+                    Role: data[0].Role,
+                    UserId: data[0].user_id
                   });
                 })
         }
@@ -113,8 +110,7 @@ exports.generalregister = function(req, res, next){
 
 };
 
-
-
+//Login route
 exports.login = function( req, res, next) {
     console.log("Reached login route...");
     const email = req.body.email;
@@ -143,12 +139,12 @@ exports.login = function( req, res, next) {
                         expiresIn: 60*180*999999999 // expires in 180 mins
                 });
                 return res.status(201).json({
-                    success: true,
-                    reason: 'Correct Email and Password.',
+                    Success: true,
+                    Reason: 'Correct Email and Password.',
                     token: token,
-                    name: data[0].name,
-                    //user_id: data[0].user_id,
-                    role: data[0].Role
+                    Email: data[0].email,
+                    Role: data[0].Role,
+                    UserId: data[0].user_id,
                 });
             }else{
                 console.log("Incorrect password... ");

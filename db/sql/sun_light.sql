@@ -8,7 +8,8 @@ PRIMARY KEY (Company_Id)
 );
 
 CREATE TABLE Users(
-Name varchar(50) UNIQUE NOT NULL,
+First_Name varchar(50) NOT NULL,
+Last_Name varchar(50) NOT NULL,
 Password text NOT NULL,
 Email varchar(50) NOT NULL,
 Role roles,

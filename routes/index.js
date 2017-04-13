@@ -5,17 +5,17 @@ const routes = require('express').Router();
       jwt = require('jsonwebtoken');
       passport = require('passport');
       AuthenticationController = require('../controllers/authentication');
+      ClientController = require('../controllers/client');
       passportService = require('../config/passport')();
       
 
 
 module.exports = function(app){
-      
-routes.get('/', (req, res) => {
-  console.log("We got a req: ", req);
-  res.status(200).json({ message: 'Connected!'});
-});
-
+//Initialize route groups
+const apiRoutes = express.Router(), 
+      clientRoutes = express.Router(),
+      adminRoutes = express.router;    
+  
 //Set model routes (mainly used for db testing)
 routes.use('/models', models);
 
@@ -25,46 +25,28 @@ app.post('/registration', AuthenticationController.generalregister);
 //General Log-in route
 app.post('/login', AuthenticationController.login);
 
+//Initialize Passport 
 app.use(passportService.initialize());
 
- app.post('/protected', passportService.authenticateClient(), (req, res) => {
+//Route for testing Passport
+app.post('/protected', passportService.authenticateClient(), (req, res) => {
     res.send({ content: 'The protected Client test route is functional!' });
   });
+  
+//Route for testing Passport  
 app.post('/protectedAdmin', passportService.authenticateAdmin(), (req, res) => {
     res.send({ content: 'The protected Admin test route is functional!' });
-  });
-
-
-var apiRoutes = express.Router(); 
-
-
-//Middleware to verify incoming JWT token
-apiRoutes.use(function(req, res, next){
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
-   
-    if(token){
-       jwt.verify(token, config.secret, function(err, decoded){
-          if(err){
-            return res.json({"type": 'response',
-                             "success": false,
-                             "reason": 'Failed to authenticate'});
-          }else{
-             req.decoded = decoded;
-             console.log("Decoded: ", decoded);
-             
-             /* TODO: Role authentication here, check for Role claim
-             */
-             
-             next();
-          }
-       });
-    }else{
-      return  res.status(403).send({"type": 'resopnse',
-                                    "success": false,
-                                    "reason": 'No token provided'});
-    }
-    
 });
+
+//= ==================================
+//  Client Routes
+//= ==================================
+ 
+ clientRoutes.get('/:username', passportService.authenticateClient(), ClientController.viewPoles);
+ 
+ app.use('/client', clientRoutes);
+
+
 
 apiRoutes.post('/test/', function(req, res){
    console.log("Made it to test route!");
