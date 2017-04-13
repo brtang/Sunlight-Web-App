@@ -19,17 +19,21 @@ const jwtOptions = {
 
 
 module.exports = function(){
-   var strategy = new JwtStrategy(jwtOptions, function(payload, done) {
+   passport.use('jwt-1',  new JwtStrategy(jwtOptions, function(payload, done) {
         console.log("Reached here??");
-       console.log("Payload: ", payload);
-   });
-   passport.use(strategy);
+       console.log("Payload: ", payload["role"]);
+       var string = payload["role"];
+       if(string === 'Client'){
+            return done(null, false);
+       }
+   }));
+   //passport.use(strategy);
    return {
         initialize: function() {
             return passport.initialize();
         },
         authenticate: function(){
-            return passport.authenticate("jwt", { session: false });
+            return passport.authenticate('jwt-1', { session: false });
         }
    };
 };   
