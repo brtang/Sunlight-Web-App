@@ -2222,7 +2222,11 @@
   margin-right: 10px; }
 
 .irs-demo {
-  margin-bottom: 40px; }
+  margin-bottom: 40px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 20px;
+    }
   .irs-demo .irs {
     margin-top: 15px; }
 
@@ -8030,4 +8034,9 @@ html.ie11 .dropdown-menu ul.menu li a {
 
 html.ie11 .bs-searchbox .form-control {
   width: 90%; }
+
+.slider1{
+    
+    padding: 20px;
+}
 

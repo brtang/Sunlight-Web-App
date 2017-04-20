@@ -2,9 +2,10 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>CRUD</title>
+        <title>Mira Bella</title>
         
-		<!-- Bootstrap core CSS -->
+        
+    <!-- Bootstrap core CSS -->
 		<link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/starter-template.css" rel="stylesheet">
     
@@ -42,6 +43,62 @@
 
     <!-- You can choose a theme from css/themes instead of get all themes -->
     <link href="css/themes/all-themes.css" rel="stylesheet" />
+    <!-- Waves Effect Css -->
+    <link href="../../plugins/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="../../plugins/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- Range Slider Css -->
+    <link href="../../plugins/ion-rangeslider/css/ion.rangeSlider.css" rel="stylesheet" />
+    <link href="../../plugins/ion-rangeslider/css/ion.rangeSlider.skinFlat.css" rel="stylesheet" />    
+        
+		
+    
+        
+    <script type="text/javascript">
+      initApp = function() {
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            // User is signed in.
+            var displayName = user.displayName;
+            var email = user.email;
+            var emailVerified = user.emailVerified;
+            var photoURL = user.photoURL;
+            var uid = user.uid;
+            var providerData = user.providerData;
+            user.getToken().then(function(accessToken) {
+              document.getElementById('sign-in-status').textContent = 'Signed in';
+              document.getElementById('sign-in').textContent = 'Sign out';
+              document.getElementById('account-details').textContent = JSON.stringify({
+                displayName: displayName,
+                email: email,
+                emailVerified: emailVerified,
+                photoURL: photoURL,
+                uid: uid,
+                accessToken: accessToken,
+                providerData: providerData
+              }, null, '  ');
+            });
+          } else {
+            // User is signed out.
+            document.getElementById('sign-in-status').textContent = 'Signed out';
+            document.getElementById('sign-in').textContent = 'Sign in';
+            document.getElementById('account-details').textContent = 'null';
+          }
+        }, function(error) {
+          console.log(error);
+        });
+      };
+
+      window.addEventListener('load', function() {
+        initApp()
+      });
+    </script>    
+        
+        
+        
+    <script src="https://use.fontawesome.com/e46989712a.js"></script>    
 
     </head>
 	
@@ -49,6 +106,11 @@
 			
 			<!-- Navbar -->
 			<nav class="navbar navbar-inverse navbar-fixed-top">
+                
+        <div id="sign-in-status"></div>
+        <div id="sign-in"></div>
+        <div id="account-details"></div>
+                
 			  
 			</nav>
 			
@@ -57,13 +119,11 @@
         
         
     
-        </div>
+        
         
         
         
 <div class="page-loader-wrapper">
-
-        <!-- The loader spinning thing that you see at the start -->
         <div class="loader">
             <div class="preloader">
                 <div class="spinner-layer pl-amber">
@@ -101,14 +161,19 @@
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
                 <a class="navbar-brand" href="index.html">Mira Bella</a>
+                
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
+                    
                     <!-- Call Search -->
                     <li><a href="javascript:void(0);" class="js-search" data-close="true"><i class="material-icons">search</i></a></li>
                     <!-- #END# Call Search -->
 
                     <!-- Tasks -->
+                    
+                    
+        
                     <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
                             <i class="material-icons">flag</i>
@@ -179,11 +244,11 @@
                         <ul class="dropdown-menu pull-right">
                             <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
                             <li role="seperator" class="divider"></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
+                            <li><a href="javascript:void(0);"><i class="material-icons">group</i>UNIT</a></li>
                             <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
                             <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
                             <li role="seperator" class="divider"></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">input</i>Sign Out</a></li>
+                            <li><a href="signIn.html"><i class="material-icons">input</i>Sign Out</a></li>
                         </ul>
                     </div>
                 </div>
@@ -195,27 +260,26 @@
                     <li class="header"></li>
                     <li class="active">
                         <a href="index.html">
-                            <i class="material-icons">home</i>
-                            <span>Home</span>
+                            
                         </a>
                     </li>
                     
                     <li>
-                        <a href="pages/maps/google.html"/a>
+                        <a href="google.html"/a>
                             <i class="material-icons">map</i>
                             <span>Maps</span> 
                         </a>
                     </li>
                     
                      <li>
-                        <a href="pages/ui/alerts.html"/a>
-                            
+                        <a href="alerts.html"/a>
+                            <i class="material-icons">add_alert</i>
                             <span>Alerts</span> 
                         </a>
                     </li>
                      <li>
-                        <a href="pages/tables/jquery-datatable.html"/a>
-                            
+                        <a href="datatable.html"/a>
+                        <i class="material-icons">lightbulb_outline</i>    
                             <span>Assets</span> 
                         </a>
                     </li>
@@ -253,29 +317,27 @@
             <!-- Usage -->
             <div class="row clearfix">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- slider -->    
+                <div class="card">
+                    <div class="irs-demo slider1">
+                            <span class="m-r-6 font-12">BRIGHTNESS</span> 
+                            <input type="text" id="range_01" value="" />
+                        </div>                   
+                </div>
+            <!-- slider -->          
                     <div class="card">
                         <div class="header">
                             <h2> USAGE (%)</h2>
-                            <div class="pull-right">
-                                <div class="switch panel-switch-btn">
-                                    <span class="m-r-10 font-12">REAL TIME</span>
-                                    <label>OFF<input type="checkbox" id="realtime" checked><span class="lever switch-col-cyan"></span>ON</label>
-                                </div>
-                            </div>
-                           
                         </div>
+            <!-- chart -->             
                         <div class="body">
-                            
                             <svg width="960" height="500"></svg>
-                            
                         </div>
                     </div>
                 </div>
             </div>
             <!-- #END Usage -->
             
-               
-
             <div class="row clearfix">
                 <!-- Task Info -->
                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
@@ -493,6 +555,9 @@
         
     </section>  
     </section>
+        
+        
+        
 
 
 
@@ -550,6 +615,8 @@
     <script src="plugins/flot-charts/jquery.flot.pie.js"></script>
     <script src="plugins/flot-charts/jquery.flot.categories.js"></script>
     <script src="plugins/flot-charts/jquery.flot.time.js"></script>
+    <script src="../../plugins/ion-rangeslider/js/ion.rangeSlider.js"></script>
+    <script src="../../js/pages/ui/range-sliders.js"></script>
 
     <!-- Sparkline Chart Plugin Js -->
     <script src="plugins/jquery-sparkline/jquery.sparkline.js"></script>
