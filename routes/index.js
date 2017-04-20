@@ -7,7 +7,7 @@ const routes = require('express').Router();
       AuthenticationController = require('../controllers/authentication');
       ClientController = require('../controllers/client');
       passportService = require('../config/passport')();
-      
+      path = require('path');
 
 
 module.exports = function(app){
@@ -53,6 +53,10 @@ apiRoutes.post('/test/', function(req, res){
 });
 
 app.use('/api', apiRoutes);
+
+app.get('*', function (req, res) {
+    res.sendFile(path.resolve('public/index.html'));
+});
 
 
 };
