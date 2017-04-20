@@ -33,6 +33,7 @@ module.exports = function(){
    //Jwt strategy to authenticate user's with Admin role
    passport.use('jwt-2',  new JwtStrategy(jwtOptions, function(payload, done) {
         console.log("Payload: ", payload["role"]);
+        console.log("Company: ", payload["companyId"]);
         var string = payload["role"];
         if(string === 'Admin'){
             return done(null, true);

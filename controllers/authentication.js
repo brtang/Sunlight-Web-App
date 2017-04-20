@@ -31,7 +31,8 @@ exports.generalregister = function(req, res, next){
           lastName = req.body.lastName,
           company = req.body.company,
           password = req.body.password;
-    
+          companyId;  
+            
     //Check for registration errors
     //422 error code: Server understands the content type of request but was unable to process contained instructions
     if(!email){
@@ -56,6 +57,7 @@ exports.generalregister = function(req, res, next){
     })
     .then(data => {
         console.log("This is data returned from Companies query: ", data);
+        companyId = data[0].Company_Id;
         if(data.length < 1){
             console.log("Data:", data);
             return res.status(422).send({ error: 'Company name is not registered in our database.' });            
@@ -79,7 +81,8 @@ exports.generalregister = function(req, res, next){
                   Password: hash,
                   Email: email,                
                   Company: company,
-                  Role: CLIENT
+                  Role: CLIENT,
+                  Company_Id: companyId
                })  
                .then(data => {
                   console.log("Reaching here means new User was created: ", data);
@@ -135,7 +138,7 @@ exports.login = function( req, res, next) {
             console.log("Hashed password in DB: ", hash);
             if(bcrypt.compareSync(password, hash)){
                 console.log("Correct password... ");
-                var token = jwt.sign({ role: data[0].role}, config.secret, {
+                var token = jwt.sign({ role: data[0].role, companyId: data[0].user_id}, config.secret, {
                         expiresIn: 60*180*999999999 // expires in 180 mins
                 });
                 return res.status(201).json({

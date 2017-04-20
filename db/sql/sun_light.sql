@@ -16,6 +16,7 @@ Role roles,
 User_Id SERIAL,
 --Company_Id SERIAL NOT NULL REFERENCES Company(Company_Id), 
 Company varchar(50) NOT NULL,
+Company_Id int NOT NULL REFERENCES Company(Company_Id),
 PRIMARY KEY (User_Id)
 );
 

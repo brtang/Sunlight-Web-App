@@ -42,7 +42,7 @@ app.post('/protectedAdmin', passportService.authenticateAdmin(), (req, res) => {
 //  Client Routes
 //= ==================================
  
- clientRoutes.get('/:userId', passportService.authenticateClient(), ClientController.viewPoles);
+ clientRoutes.get('/:companyId', passportService.authenticateClient(), ClientController.viewPoles);
  
  app.use('/client', clientRoutes);
 
