@@ -1,0 +1,9 @@
+{
+  "firebase": "ang-crud",
+  "public": ".",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}

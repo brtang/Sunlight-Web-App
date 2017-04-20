@@ -1,0 +1,19 @@
+{
+  "products" : {
+    "0" : {
+      "description" : "Totally Rad Product",
+      "sku" : "C4R5U8D4",
+      "price" : 9.99
+    },
+    "1" : {
+      "description" : "Coolest Gadget Ever",
+      "sku" : "C4R5GD34",
+      "price" : 19.95
+    },
+    "2" : {
+      "description" : "A Thing You Need",
+      "sku" : "OMG4201234",
+      "price" : 99.99
+    }
+  }
+}

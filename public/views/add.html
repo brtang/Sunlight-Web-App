@@ -1,0 +1,35 @@
+<h1>Add New Product</h1>
+
+<form class="form-horizontal" role="form">
+  <div class="form-group">
+    <label for="sku" class="col-sm-2 control-label">SKU:</label>
+    <div class="col-sm-4">
+      <input class="form-control" id="sku"
+             ng-model="product.sku" placeholder="SKU"/>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="description" class="col-sm-2 control-label">Description:</label>
+    <div class="col-sm-4">
+      <input class="form-control" id="description"
+             ng-model="product.description" placeholder="DESCRIPTION"/>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="Price" class="col-sm-2 control-label">Price:</label>
+    <div class="col-sm-4">
+      <input class="form-control" id="price" type="number" min=”0? step="any"
+             ng-model="product.price" placeholder="9.99"/>
+    </div>
+  </div>
+
+  <div class="form-group">
+
+    <div class="col-sm-offset-2 col-sm-10">
+      <a ng-click="addProduct()" class="btn btn-small btn-primary">Add</a>
+    </div>
+  </div>
+</form>
+</div>
