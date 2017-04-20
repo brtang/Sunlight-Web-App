@@ -17,7 +17,11 @@ app.use(bodyParser.urlencoded({
    extended: true
 }));
 
+
 app.set('port', process.env.PORT || 8080);
+
+//Add static middleware
+app.use(express.static(__dirname + '/public'));  
 
 //Handle all routes in routes middleware
 //app.use('/', routes);

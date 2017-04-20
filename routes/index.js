@@ -16,6 +16,7 @@ const apiRoutes = express.Router(),
       clientRoutes = express.Router(),
       adminRoutes = express.router;    
   
+  
 //Set model routes (mainly used for db testing)
 routes.use('/models', models);
 
