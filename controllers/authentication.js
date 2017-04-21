@@ -31,7 +31,7 @@ exports.generalregister = function(req, res, next){
           lastName = req.body.lastName,
           company = req.body.company,
           password = req.body.password;
-          companyId;  
+          //companyId;  
             
     //Check for registration errors
     //422 error code: Server understands the content type of request but was unable to process contained instructions
