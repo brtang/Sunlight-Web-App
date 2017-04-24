@@ -82,7 +82,7 @@ exports.generalregister = function(req, res, next){
                   Email: email,                
                   Company: company,
                   Role: CLIENT,
-                  Company_Id: companyId
+                  //Company_Id: companyId
                })  
                .then(data => {
                   console.log("Reaching here means new User was created: ", data);
