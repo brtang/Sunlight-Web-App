@@ -27,6 +27,7 @@ app.use(express.static(__dirname + '/public'));
 //app.use('/', routes);
 routes(app);
 
+/*
 request.get(' https://devicecloud.digi.com/ws/DataPoint/00000000-00000000-00409DFF-FF78D78D/serial_data').auth('Sunlight', 'SunLight1!', true)
     .on('response', function(response){
        console.log(response.statusCode);
@@ -35,7 +36,7 @@ request.get(' https://devicecloud.digi.com/ws/DataPoint/00000000-00000000-00409D
          console.log("BODY: " + chunk);
         });
     });
-
+*/
 
 app.listen(app.get('port'), function(){
    console.log('Express started on http://localhost:' + 
