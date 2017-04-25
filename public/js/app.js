@@ -1,4 +1,4 @@
-/* Scott's stuff
+/* Scott's stuff 
 var app = angular.module('myApp', ['ngRoute', 'firebase']);
 
 app.config(function($routeProvider){
