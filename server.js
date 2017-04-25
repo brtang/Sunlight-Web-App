@@ -26,7 +26,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('*', function (req, res){ 
     console.log("MADE IT!!!!!");
-     res.sendFile( path.join( __dirname, '/modules/SignUpLogin', 'sign-up-login-form.html' ));
+     res.sendFile( path.join( __dirname, '/public/modules/SignUpLogin', 'sign-up-login-form.html' ));
      console.log("MADE IT222222");
 });
 
