@@ -39,11 +39,21 @@ signin.controller('signinController', ['$state', 'loginService', '$scope', '$coo
    
     $scope.logIn = function(){
         console.log("Email : " +  $scope.formData.emailLogin);
-        var dataObj = {
-            email: $scope.formData.emailLogin,
-            password: $scope.formData.passwordLogin
+   
+        var req = {
+            method: 'POST',
+            url: 'ec2-35-160-131-253.us-west-2.compute.amazonaws.com:8080/login',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: {
+                email: $scope.formData.emailLogin,
+                password: $scope.formData.passwordLogin
+            }        
         };
-        var res = $http.post('ec2-35-160-131-253.us-west-2.compute.amazonaws.com:8080/login', dataObj);
+        $http(req).then(function (response){
+            console.log("Result LOGIN: " + response);
+        });
        /* loginService.login($scope.formData.emailLogin, $scope.formData.passwordLogin).then(function(data){
             console.log("Result LOGIN: " + data);
         });*/
