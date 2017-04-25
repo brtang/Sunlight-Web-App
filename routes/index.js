@@ -54,12 +54,12 @@ apiRoutes.post('/test/', function(req, res){
 });
 
 app.use('/api', apiRoutes);
-
+/*
 app.get('*', function (req, res){ 
     console.log("MADE IT!!!!!");
      res.sendFile( path.join( __dirname, '/../public/modules/SignUpLogin', 'sign-up-login-form.html' ));
      console.log("MADE IT222222");
 });
-
+*/
 
 };
