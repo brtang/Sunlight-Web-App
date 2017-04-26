@@ -19,6 +19,7 @@ signin.config(function($stateProvider) {
         })
 });*/
 
+/*
 signin.service('loginService', function($http){
     var urlBase = 'Sample-env.kfrmmpzbr7.us-west-2.elasticbeanstalk.com/login';
 
@@ -30,7 +31,7 @@ signin.service('loginService', function($http){
         
     };
     
-});
+});*/
 
 
 signin.controller('signinController', ['$state', 'loginService', '$scope', '$cookieStore', 'appConfig', 'appModel', 'appManager', '$http', function ($state, loginService, $scope, $cookieStore, appConfig, appModel, appManager, $http) {
@@ -42,7 +43,7 @@ signin.controller('signinController', ['$state', 'loginService', '$scope', '$coo
    
         var req = {
             method: 'POST',
-            url: 'ec2-35-160-131-253.us-west-2.compute.amazonaws.com:8080/login',
+            url: '/login',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },

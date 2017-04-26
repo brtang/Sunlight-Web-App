@@ -36,7 +36,7 @@ exports.generalregister = function(req, res, next){
     //Check for registration errors
     //422 error code: Server understands the content type of request but was unable to process contained instructions
     if(!email){
-        return res.status(422).send({ error: 'You must enter an email address. ' });        
+        return res.status(422).send({ error: 'You must enter an email address AHHHHHHHH. ' });        
     }
     if(!firstName){
         return res.status(422).send({ error: 'You must enter a first name. '});
@@ -120,7 +120,7 @@ exports.login = function( req, res, next) {
     const password = req.body.password;
   
     if(!email){
-        return res.status(422).send({ error: 'You must enter an email address. ' });        
+        return res.status(422).send({ error: 'You must enter an email address AHHHHHHH. ' });        
     }
     if(!password){
         return res.status(422).send({ error: 'You must enter a password. '});
