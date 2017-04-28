@@ -36,7 +36,8 @@ exports.generalregister = function(req, res, next){
     //Check for registration errors
     //422 error code: Server understands the content type of request but was unable to process contained instructions
     if(!email){
-        return res.status(422).send({ error: 'You must enter an email address AHHHHHHHH. ' });        
+        return res.render('sign-up-login-form', { error: 'You must enter an email address AHHHHHHHH. ' });
+        //return res.status(422).send({ error: 'You must enter an email address AHHHHHHHH. ' });        
     }
     if(!firstName){
         return res.status(422).send({ error: 'You must enter a first name. '});
@@ -57,10 +58,10 @@ exports.generalregister = function(req, res, next){
     })
     .then(data => {
         console.log("This is data returned from Companies query: ", data);
-        companyId = data[0].Company_Id;
         if(data.length < 1){
             console.log("Data:", data);
-            return res.status(422).send({ error: 'Company name is not registered in our database.' });            
+            //return res.status(422).send({ error: 'Company name is not registered in our database.' });  
+             return res.render('sign-up-login-form', { error: 'Company name is not registered in our database.' });
         }
     })
     
@@ -70,8 +71,9 @@ exports.generalregister = function(req, res, next){
     })
     .then(data => {
         console.log("This is data returned from User query: ", data);
-        if(data.length > 0){            
-            return res.status(422).send({ error: 'Email address is already in use.' });
+        if(data.length > 0){      
+            return res.render('sign-up-login-form', { error: 'Email address is already in use.' });
+            //return res.status(422).send({ error: 'Email address is already in use.' });
         }else{
             var hash = bcrypt.hashSync(password);
             console.log("No data returned, email has not been registered in the database!");
@@ -89,6 +91,8 @@ exports.generalregister = function(req, res, next){
                   var token = jwt.sign({ role: data[0].role}, config.secret, {
                         expiresIn: 60*180*999999999 // expires in 180 mins
                   });
+                  return res.render('sign-up-login-form', { success: 'Successfully registered user!' });
+                  /*
                   res.status(201).json({
                     Success: true,
                     Reason: 'New email address and new user id.',
@@ -96,7 +100,7 @@ exports.generalregister = function(req, res, next){
                     Email: data[0].email,
                     Role: data[0].Role,
                     UserId: data[0].user_id
-                  });
+                  });*/
                 })
         }
        
@@ -131,8 +135,9 @@ exports.login = function( req, res, next) {
     })
     .then(data => {
         console.log("This is data returned from User query: ", data);
-        if(data.length == 0){            
-            return res.status(422).send({ error: 'Invalid Email address.' });
+        if(data.length == 0){
+           return res.render('sign-up-login-form', { error: 'Invalid Email address or password.' });
+           // return res.status(422).send({ error: 'Invalid Email address.' });
         }else{
             var hash = data[0].password;
             console.log("Hashed password in DB: ", hash);
@@ -140,7 +145,11 @@ exports.login = function( req, res, next) {
                 console.log("Correct password... ");
                 var token = jwt.sign({ role: data[0].role, companyId: data[0].user_id}, config.secret, {
                         expiresIn: 60*180*999999999 // expires in 180 mins
-                });
+                }); 
+                req.session.token = token;
+                req.session.userId = data[0].user_id;
+                return res.redirect('/');
+                /*
                 return res.status(201).json({
                     Success: true,
                     Reason: 'Correct Email and Password.',
@@ -149,11 +158,16 @@ exports.login = function( req, res, next) {
                     Role: data[0].Role,
                     UserId: data[0].user_id,
                 });
+                */
             }else{
                 console.log("Incorrect password... ");
-                return res.status(422).send({ error: 'Invalid password.' });
+                return res.render('sign-up-login-form', { error: 'Invalid Email address or password.' });
+                //return res.status(422).send({ error: 'Invalid password.' });
             }
         }
         
     })
 };
+
+
+

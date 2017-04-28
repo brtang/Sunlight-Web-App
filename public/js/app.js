@@ -1,4 +1,4 @@
-/* Scott's stuff 
+/* Scott's stuff */
 var app = angular.module('myApp', ['ngRoute', 'firebase']);
 
 app.config(function($routeProvider){
@@ -23,8 +23,9 @@ app.config(function($routeProvider){
 
 app.constant("FBURL", 
   "https://angular-crud-77eb8.firebaseio.com/" //Use the URL of your project here
-); */
+); 
 
+/*
 //My new Angular stuff
 var app = angular.module('app', ['ngCookies']);
 
@@ -77,4 +78,4 @@ app.factory('appManager', function() {
             $scope.model = model;
         }
     }
-});
+});*/

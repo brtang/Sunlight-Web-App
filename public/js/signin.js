@@ -36,7 +36,7 @@ signin.service('loginService', function($http){
 signin.controller('signinController', ['$state', 'loginService', '$scope', '$cookieStore', 'appConfig', 'appModel', 'appManager', '$http', function ($state, loginService, $scope, $cookieStore, appConfig, appModel, appManager, $http) {
     appManager.init(appConfig, $cookieStore, $scope, appModel, true);
     //$state.go('main');
-   
+   console.log("FUUUUCK");
     $scope.logIn = function(){
         console.log("Email : " +  $scope.formData.emailLogin);
    
@@ -58,7 +58,8 @@ signin.controller('signinController', ['$state', 'loginService', '$scope', '$coo
             }        
         };
         $http(req).then(function (response){
-            console.log("Result LOGIN: " + response);
+            console.log("Result LOGIN!: " + response.data["Success"]);
+            console.log("Token: " + response.data["token"]);
         });
         /*
         loginService.login($scope.formData.emailLogin, $scope.formData.passwordLogin).then(function(data){

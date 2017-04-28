@@ -20,6 +20,7 @@ const apiRoutes = express.Router(),
 //Set model routes (mainly used for db testing)
 routes.use('/models', models);
 
+
 //General Registration route
 app.post('/registration', AuthenticationController.generalregister);
 
