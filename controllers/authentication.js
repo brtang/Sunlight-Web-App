@@ -147,7 +147,7 @@ exports.login = function( req, res, next) {
                         expiresIn: 60*180*999999999 // expires in 180 mins
                 }); 
                 req.session.token = token;
-                req.session.userId = data[0].user_id;
+                req.session.user = data;
                 return res.redirect('/');
                 /*
                 return res.status(201).json({

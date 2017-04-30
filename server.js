@@ -42,7 +42,7 @@ app.get('*', function (req, res, next){
         return res.redirect('/login');
     }
     
-    console.log("Redirecting to next... " + req.session.userId);
+    console.log("Redirecting to next... " + req.session.user[0].first_name);
     next();
 });
 
