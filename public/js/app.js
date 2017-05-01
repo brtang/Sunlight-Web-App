@@ -2,9 +2,10 @@
 var app = angular.module('myApp', ['ngRoute', 'firebase']);
 
 app.config(function($routeProvider){
+  //console.log("Hi" + $scope.logged_in_user);
   $routeProvider
 	.when('/', {
-		controller: 'ListController',
+		controller: 'MainController',
 		templateUrl: 'views/list.html'
 	})
 	.when('/add', {
@@ -24,6 +25,21 @@ app.config(function($routeProvider){
 app.constant("FBURL", 
   "https://angular-crud-77eb8.firebaseio.com/" //Use the URL of your project here
 ); 
+
+app.controller('MainController', ['$scope', '$http', function($scope, $http){
+    console.log("Madeit!");
+    $http.get('/user').then(function(res, err){ 
+        console.log(JSON.stringify(res.data.first_name)); 
+        var name = String(res.data.first_name) + " " + String(res.data.last_name);
+        var email = String(res.data.email);
+        var company = String(res.data.company);
+        $scope.company = company;
+        $scope.email = email;
+        
+        return $scope.name = name;})
+   // console.log("User: " + user);
+    //$scope.name = user;
+}]);
 
 /*
 //My new Angular stuff

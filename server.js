@@ -42,8 +42,14 @@ app.get('*', function (req, res, next){
         return res.redirect('/login');
     }
     
-    console.log("Redirecting to next... " + req.session.user[0].first_name);
+    console.log("Redirecting to next..." + req.session.user[0].first_name);
     next();
+});
+
+app.get('/user', function (req, res) {
+  console.log("Reached /user route..." + req.session.user[0].first_name);
+  var name = req.session.user[0];
+  res.send(name);
 });
 
 app.get('/token', function (req, res) {
