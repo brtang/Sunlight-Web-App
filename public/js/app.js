@@ -30,12 +30,17 @@ app.controller('MainController', ['$scope', '$http', function($scope, $http){
     console.log("Madeit!");
     $http.get('/user').then(function(res, err){ 
         console.log(JSON.stringify(res.data.first_name)); 
+        
         var name = String(res.data.first_name) + " " + String(res.data.last_name);
         var email = String(res.data.email);
         var company = String(res.data.company);
         $scope.company = company;
         $scope.email = email;
-        
+        $scope.profile = {
+            firstName: String(res.data.first_name),
+            lastName: String(res.data.last_name),
+            email: email
+        }
         return $scope.name = name;})
    // console.log("User: " + user);
     //$scope.name = user;
