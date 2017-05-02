@@ -148,6 +148,8 @@ exports.login = function( req, res, next) {
                 }); 
                 req.session.token = token;
                 req.session.user = data;
+                req.session.user[0].token = token;
+                console.log(req.session.user[0].token);
                 return res.redirect('/');
                 /*
                 return res.status(201).json({

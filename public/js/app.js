@@ -26,22 +26,53 @@ app.constant("FBURL",
   "https://angular-crud-77eb8.firebaseio.com/" //Use the URL of your project here
 ); 
 
-app.controller('MainController', ['$scope', '$http', function($scope, $http){
+app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', function($scope, $http, $httpParamSerializer){
     console.log("Madeit!");
     $http.get('/user').then(function(res, err){ 
-        console.log(JSON.stringify(res.data.first_name)); 
-        
         var name = String(res.data.first_name) + " " + String(res.data.last_name);
         var email = String(res.data.email);
         var company = String(res.data.company);
         $scope.company = company;
         $scope.email = email;
+        var token = String(res.data.token);
+        $scope.token = token;
+        console.log("Token: " + String(res.data.token)); 
+        $http.defaults.headers.common.Authorization = "JWT " + token;
         $scope.profile = {
             firstName: String(res.data.first_name),
             lastName: String(res.data.last_name),
             email: email
         }
         return $scope.name = name;})
+        
+    $scope.saveUser = function() {
+        
+        console.log("Made it to saveUser!");
+        var data = { 'email': $scope.email };
+        var token = $scope.token;
+        console.log("Save user token: " + token);
+        $http({
+            method: 'POST',
+            url: '/user', 
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: $httpParamSerializer(data)
+        })
+        .then(function(res, err){
+            if(err){
+             console.log("Error: " + error);
+            }
+            console.log("Response: " + res);
+        });
+    
+        /*
+        UserService.Update(vm.user)
+                .then(function () {
+                    FlashService.Success('User updated');
+                })
+                .catch(function (error) {
+                    FlashService.Error(error);
+                });*/
+    }    
    // console.log("User: " + user);
     //$scope.name = user;
 }]);

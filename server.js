@@ -47,7 +47,7 @@ app.get('*', function (req, res, next){
 });
 
 app.get('/user', function (req, res) {
-  console.log("Reached /user route..." + req.session.user[0].first_name);
+  console.log("Reached /user route..." + req.session.user[0].token);
   var name = req.session.user[0];
   res.send(name);
 });

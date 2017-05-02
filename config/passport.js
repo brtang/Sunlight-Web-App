@@ -12,7 +12,8 @@ const config = require('./config'),
       
 //JWT strategy options
 const jwtOptions = {
-    jwtFromRequest: ExtractJwt.fromHeader('x-access-token'),
+    //jwtFromRequest: ExtractJwt.fromHeader('x-access-token'),
+    jwtFromRequest: ExtractJwt.fromAuthHeader(),
     secretOrKey: config.secret
 };
 

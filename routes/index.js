@@ -30,6 +30,12 @@ app.post('/login', AuthenticationController.login);
 //Initialize Passport 
 app.use(passportService.initialize());
 
+app.post('/user', passportService.authenticateClient(), (req, res) => {
+    const email = req.body.email;
+    console.log("Email received from /user POST: " + req.body.email);
+    res.send({content: "Success!" });
+});
+
 //Route for testing Passport
 app.post('/protected', passportService.authenticateClient(), (req, res) => {
     res.send({ content: 'The protected Client test route is functional!' });

@@ -246,28 +246,32 @@
                     </div>
                 </div>
             </div> -->
+            
         <h1>My Account</h1>
+        <div class="flash-message" ng-if="flash">
+            <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
+        </div>
         <div class="form-container">
             <form method="post">
                 <div class="form-group">
                     <label for="firstName">First name</label>
-                    <input type="text" id="firstName" class="form-control" ng-model="profile.firstName" required />
+                    <input type="text" name="firstName" id="firstName" class="form-control" ng-model="profile.firstName" required />
                 </div>
                 <div class="form-group">
                     <label for="lastName">Last name</label>
-                    <input type="text" id="lastName" class="form-control" ng-model="profile.lastName" required />
+                    <input type="text" name="lastName" id="lastName" class="form-control" ng-model="profile.lastName" required />
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control" ng-model="profile.email" />
+                    <input type="email" name="email" id="email" class="form-control" ng-model="profile.email" />
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" class="form-control" ng-value="$scope.password" />
+                    <input type="password" name="password" id="password" class="form-control" ng-value="$scope.password" />
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary" ng-click="">Save</button>
-                    <button class="btn btn-danger" ng-click="">Delete</button>
+                    <button class="btn btn-primary" ng-click="saveUser()">Save</button>
+                    <button class="btn btn-danger" ng-click="saveUser()">Delete</button>
                 </div>
             </form>
         </div>
