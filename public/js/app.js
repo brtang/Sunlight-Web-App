@@ -27,7 +27,8 @@ app.constant("FBURL",
 ); 
 
 app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', function($scope, $http, $httpParamSerializer){
-    console.log("Madeit!");
+    console.log("Made it to Main controller!");
+    
     $http.get('/user').then(function(res, err){ 
         var name = String(res.data.first_name) + " " + String(res.data.last_name);
         var email = String(res.data.email);
@@ -41,14 +42,20 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', fun
         $scope.profile = {
             firstName: String(res.data.first_name),
             lastName: String(res.data.last_name),
-            email: email
+            email: email,
+            company: company,
+            password: ''
         }
         return $scope.name = name;})
         
     $scope.saveUser = function() {
         
         console.log("Made it to saveUser!");
-        var data = { 'email': $scope.email };
+        var data = { 'email': $scope.profile.email, 
+                     'lastName': $scope.profile.lastName,
+                     'firstName': $scope.profile.firstName,
+                     'password': $scope.profile.password
+                    }
         var token = $scope.token;
         console.log("Save user token: " + token);
         $http({
@@ -57,24 +64,16 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', fun
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             data: $httpParamSerializer(data)
         })
-        .then(function(res, err){
-            if(err){
-             console.log("Error: " + error);
-            }
+        .then(function(res){
             console.log("Response: " + res);
+        })
+        .catch(function(err){
+            
         });
     
-        /*
-        UserService.Update(vm.user)
-                .then(function () {
-                    FlashService.Success('User updated');
-                })
-                .catch(function (error) {
-                    FlashService.Error(error);
-                });*/
+        
     }    
-   // console.log("User: " + user);
-    //$scope.name = user;
+ 
 }]);
 
 /*

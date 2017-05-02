@@ -262,12 +262,16 @@
                     <input type="text" name="lastName" id="lastName" class="form-control" ng-model="profile.lastName" required />
                 </div>
                 <div class="form-group">
+                    <label for="company">Company</label>
+                    <span type="company" name="company" id="company" class="form-control" ng-model="profile.email">{{profile.company}}</span>
+                </div>
+                <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" class="form-control" ng-model="profile.email" />
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="password" class="form-control" ng-value="$scope.password" />
+                    <input type="text" name="password" id="password" class="form-control" ng-model="profile.password" />
                 </div>
                 <div class="form-group">
                     <button class="btn btn-primary" ng-click="saveUser()">Save</button>

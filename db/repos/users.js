@@ -9,9 +9,14 @@ module.exports = (rep, pgp) => {
       findByEmail: values =>         
           rep.any('SELECT * FROM Users WHERE Email = ${Email}', values, users ),
       
+      findById: values =>
+          rep.any('SELECT * FROM Users WHERE User_Id = ${Id}', values, users),
       
       updateName: values =>
         rep.any('UPDATE Users SET Name = ${newName} WHERE Name = ${Name} RETURNING Name', values, user => user.Name),
+        
+      update: values =>
+        rep.any('UPDATE Users SET First_name = ${First_Name}, Last_Name  = ${Last_Name}, Password = ${Password}, Email = ${Email} WHERE User_Id = ${Id} RETURNING First_name, Last_Name, Password, Email, Company, User_Id', values, user => user.First_name && user.Last_Name && user.Password && user.Email && user.Company && user.User_Id),
 
       deleteUser: name =>
         rep.result('DELETE FROM Users WHERE Name = $1', name )      
