@@ -26,9 +26,38 @@ app.constant("FBURL",
   "https://angular-crud-77eb8.firebaseio.com/" //Use the URL of your project here
 ); 
 
-app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', function($scope, $http, $httpParamSerializer){
-    console.log("Made it to Main controller!");
+app.factory("flash", function($rootScope) {
+
+  var currentMessage = "Hello world";
+  
+  
+   $rootScope.flash = {
+                message: "",
+                type: 'success', 
+               
+    };  
     
+    
+  return {
+    setMessage: function(message, type) {
+      $rootScope.flash = {
+                message: message,
+                type: type              
+      };  
+    },
+    isMessage: function(){
+        if($rootScope.flash.message == ""){
+            return false;
+        }else{
+            return true;
+        }
+    }
+  };
+});
+
+app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'flash', function($scope, $http, $httpParamSerializer, flash){
+    console.log("Made it to Main controller!");
+      $scope.flashService = flash;
     $http.get('/user').then(function(res, err){ 
         var name = String(res.data.first_name) + " " + String(res.data.last_name);
         var email = String(res.data.email);
@@ -49,7 +78,7 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', fun
         return $scope.name = name;})
         
     $scope.saveUser = function() {
-        
+      
         console.log("Made it to saveUser!");
         var data = { 'email': $scope.profile.email, 
                      'lastName': $scope.profile.lastName,
@@ -66,15 +95,19 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', fun
         })
         .then(function(res){
             console.log("Response: " + res);
+             flash.setMessage("Successfully updated!", 'success');
         })
         .catch(function(err){
-            
+            flash.setMessage("Error, update was not successful", 'danger');
         });
     
         
     }    
  
 }]);
+
+
+
 
 /*
 //My new Angular stuff
