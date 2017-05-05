@@ -10,10 +10,24 @@ const config = require('./config'),
       JwtStrategy = require('passport-jwt').Strategy,
       ExtractJwt = require('passport-jwt').ExtractJwt;
       
+var sessionExtractor = function(req) {
+    var token = null;
+    if (req && req.session)
+    {
+        token = req.session.token;
+    }
+    return token;
+};      
+      
 //JWT strategy options
 const jwtOptions = {
     //jwtFromRequest: ExtractJwt.fromHeader('x-access-token'),
     jwtFromRequest: ExtractJwt.fromAuthHeader(),
+    secretOrKey: config.secret
+}; 
+
+const jwtAdminOptions = {
+    jwtFromRequest: sessionExtractor,
     secretOrKey: config.secret
 };
 
@@ -32,7 +46,7 @@ module.exports = function(){
    }));
    
    //Jwt strategy to authenticate user's with Admin role
-   passport.use('jwt-2',  new JwtStrategy(jwtOptions, function(payload, done) {
+   passport.use('jwt-2',  new JwtStrategy(jwtAdminOptions, function(payload, done) {
         console.log("Payload: ", payload["role"]);
         console.log("Company: ", payload["companyId"]);
         var string = payload["role"];

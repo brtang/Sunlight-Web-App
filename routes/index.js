@@ -33,14 +33,17 @@ app.use(passportService.initialize());
 app.post('/user', passportService.authenticateClient(), ClientController.updateUserInfo);
 
 //Route for testing Passport
-app.post('/protected', passportService.authenticateClient(), (req, res) => {
+app.get('/protected', passportService.authenticateClient(), (req, res) => {
     res.send({ content: 'The protected Client test route is functional!' });
   });
   
-//Route for testing Passport  
-app.post('/protectedAdmin', passportService.authenticateAdmin(), (req, res) => {
-    res.send({ content: 'The protected Admin test route is functional!' });
-});
+//Route for Admin panel  
+app.use('/admin', passportService.authenticateAdmin(),
+    //res.send({ content: 'The protected Admin test route is functional!' });
+   // console.log(path.join(__dirname,'/../public'));
+    express.static(path.join(__dirname,'/../public'),{index: ['admin.html','index.html']})
+    //,{index: ['admin.html','index.html']}
+);
 
 //= ==================================
 //  Client Routes

@@ -83,7 +83,7 @@ exports.generalregister = function(req, res, next){
                   Password: hash,
                   Email: email,                
                   Company: company,
-                  Role: CLIENT,
+                  Role: ADMIN,
                   //Company_Id: companyId
                })  
                .then(data => {
@@ -149,7 +149,12 @@ exports.login = function( req, res, next) {
                 req.session.token = token;
                 req.session.user = data;
                 req.session.user[0].token = token;
-                console.log(req.session.user[0].token);
+                
+                if(data[0].role == "Admin"){
+                    console.log("User is an admin...");
+                    return res.redirect('/admin');
+                }
+                console.log(req.session.user[0].role);
                 return res.redirect('/');
                 /*
                 return res.status(201).json({
