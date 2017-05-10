@@ -1,13 +1,13 @@
 /* Scott's stuff */
 var app = angular.module('myApp', ['ngMaterial','mdDataTable']).directive('myMap', function(){
-
+    
     var link = function(scope, element, attrs){
         var map, infoWindow;
         var markers = [];
         
         var mapOptions = {
             center: new google.maps.LatLng(36.9982065, -122.0621593),
-            zoom : 2,
+            zoom : 13,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             scrollwheel: false
         };
@@ -16,14 +16,16 @@ var app = angular.module('myApp', ['ngMaterial','mdDataTable']).directive('myMap
             if(map === void 0){
                 map = new google.maps.Map(element[0], mapOptions);
             }
-        }
+        };
+        initMap();
     };    
-    //initMap();
+    
+    
     return{
         restrict: 'E',
-        template: '<h1>Hello WORLD</h1>',
-        replace:true
-        //link: link
+        template: '<div id="gmaps"></div>',
+        replace:true,
+        link: link
     };
     
 });
