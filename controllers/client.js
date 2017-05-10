@@ -1,6 +1,36 @@
 const bodyParser = require('body-parser'); 
       bcrypt = require('bcrypt-nodejs');
       
+exports.viewCompany = function(req, res, next){
+    console.log("Reached viewCompany route!");
+    console.log("Company is: ", req.body.name);
+    
+    var company = req.body.name;
+    
+    db.companies.findByName({
+        Name: company
+    })
+    .then(data => {
+        for(obj in data){
+           console.log("This is batt volt: ", data);
+       }
+        console.log("Data: ", data[0].latitude);
+        return res.send(data);
+    })
+    .catch(error => {
+        console.log("Error: ", error);
+        return res.json({
+            success: false,
+            error: error.message || error
+        });
+    });
+    
+    
+    
+
+};      
+      
+      
 exports.viewPoles = function(req, res, next){
     console.log("Reached viewPoles route!");
     console.log("Company is: ", req.body.company);

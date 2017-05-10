@@ -35,7 +35,7 @@ const jwtAdminOptions = {
 
 module.exports = function(){
    //Jwt strategy to authenticate user's with Client role
-   passport.use('jwt-1',  new JwtStrategy(jwtOptions, function(payload, done) {
+   passport.use('jwt-1',  new JwtStrategy(jwtAdminOptions, function(payload, done) {
         console.log("Payload: ", payload["role"]);
         var string = payload["role"];
         if(string === 'Client'){

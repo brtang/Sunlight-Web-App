@@ -49,18 +49,13 @@ app.use('/admin', passportService.authenticateAdmin(),
 //  Client Routes
 //= ==================================
  
- clientRoutes.post('/poles',  /*passportService.authenticateClient(), */ ClientController.viewPoles);
+clientRoutes.post('/poles',  passportService.authenticateClient(),  ClientController.viewPoles);
+
+clientRoutes.post('/company', passportService.authenticateClient(), ClientController.viewCompany);
  
  app.use('/client', clientRoutes);
 
-
-
-apiRoutes.post('/test/', function(req, res){
-   console.log("Made it to test route!");
-});
-
-app.use('/api', apiRoutes);
-
+ 
 
 
 

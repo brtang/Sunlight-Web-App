@@ -1,34 +1,6 @@
 /* Scott's stuff */
-var app = angular.module('myApp', ['ngMaterial','mdDataTable']).directive('myMap', function(){
-    
-    var link = function(scope, element, attrs){
-        var map, infoWindow;
-        var markers = [];
-        
-        var mapOptions = {
-            center: new google.maps.LatLng(36.9982065, -122.0621593),
-            zoom : 13,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            scrollwheel: false
-        };
-        
-        function initMap(){
-            if(map === void 0){
-                map = new google.maps.Map(element[0], mapOptions);
-            }
-        };
-        initMap();
-    };    
-    
-    
-    return{
-        restrict: 'E',
-        template: '<div id="gmaps"></div>',
-        replace:true,
-        link: link
-    };
-    
-});
+var app = angular.module('myApp', ['ngMaterial','mdDataTable']);
+
 
 /*
 app.config(function($routeProvider){
@@ -88,7 +60,7 @@ app.factory("flash", function($rootScope) {
 app.service('userService', function($http) {
 
   var fetchUserdata = function() {
-  console.log("Made it to FETCHUSERDATA call");
+  console.log("Made it to FETCHUSERDATA call" );
     var userData = $http.get('/user').then(function(res, err){ 
         console.log("Made it to HTTP call");
         name = String(res.data.first_name) + " " + String(res.data.last_name);
@@ -114,6 +86,45 @@ app.service('userService', function($http) {
 
   return {
     fetchUserdata: fetchUserdata
+  };
+
+});
+
+
+app.service('companyService', function($http, $httpParamSerializer) {
+
+  var fetchCompanydata = function(company) {
+    console.log("Made it to FETCHCOMPANYDATA call" + company);
+    var http_data = { name: company };
+    var location; 
+    var companyData = $http({
+            method: 'POST',
+            url: '/client/company', 
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: $httpParamSerializer(http_data)
+        })
+        .then(function(res){
+            console.log("Response: " + res.data);
+            var data = res.data
+            angular.forEach(data, function(item){
+                console.log(item);
+                console.log(item.latitude);
+                location = [ item.latitude, item.longitude];
+            });
+             
+            return location;
+            flash.setMessage("Successfully updated!", 'success');
+        })
+        .catch(function(err){
+            flash.setMessage("Error, update was not successful", 'danger');
+        });
+        
+    return companyData;
+   
+  };
+
+  return {
+    fetchCompanydata: fetchCompanydata
   };
 
 });
@@ -161,14 +172,59 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
  
 }]);
 
+app.directive('myMap',['$http', function($http){
+    
+    var link = function(scope, element, attrs){
+        var map, infoWindow, mapOptions;
+        var markers = [];
+        
+        
+        scope.$watch('poleList', function(newVal, oldValue) {
+            console.log("NewVal Pole list: ", newVal);
+            mapOptions = {
+            center: new google.maps.LatLng(newVal, -122.0621593),
+            zoom : 13,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            scrollwheel: false
+        };
+        });
+        
+        /*
+        var mapOptions = {
+            center: new google.maps.LatLng(36.9982065, -122.0621593),
+            zoom : 13,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            scrollwheel: false
+        };
+        */
+        
+        function initMap(){
+            if(map === void 0){
+                map = new google.maps.Map(element[0], mapOptions);
+            }
+        };
+        initMap();
+    };    
+    
+    
+    return{
+        restrict: 'E',
+        template: '<div id="gmaps"></div>',
+        replace:true,
+        link: link
+    };
+    
+}]);
 
-app.controller('TableController', ['$scope', '$rootScope', '$http', '$httpParamSerializer', 'flash', 'userService', function($scope, $rootScope, $http, $httpParamSerializer, flash, userService){
+
+app.controller('TableController', ['$scope', '$rootScope', '$http', '$httpParamSerializer', 'flash', 'userService', 'companyService', function($scope, $rootScope, $http, $httpParamSerializer, flash, userService, companyService){
     
     var profile = userService.fetchUserdata();   
     $scope.poleList = [];    
     profile.then(function(result){
             $scope.profile = result;
             console.log("data.name" + $scope.profile.name); 
+            
             var data = { company: $scope.profile.company };
             $http({
                 method: 'POST',
@@ -182,8 +238,13 @@ app.controller('TableController', ['$scope', '$rootScope', '$http', '$httpParamS
                 angular.forEach(data, function(item){
                    console.log("item: ", item);   
                    console.log("Group_name: ", item.Group_name);  
-                   $scope.poleList.push({ 'mac_addr':item.xbee_mac_addr, 'group': item.group_name, 'batt_volt':item.batt_volt, 'panel_volt':item.panel_volt, 'battery_current':item.batt_current, 'panel_current': item.panel_current});
-               });
+                   $scope.poleList.push({ 'mac_addr':item.xbee_mac_addr, 'group': item.group_name, 'batt_volt':item.batt_volt, 'panel_volt':item.panel_volt, 'battery_current':item.batt_current, 'panel_current': item.panel_current, 'latitude':item.latitude, 'longitude':item.longitude});
+                });
+                var companyData = companyService.fetchCompanydata($scope.profile.company);
+                companyData.then(function(result){
+                    console.log("Oh shit made it to the end: ", result);
+                    
+                });
         
             })
             .catch(function(err){
