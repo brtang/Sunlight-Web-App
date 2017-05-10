@@ -4,17 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Jquery DataTable | Bootstrap Based Admin Template - Material Design</title>
+    <title>Mira Bella Sunlight</title>
     <!-- Favicon-->
     <link rel="icon" href="../../favicon.ico" type="image/x-icon">
-
-    <!-- AngularJS and ng-Route -->		
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-	<script src="https://code.angularjs.org/1.4.4/angular-route.min.js"></script>
 	
     <!-- AngularFire -->
     <script src="https://cdn.firebase.com/libs/angularfire/1.1.2/angularfire.min.js"></script>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+ 
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
@@ -38,9 +36,16 @@
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="../../css/themes/all-themes.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/e46989712a.js"></script> 
+    
+      
+     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/md-data-table/1.8.0/md-data-table-style.css" rel="stylesheet" type="text/css"/>
+     <link href="node_modules/angular-material-icons/angular-material-icons.css" rel="stylesheet" type="text/css"/>
+    
+  
 </head>
 
-<body ng-app="myApp" ng-controller="MainController" class="theme-red">
+<body ng-app="myApp" ng-controller="TableController" class="theme-red">
     <!-- Page Loader -->
     <div class="page-loader-wrapper">
         <div class="loader">
@@ -79,7 +84,7 @@
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" href="index.html">{{company}}</a>
+                <a class="navbar-brand" href="index.html">{{profile.company}}</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -152,8 +157,8 @@
                     <img src="images/user.png" width="48" height="48" alt="User" />
                 </div>
                 <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{name}}</div>
-                    <div class="email">{{email}}</div>
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{profile.name}}</div>
+                    <div class="email">{{profile.email}}</div>
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
@@ -219,10 +224,74 @@
     </section>
 
     <section class="content">
-        
+            
+         <div ng-controller='TableController as tab'>   
+<md-toolbar class="md-table-toolbar md-default" >
+  <div class="md-toolbar-tools">
+    <span>ASSETS</span>
+  </div>
+</md-toolbar>
+
+<!-- exact table from live demo  -->
+<md-table-container>
+  <table md-table>
+    <thead md-head >
+      <tr mdt-row>
+        <th md-column ><span>Unit</span></th>
+        <th md-column ><span>Group</span></th>
+        <th md-column md-numeric>Battery Voltage</th>
+        <th md-column md-numeric>Panel Voltage</th>
+        <th md-column md-numeric>Battery Current</th>
+        <th md-column md-numeric>Panel Current</th>
+      </tr>
+    </thead>
+    <tbody md-body>
+      <tr mdt-row  md-auto-select ng-repeat="pole in poleList">
+        <td md-cell>{{pole.mac_addr}}</td>
+        <td md-cell>{{pole.group}}</td>
+        <td md-cell>{{pole.batt_volt}}</td>
+        <td md-cell>{{pole.panel_volt}}</td>
+        <td md-cell>{{pole.battery_current}}</td>
+        <td md-cell>{{pole.panel_current}}</td>
+      </tr>
+    </tbody>
+  </table>  
+</md-table-container>  
+
+
+   <mdt-table mdt-row="{
+                      data: nutritionList,
+                      'column-keys': [
+                          'name',
+                          'calories',
+                          'fat',
+                          'carbs',
+                          'protein',
+                          'sodium',
+                          'calcium',
+                          'iron'
+                      ]
+                      }">
+    <mdt-header-row>
+      <mdt-column align-rule="left">Dessert (100g serving)</mdt-column>
+      <mdt-column align-rule="right">Calories</mdt-column>
+      <mdt-column align-rule="right">Fat (g)</mdt-column>
+      <mdt-column align-rule="right">Carbs (g)</mdt-column>
+      <mdt-column align-rule="right">Protein (g)</mdt-column>
+      <mdt-column align-rule="right">Sodium (mg)</mdt-column>
+      <mdt-column align-rule="right">Calcium (%)</mdt-column>
+      <mdt-column align-rule="right">Iron (%)</mdt-column>
+    </mdt-header-row>
+  </mdt-table> 
+</div>
+
+<!--
+<md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{desserts.count}}" md-on-paginate="getDesserts" md-page-select></md-table-pagination>            
+    -->        
+            
             <!-- #END# Basic Examples -->
-            <!-- Exportable Table -->
-            <div class="row clearfix">
+            <!-- Exportable Table 
+            <div class="row clearfix" ng-controller='TableController as tab'>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
@@ -239,7 +308,7 @@
                                         <th>Group</th>
                                         <th>Battery Voltage</th>
                                         <th>Panel Voltage</th>
-                                        <th>Battery Cuttent</th>
+                                        <th>Battery Current</th>
                                         <th>Panel Current</th>
                                     </tr>
                                 </thead>
@@ -249,19 +318,22 @@
                                         <th>Group</th>
                                         <th>Battery Voltage</th>
                                         <th>Panel Voltage</th>
-                                        <th>Battery Cuttent</th>
+                                        <th>Battery Current</th>
                                         <th>Panel Current</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
-                                    <tr>
-                                        <td>00001</td>
-                                        <td>East Remote PArking Lot</td>
-                                        <td>34</td>
-                                        <td>23</td>
-                                        <td>12</td>
-                                        <td>7</td>
+                                    
+                                   
+                                    <tr ng-repeat="pole in poleList">
+                                        <td>{{pole.mac_addr}}</td>
+                                        <td>{{pole.group}}</td>
+                                        <td>{{pole.batt_volt}}</td>
+                                        <td>{{pole.panel_volt}}</td>
+                                        <td>{{pole.battery_current}}</td>
+                                        <td>{{pole.panel_current}}</td>
                                     </tr>
+                                    <!--
                                     <tr>
                                         <td>00002</td>
                                         <td>East Remote PArking Lot</td>
@@ -381,18 +453,19 @@
                                         <td>12</td>
                                         <td>7</td>
                                     </tr>   
-                                    
+                                   
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
+           
             <!-- #END# Exportable Table -->
         </div>
     </section>
 
-    <script src="js/app.js"></script>
+     
     
     <!-- Jquery Core Js -->
     <script src="../../plugins/jquery/jquery.min.js"></script>
@@ -409,7 +482,7 @@
     <!-- Waves Effect Plugin Js -->
     <script src="../../plugins/node-waves/waves.js"></script>
 
-    <!-- Jquery DataTable Plugin Js -->
+    <!-- Jquery DataTable Plugin Js
     <script src="../../plugins/jquery-datatable/jquery.dataTables.js"></script>
     <script src="../../plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
     <script src="../../plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
@@ -419,7 +492,34 @@
     <script src="../../plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
     <script src="../../plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
     <script src="../../plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+     -->
+    
+   
+    
+    
+    <!-- AngularJS Material Dependencies -->
+        <!-- AngularJS and ng-Route -->		
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-aria.min.js"></script>
+    <script src="http://ngmaterial.assets.s3.amazonaws.com/svg-assets-cache.js"></script>
+    
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/md-data-table/1.8.0/md-data-table-templates.min.js"></script>
+     <script type="text/javascript" src="node_modules/md-data-table/dist/md-data-table.js"></script>
+     <script type="text/javascript" src="node_modules/angular-material-icons/angular-material-icons.js"></script>
+  
+   
 
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+    
+    
+    <!-- AngularJS Material Javascript now available via Google CDN; version 1.0.7 used here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.7/angular-material.min.js"></script>
+    
+     <script src="js/app.js"></script>
+
+    
+    
     <!-- Custom Js -->
     <script src="../../js/admin.js"></script>
     <script src="../../js/pages/tables/jquery-datatable.js"></script>

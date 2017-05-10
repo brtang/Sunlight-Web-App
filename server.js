@@ -67,7 +67,7 @@ app.use('/', express.static(__dirname + '/public'));
 routes(app);
 
 /*
-request.get(' https://devicecloud.digi.com/ws/DataPoint/00000000-00000000-00409DFF-FF78D78D/serial_data').auth('Sunlight', 'SunLight1!', true)
+request.get(' https://devicecloud.digi.com/ws/DataPoint/00000000-00000000-00409DFF-FF78D78D/serial_data?size=10').auth('Sunlight', 'SunLight1!', true)
     .on('response', function(response){
        console.log(response.statusCode);
       // response.setEncoding('utf8');

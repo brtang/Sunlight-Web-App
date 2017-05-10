@@ -49,7 +49,7 @@ app.use('/admin', passportService.authenticateAdmin(),
 //  Client Routes
 //= ==================================
  
- clientRoutes.get('/:companyId', passportService.authenticateClient(), ClientController.viewPoles);
+ clientRoutes.post('/poles',  /*passportService.authenticateClient(), */ ClientController.viewPoles);
  
  app.use('/client', clientRoutes);
 

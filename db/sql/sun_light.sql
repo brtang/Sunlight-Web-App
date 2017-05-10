@@ -4,6 +4,8 @@ CREATE TABLE Company(
 Name varchar(50) UNIQUE NOT NULL,
 Company_Id SERIAL,
 Number_Of_Users int,
+longitude numeric,
+latitude numeric,
 PRIMARY KEY (Company_Id)
 );
 
@@ -42,9 +44,9 @@ PRIMARY KEY(Group_Id)
 CREATE TABLE Pole(
 Pole_Id SERIAL,
 XBee_MAC_addr varchar(50) NOT NULL,
-Group_Id int REFERENCES Groups(Group_Id),
+Group_name varchar(50),
 Region_Id int REFERENCES Region(Region_Id),
-Company_Id int NOT NULL REFERENCES Company(Company_Id),
+Company varchar(50) NOT NULL REFERENCES Company(Name),
 Batt_Volt int,
 Batt_Current int,
 Panel_Volt int,
@@ -55,6 +57,8 @@ Brightness_level int,
 MAN_LED_Override varchar(50),
 LED varchar(50),
 Arch_light varchar(50),
+longitude numeric,
+latitude numeric,
 PRIMARY KEY(Pole_Id)
 );
 

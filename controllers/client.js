@@ -3,9 +3,27 @@ const bodyParser = require('body-parser');
       
 exports.viewPoles = function(req, res, next){
     console.log("Reached viewPoles route!");
-    console.log("Username is: ", req.params.companyId);
+    console.log("Company is: ", req.body.company);
     
-    var userId = req.params.userId;
+    var company = req.body.company;
+    
+    db.poles.findByCompany({
+        Company: company
+    })
+    .then(data => {
+        for(obj in data){
+           console.log("This is batt volt: ", data);
+       }
+        console.log("Data: ", data[1].xbee_mac_addr);
+        return res.send(data);
+    })
+    .catch(error => {
+        console.log("Error: ", error);
+        return res.json({
+            success: false,
+            error: error.message || error
+        });
+    });
     
     
     
