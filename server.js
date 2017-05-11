@@ -35,11 +35,13 @@ app.get('/login', function(req, res) {
 });
 
 
-app.get('*', function (req, res, next){ 
+app.get('/', function (req, res, next){ 
 
      if (req.path !== '/login' && !req.session.token) {
         console.log("Redirecting to login...");
         return res.redirect('/login');
+    }else if(req.session.user[0].role === 'Admin'){
+        return res.redirect('/admin');
     }
     
     console.log("Redirecting to next..." + req.session.user[0].first_name);
@@ -47,7 +49,8 @@ app.get('*', function (req, res, next){
 });
 
 app.get('/user', function (req, res) {
-  console.log("Reached /user route..." + req.session.user[0].token);
+  console.log("Reached /user route..." + req.session.user[0].role);
+ 
   var name = req.session.user[0];
   res.send(name);
 });
