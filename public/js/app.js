@@ -178,15 +178,22 @@ app.directive('myMap',['$http', function($http){
         var map, infoWindow, mapOptions;
         var markers = [];
         
+        function initMap(){
+            if(map === void 0){
+                map = new google.maps.Map(element[0], mapOptions);
+            }
+        };
         
-        scope.$watch('poleList', function(newVal, oldValue) {
+        scope.$watch('companyLocation', function(newVal, oldValue) {
+            if(!newVal) return;
             console.log("NewVal Pole list: ", newVal);
             mapOptions = {
-            center: new google.maps.LatLng(newVal, -122.0621593),
+            center: new google.maps.LatLng(newVal[0], newVal[1]),
             zoom : 13,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             scrollwheel: false
-        };
+            };
+             initMap();
         });
         
         /*
@@ -198,12 +205,8 @@ app.directive('myMap',['$http', function($http){
         };
         */
         
-        function initMap(){
-            if(map === void 0){
-                map = new google.maps.Map(element[0], mapOptions);
-            }
-        };
-        initMap();
+     
+        //initMap();
     };    
     
     
@@ -243,6 +246,7 @@ app.controller('TableController', ['$scope', '$rootScope', '$http', '$httpParamS
                 var companyData = companyService.fetchCompanydata($scope.profile.company);
                 companyData.then(function(result){
                     console.log("Oh shit made it to the end: ", result);
+                    $scope.companyLocation = result;
                     
                 });
         
