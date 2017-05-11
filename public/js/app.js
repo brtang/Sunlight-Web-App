@@ -184,18 +184,59 @@ app.directive('myMap',['$http', function($http){
             }
         };
         
+         function setMarker(map, position, title, content) {
+            var marker;
+            var markerOptions = {
+                position: position,
+                map: map,
+                title: title,
+                icon: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'
+            };
+
+            marker = new google.maps.Marker(markerOptions);
+            markers.push(marker); // add marker to array
+            
+            google.maps.event.addListener(marker, 'click', function () {
+                // close window if not undefined
+                if (infoWindow !== void 0) {
+                    infoWindow.close();
+                }
+                // create new window
+                var infoWindowOptions = {
+                    content: content
+                };
+                infoWindow = new google.maps.InfoWindow(infoWindowOptions);
+                infoWindow.open(map, marker);
+            });
+        }
+        
+        
         scope.$watch('companyLocation', function(newVal, oldValue) {
             if(!newVal) return;
-            console.log("NewVal Pole list: ", newVal);
+            console.log("NewVal companyLocation: ", newVal[1]);
             mapOptions = {
             center: new google.maps.LatLng(newVal[0], newVal[1]),
             zoom : 13,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            scrollwheel: false
+            scrollwheel: true
             };
-             initMap();
+            initMap();
+            
+           // setMarker(map, new google.maps.LatLng(36.9982065, -122.0621593), 'UCSC', 'Just some content');
+              
+        scope.$watch('poleList', function(newVal, oldValue) {
+            if(newVal.length < 1) return;
+            var data = newVal;
+            console.log("NewVal DATA: ", data);
+            angular.forEach(data, function(Object){
+                console.log("NewVal poleList LATITUDE: ", Object.latitude);
+                setMarker(map, new google.maps.LatLng(Object.latitude, Object.longitude), Object.xbee_mac_addr, 'Just some content');
+                console.log("MARKER SHOULD AHVE BEEN SET??");
+            });
+        }, true);
+             
         });
-        
+       
         /*
         var mapOptions = {
             center: new google.maps.LatLng(36.9982065, -122.0621593),
@@ -240,14 +281,13 @@ app.controller('TableController', ['$scope', '$rootScope', '$http', '$httpParamS
                 var data = res.data;
                 angular.forEach(data, function(item){
                    console.log("item: ", item);   
-                   console.log("Group_name: ", item.Group_name);  
+                   //$scope.poleList = []; 
                    $scope.poleList.push({ 'mac_addr':item.xbee_mac_addr, 'group': item.group_name, 'batt_volt':item.batt_volt, 'panel_volt':item.panel_volt, 'battery_current':item.batt_current, 'panel_current': item.panel_current, 'latitude':item.latitude, 'longitude':item.longitude});
                 });
                 var companyData = companyService.fetchCompanydata($scope.profile.company);
                 companyData.then(function(result){
                     console.log("Oh shit made it to the end: ", result);
-                    $scope.companyLocation = result;
-                    
+                    $scope.companyLocation = result;     
                 });
         
             })
