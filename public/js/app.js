@@ -216,7 +216,7 @@ app.directive('myMap',['$http', function($http){
             console.log("NewVal companyLocation: ", newVal[1]);
             mapOptions = {
             center: new google.maps.LatLng(newVal[0], newVal[1]),
-            zoom : 13,
+            zoom : 17,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             scrollwheel: true
             };
@@ -229,8 +229,8 @@ app.directive('myMap',['$http', function($http){
             var data = newVal;
             console.log("NewVal DATA: ", data);
             angular.forEach(data, function(Object){
-                console.log("NewVal poleList LATITUDE: ", Object.latitude);
-                setMarker(map, new google.maps.LatLng(Object.latitude, Object.longitude), Object.xbee_mac_addr, 'Just some content');
+                console.log("NewVal poleList LATITUDE: ", Object.Company);
+                setMarker(map, new google.maps.LatLng(Object.latitude, Object.longitude), Object.mac_addr, Object.mac_addr);
                 console.log("MARKER SHOULD AHVE BEEN SET??");
             });
         }, true);

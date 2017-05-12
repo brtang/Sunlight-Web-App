@@ -25,13 +25,15 @@
 
     <!-- Custom Css -->
     <link href="../../css/style.css" rel="stylesheet">
+    
+    <link href="../../css/admin_style.css" rel="stylesheet">
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="../../css/themes/all-themes.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/e46989712a.js"></script> 
 </head>
 
-<body ng-app="myApp" ng-controller="MainController" class="theme-red">
+<body ng-app="adminApp" class="theme-red">
     <!-- Page Loader -->
     <div class="page-loader-wrapper">
         <div class="loader">
@@ -240,7 +242,7 @@
                     </div>
                 </div>
             </div> -->
-            
+       <!--     
         <h1>Admin Account</h1>
         <div class="flash-message" ng-if="flash">
             <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
@@ -273,7 +275,61 @@
                 </div>
             </form>
         </div>
+        -->
             <!-- #END# Basic Alerts -->
+            
+   <div id="divMasterDetailWrapper" ng-controller='MasterDetailCtrl' style="position:relative;">
+
+    <!-- First, we have our left-hand list of Customer names --> 
+    <div id="divMasterView">
+        <div id="{{customer.customerid}}" class="cssOneCompanyRecord" ng-class="{cssCompanySelectedRecord: Customer.CustomerID == selectedCustomer}" ng-repeat='Company in listOfCompanies' ng-click="selectCompany(Company);">
+            <div class="cssCompanyName">{{Company.name}}</div>
+            <div class="cssCompanyCity">{{Company.location}}</div>
+            <div class="cssCustomerID">{{Company.num_poles}}</div>
+            <div class="cssCustomerID">{{Company.num_users}}</div>
+           
+        </div>
+    </div>
+
+    <!-- Then, we have our right-hand panel, showing one Customer's orders --> 
+    <div id="divDetailView">
+        
+    
+    
+        <!-- Get AngularJS to create one DIV for each Order that this Customer has made. --> 
+        <div id="Order_{{Order.OrderID}}" ng-repeat="Order in listOfOrders" class="cssOneOrderRecord">
+            <!-- Each Order will have a header bar, with Order ID and date. --> 
+            <div class="cssOneOrderHeader">
+                 <div class="form-container">
+                    <form method="post">
+                        <div class="form-group">
+                            <label for="firstName">Name</label>
+                            <input type="text" name="name" id="name" class="form-control" ng-model="Company.Name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="location" name="location" id="location" class="form-control" ng-model="Company.location" />
+                        </div>
+                        <div class="form-group">
+                            <label for="num_users">Number of Users</label>
+                            <span type="num_users" name="num_users" id="num_users" class="form-control" ng-model="Company.num_users">{{Company.num_users}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="num_poles">Number of Poles</label>
+                            <span type="num_poles" name="num_poles" id="num_poles" class="form-control" ng-model="Company.num_poles">{{Company.num_poles}}</span>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" ng-click="saveUser()">Save</button>
+                            <button class="btn btn-danger" ng-click="saveUser()">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+   
+     
+        </div>
+    </div>
+</div>
            
             
         </div>

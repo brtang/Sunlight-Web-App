@@ -9,10 +9,9 @@ module.exports = (rep, pgp) => {
       insert: values =>
         rep.any('INSERT INTO Company(Name, Number_Of_Users) VALUES (${Name}, ${Number_Of_Users}) RETURNING Name ',values, company => company.Name),
         
-      findByName: values => {
-          
-          return rep.any('SELECT * FROM Company WHERE Name = ${Name} ', values, [] )
-         },
+      findByName: values => {          
+        return rep.any('SELECT * FROM Company WHERE Name = ${Name} ', values, [] )
+      },
       
       updateUsers: values =>
         rep.any('UPDATE Company SET Number_of_Users = ${numUsers} WHERE Name = ${Name} RETURNING Number_of_Users', values, company => company.Number_of_Users),

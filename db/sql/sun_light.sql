@@ -6,6 +6,8 @@ Company_Id SERIAL,
 Number_Of_Users int,
 longitude numeric,
 latitude numeric,
+location varchar(50) NOT NULL,
+num_poles int DEFAULT '0',
 PRIMARY KEY (Company_Id)
 );
 
