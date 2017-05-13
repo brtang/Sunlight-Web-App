@@ -36,15 +36,25 @@ app.get('/login', function(req, res) {
 
 
 app.get('/', function (req, res, next){ 
-
+    /*
      if (req.path !== '/login' && !req.session.token) {
         console.log("Redirecting to login...");
         return res.redirect('/login');
-    }else if(req.session.user[0].role === 'Admin'){
+    }else */if(req.session.user[0].role === 'Admin'){
         return res.redirect('/admin');
     }
     
     console.log("Redirecting to next..." + req.session.user[0].first_name);
+    next();
+});
+
+
+app.get('*', function(req, res, next){
+    
+     if (req.path !== '/login' && !req.session.token) {
+        console.log("Redirecting to login...");
+        return res.redirect('/login');
+    }
     next();
 });
 

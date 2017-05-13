@@ -53,7 +53,7 @@ exports.generalregister = function(req, res, next){
     }
     
     //Query DB to see if company name exists
-    db.companies.find({
+    db.companies.findByName({
         Name: company
     })
     .then(data => {
@@ -83,7 +83,7 @@ exports.generalregister = function(req, res, next){
                   Password: hash,
                   Email: email,                
                   Company: company,
-                  Role: ADMIN,
+                  Role: CLIENT,
                   //Company_Id: companyId
                })  
                .then(data => {

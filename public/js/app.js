@@ -261,7 +261,7 @@ app.directive('myMap',['$http', function($http){
 }]);
 
 
-app.controller('TableController', ['$scope', '$rootScope', '$http', '$httpParamSerializer', 'flash', 'userService', 'companyService', function($scope, $rootScope, $http, $httpParamSerializer, flash, userService, companyService){
+app.controller('TableController', ['$scope', '$rootScope', '$http', '$httpParamSerializer', 'flash', 'userService', 'companyService', '$mdToast', function($scope, $rootScope, $http, $httpParamSerializer, flash, userService, companyService, $mdToast){
     
     var profile = userService.fetchUserdata();   
     $scope.poleList = [];    
