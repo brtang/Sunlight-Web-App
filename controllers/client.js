@@ -44,7 +44,7 @@ exports.viewPoles = function(req, res, next){
         for(obj in data){
            console.log("This is batt volt: ", data);
        }
-        console.log("Data: ", data[1].xbee_mac_addr);
+        console.log("Data: ", data[1].temperature);
         return res.send(data);
     })
     .catch(error => {

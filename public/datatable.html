@@ -162,7 +162,7 @@
                             <li><a href="profile.html"><i class="material-icons">person</i>Profile</a></li>
                             <li role="seperator" class="divider"></li>
                             <li><a href="javascript:void(0);"><i class="material-icons">group</i>UNIT</a></li>
-                            <li><a href="signIn.html"><i class="material-icons">input</i>Sign Out</a></li>
+                            <li><a href="/login"><i class="material-icons">input</i>Sign Out</a></li>
                         </ul>
                     </div>
                 </div>
@@ -256,20 +256,30 @@
     </tbody>
   </table>  
 </md-table-container>  -->
+         <md-card style="margin:0px">
+            <md-input-container style="margin:15px;">
+                <label>Filter by search</label>
+                <input type="text" ng-model="filterName">
+            </md-input-container>
 
+            <div ng-hide="true">
+                {{(filteredItems = (poleList | filter: filterName))}}
+            </div>
+        </md-card>
 
         <mdt-table
                   mdt-loading-indicator="{color: 'none'}",  
                   mdt-row="{
-                      data: poleList,
+                      data: filteredItems,
                      
                       'column-keys': [
                           'mac_addr',
                           'group',
                           'batt_volt',
+                          'battery_current',
                           'panel_volt',
-                          'battery_current'
-                       
+                          'panel_current',
+                          'temp'  
                       ]
                       }",
                       >
@@ -277,8 +287,10 @@
                 <mdt-column align-rule="left">Mac Address</mdt-column>
                 <mdt-column align-rule="right">Group</mdt-column>
                 <mdt-column align-rule="right">Battery Volt</mdt-column>
-                <mdt-column align-rule="right">Panel Volt</mdt-column>
                 <mdt-column align-rule="right">Battery Current</mdt-column>
+                <mdt-column align-rule="right">Panel Volt</mdt-column>
+                <mdt-column align-rule="right">Panel Current</mdt-column>
+                <mdt-column align-rule="right">Temperature</mdt-column>
             </mdt-header-row>
         </mdt-table> 
     </div>

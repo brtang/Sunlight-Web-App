@@ -282,7 +282,7 @@ app.controller('TableController', ['$scope', '$rootScope', '$http', '$httpParamS
                 angular.forEach(data, function(item){
                    console.log("item: ", item);   
                    //$scope.poleList = []; 
-                   $scope.poleList.push({ 'mac_addr':item.xbee_mac_addr, 'group': item.group_name, 'batt_volt':item.batt_volt, 'panel_volt':item.panel_volt, 'battery_current':item.batt_current, 'panel_current': item.panel_current, 'latitude':item.latitude, 'longitude':item.longitude});
+                   $scope.poleList.push({ 'mac_addr':item.xbee_mac_addr, 'group': item.group_name, 'batt_volt':item.batt_volt, 'panel_volt':item.panel_volt, 'battery_current':item.batt_current, 'panel_current': item.panel_current, 'latitude':item.latitude, 'longitude':item.longitude, 'temp': item.temperature});
                 });
                 var companyData = companyService.fetchCompanydata($scope.profile.company);
                 companyData.then(function(result){
