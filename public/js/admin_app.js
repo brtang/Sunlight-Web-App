@@ -39,7 +39,7 @@ app.service('companyService', function($http, $httpParamSerializer) {
 
   var fetchCompanydata = function(company) {
     console.log("Made it to FETCHCOMPANYDATA call" + company);
-    var http_data = { name: company };
+    var http_data = { name: company };  
     var companyData = $http({
             method: 'GET',
             url: '/admin/company',            
@@ -74,6 +74,8 @@ app.service('companyService', function($http, $httpParamSerializer) {
 app.controller('MasterDetailCtrl', ['$scope', '$http', '$httpParamSerializer', 'userService', 'companyService',
     function ($scope, $http, $httpParamSerializer, userService, companyService) {
         
+        $scope.selectedCompany = null;
+        
         var profile = userService.fetchUserdata();    
         profile.then(function(result){
             $scope.profile = result;
@@ -83,13 +85,14 @@ app.controller('MasterDetailCtrl', ['$scope', '$http', '$httpParamSerializer', '
         var companies = companyService.fetchCompanydata();
         companies.then(function(result){
             $scope.listOfCompanies = result;
+             $scope.selectedCompany = $scope.listOfCompanies[0].name;
         });
         
         //  We'll load our list of Customers from our JSON Web Service into this variable
         //$scope.listOfCompanies = null;
 
         //  When the user selects a "Customer" from our MasterView list, we'll set the following variable.
-        $scope.selectedCompany = null;
+     
         
         /*
         $http.get('http://inorthwind.azurewebsites.net/Service1.svc/getAllCustomers')
@@ -110,12 +113,13 @@ app.controller('MasterDetailCtrl', ['$scope', '$http', '$httpParamSerializer', '
             })
             .error(function (data, status, headers, config) {
                 $scope.errorMessage = "Couldn't load the list of customers, error # " + status;
-            });
+            }); */
     
-        $scope.selectCustomer = function (val) {
+        $scope.selectCompany = function (val) {
             //  If the user clicks on a <div>, we can get the ng-click to call this function, to set a new selected Customer.
-            $scope.selectedCustomer = val.CustomerID;
-            $scope.loadOrders();
+            console.log("SELECT COMPANY NAME: ", val.name);
+            $scope.selectedCompany = val.name;
+            //$scope.loadOrders();
         }
 
         $scope.loadOrders = function () {
@@ -131,7 +135,7 @@ app.controller('MasterDetailCtrl', ['$scope', '$http', '$httpParamSerializer', '
                         $scope.errorMessage = "Couldn't load the list of Orders, error # " + status;
                     });
         }
-        */
+        
     }]);
 
 
