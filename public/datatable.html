@@ -38,7 +38,14 @@
      <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
       <link href="https://cdnjs.cloudflare.com/ajax/libs/md-data-table/1.8.0/md-data-table-style.css" rel="stylesheet" type="text/css"/>
      <link href="node_modules/angular-material-icons/angular-material-icons.css" rel="stylesheet" type="text/css"/>
-    
+    <style>
+        .mdtTableContainer .loading-indicator {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  visibility: hidden;
+	}
+    </style>
   
 </head>
 
@@ -223,39 +230,7 @@
     <section class="content">
             
     <div layout-margin>   
-         <!--
-<md-toolbar class="md-table-toolbar md-default" >
-  <div class="md-toolbar-tools">
-    <span>ASSETS</span>
-  </div>
-</md-toolbar>
- -->
 
-<!-- exact table from live demo 
-<md-table-container>
-  <table md-table>
-    <thead md-head >
-      <tr mdt-row>
-        <th md-column ><span>Unit</span></th>
-        <th md-column ><span>Group</span></th>
-        <th md-column md-numeric>Battery Voltage</th>
-        <th md-column md-numeric>Panel Voltage</th>
-        <th md-column md-numeric>Battery Current</th>
-        <th md-column md-numeric>Panel Current</th>
-      </tr>
-    </thead>
-    <tbody md-body>
-      <tr mdt-row  md-auto-select ng-repeat="pole in poleList">
-        <td md-cell>{{pole.mac_addr}}</td>
-        <td md-cell>{{pole.group}}</td>
-        <td md-cell>{{pole.batt_volt}}</td>
-        <td md-cell>{{pole.panel_volt}}</td>
-        <td md-cell>{{pole.battery_current}}</td>
-        <td md-cell>{{pole.panel_current}}</td>
-      </tr>
-    </tbody>
-  </table>  
-</md-table-container>  -->
          <md-card style="margin:0px">
             <md-input-container style="margin:15px;">
                 <label>Filter by search</label>
@@ -267,8 +242,7 @@
             </div>
         </md-card>
 
-        <mdt-table 
-                  mdt-loading-indicator="{color: 'none'}",       
+        <mdt-table    
                   mdt-row="{
                       data: filteredItems,
                      
