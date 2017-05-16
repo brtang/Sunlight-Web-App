@@ -267,8 +267,8 @@
             </div>
         </md-card>
 
-        <mdt-table
-                  mdt-loading-indicator="{color: 'none'}",  
+        <mdt-table 
+                  mdt-loading-indicator="{color: 'none'}",       
                   mdt-row="{
                       data: filteredItems,
                      
@@ -284,13 +284,13 @@
                       }",
                       >
             <mdt-header-row>
-                <mdt-column align-rule="left">Mac Address</mdt-column>
-                <mdt-column align-rule="right">Group</mdt-column>
-                <mdt-column align-rule="right">Battery Volt</mdt-column>
-                <mdt-column align-rule="right">Battery Current</mdt-column>
-                <mdt-column align-rule="right">Panel Volt</mdt-column>
-                <mdt-column align-rule="right">Panel Current</mdt-column>
-                <mdt-column align-rule="right">Temperature</mdt-column>
+                <mdt-column align-rule="left" column-sort="true">Mac Address</mdt-column>
+                <mdt-column align-rule="right" column-sort="true">Group</mdt-column>
+                <mdt-column align-rule="right" column-sort="true">Battery Volt</mdt-column>
+                <mdt-column align-rule="right" column-sort="true">Battery Current</mdt-column>
+                <mdt-column align-rule="right" column-sort="true">Panel Volt</mdt-column>
+                <mdt-column align-rule="right" column-sort="true">Panel Current</mdt-column>
+                <mdt-column align-rule="right" column-sort="true">Temperature</mdt-column>
             </mdt-header-row>
         </mdt-table> 
     </div>
