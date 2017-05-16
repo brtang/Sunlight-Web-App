@@ -14,7 +14,7 @@ module.exports = function(app){
 //Initialize route groups
 const apiRoutes = express.Router(), 
       clientRoutes = express.Router(),
-      adminRoutes = express.router;    
+      adminRoutes = express.Router();    
   
   
 //Set model routes (mainly used for db testing)
@@ -56,7 +56,9 @@ clientRoutes.post('/company', passportService.authenticateClient(), ClientContro
  app.use('/client', clientRoutes);
 
  
+adminRoutes.get('/company', passportService.authenticateAdmin(), ClientController.viewCompanies);
 
+app.use('/admin', adminRoutes);
 
 
 };

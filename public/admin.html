@@ -33,7 +33,7 @@
     <script src="https://use.fontawesome.com/e46989712a.js"></script> 
 </head>
 
-<body ng-app="adminApp" class="theme-red">
+<body ng-app="adminApp" ng-controller='MasterDetailCtrl' class="theme-red">
     <!-- Page Loader -->
     <div class="page-loader-wrapper">
         <div class="loader">
@@ -278,11 +278,11 @@
         -->
             <!-- #END# Basic Alerts -->
             
-   <div id="divMasterDetailWrapper" ng-controller='MasterDetailCtrl' style="position:relative;">
+   <div id="divMasterDetailWrapper" style="position:relative;">
 
     <!-- First, we have our left-hand list of Customer names --> 
     <div id="divMasterView">
-        <div id="{{customer.customerid}}" class="cssOneCompanyRecord" ng-class="{cssCompanySelectedRecord: Customer.CustomerID == selectedCustomer}" ng-repeat='Company in listOfCompanies' ng-click="selectCompany(Company);">
+        <div id="{{Company.name}}" class="cssOneCompanyRecord" ng-class="{cssCompanySelectedRecord: Company.name == selectedCompany}" ng-repeat='Company in listOfCompanies' ng-click="selectCompany(Company);">
             <div class="cssCompanyName">{{Company.name}}</div>
             <div class="cssCompanyCity">{{Company.location}}</div>
             <div class="cssCustomerID">{{Company.num_poles}}</div>
@@ -359,7 +359,7 @@
     
                                
 
-    <script src="js/app.js"></script>
+    <script src="js/admin_app.js"></script>
     
     <!-- Jquery Core Js -->
     <script src="../../plugins/jquery/jquery.min.js"></script>

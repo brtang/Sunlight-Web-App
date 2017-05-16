@@ -24,9 +24,6 @@ exports.viewCompany = function(req, res, next){
             error: error.message || error
         });
     });
-    
-    
-    
 
 };      
       
@@ -118,6 +115,29 @@ exports.updateUserInfo = function(req, res, next) {
         });
     });     
     
-    
-
+   
 };
+
+exports.viewCompanies = function(req, res, next){
+    console.log("Reached viewCompanies route!");
+    console.log("Company is: ", req.body.name);
+    
+    var company = req.body.name;
+    
+    db.companies.findAll()
+    .then(data => {
+        for(obj in data){
+           console.log("This is Data: ", data);
+       }
+        console.log("Data[0]: ", data[0]);
+        return res.send(data);
+    })
+    .catch(error => {
+        console.log("Error: ", error);
+        return res.json({
+            success: false,
+            error: error.message || error
+        });
+    });
+
+}; 

@@ -1,15 +1,97 @@
 
 var app = angular.module('adminApp', []);
 
-myApp.controller('MasterDetailCtrl',
-    function ($scope, $http) {
+app.service('userService', function($http) {
 
+  var fetchUserdata = function() {
+  console.log("Made it to FETCHUSERDATA call" );
+    var userData = $http.get('/user').then(function(res, err){ 
+        console.log("Made it to HTTP call");
+        name = String(res.data.first_name) + " " + String(res.data.last_name);
+        email = String(res.data.email);
+        company = String(res.data.company); 
+        token = String(res.data.token);    
+        $http.defaults.headers.common.Authorization = "JWT " + token;
+        var profile = {
+            firstName: String(res.data.first_name),
+            lastName: String(res.data.last_name),
+            name: name,
+            email: email,
+            company: company, 
+            token: token,
+            password: ''
+        };
+        console.log("Profile: ", profile.name);
+        return profile;
+    });
+    return userData;
+   
+  };
+
+  return {
+    fetchUserdata: fetchUserdata
+  };
+
+});
+
+
+app.service('companyService', function($http, $httpParamSerializer) {
+
+  var fetchCompanydata = function(company) {
+    console.log("Made it to FETCHCOMPANYDATA call" + company);
+    var http_data = { name: company };
+    var companyData = $http({
+            method: 'GET',
+            url: '/admin/company',            
+        })
+        .then(function(res){
+            console.log("Response: " + res.data);
+            var data = res.data
+            var list = [];
+            angular.forEach(data, function(item){
+                console.log(item);
+               
+                list.push(item);
+            });
+            console.log("List from Compnay service: ", list); 
+            return list;
+           // flash.setMessage("Successfully updated!", 'success');
+        })
+        .catch(function(err){
+            //flash.setMessage("Error, update was not successful", 'danger');
+        });
+        
+    return companyData;
+   
+  };
+
+  return {
+    fetchCompanydata: fetchCompanydata
+  };
+
+});
+
+app.controller('MasterDetailCtrl', ['$scope', '$http', '$httpParamSerializer', 'userService', 'companyService',
+    function ($scope, $http, $httpParamSerializer, userService, companyService) {
+        
+        var profile = userService.fetchUserdata();    
+        profile.then(function(result){
+            $scope.profile = result;
+            console.log("data.name" + $scope.profile.name); 
+        });
+        
+        var companies = companyService.fetchCompanydata();
+        companies.then(function(result){
+            $scope.listOfCompanies = result;
+        });
+        
         //  We'll load our list of Customers from our JSON Web Service into this variable
-        $scope.listOfCustomers = null;
+        //$scope.listOfCompanies = null;
 
         //  When the user selects a "Customer" from our MasterView list, we'll set the following variable.
-        $scope.selectedCustomer = null;
-
+        $scope.selectedCompany = null;
+        
+        /*
         $http.get('http://inorthwind.azurewebsites.net/Service1.svc/getAllCustomers')
 
             .success(function (data) {
@@ -49,6 +131,7 @@ myApp.controller('MasterDetailCtrl',
                         $scope.errorMessage = "Couldn't load the list of Orders, error # " + status;
                     });
         }
-    });
+        */
+    }]);
 
 
