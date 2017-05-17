@@ -129,6 +129,39 @@ app.service('companyService', function($http, $httpParamSerializer) {
 
 });
 
+app.service('poleService', function($http, $httpParamSerializer) {
+
+  var fetchPoledata = function(company) {
+    console.log("Made it to FETCHPOLEDATA call" + company);
+    var http_data = { company: company };
+    var poleData = $http({
+        method: 'POST',
+        url: '/client/poles', 
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        data: $httpParamSerializer(http_data)
+    }).then(function(res){
+        console.log("Response: " + res.data);
+        var data = res.data;
+        var poleList = [];
+        angular.forEach(data, function(item){
+            console.log("ITEM IS: ", item);
+            poleList.push({ 'mac_addr':item.xbee_mac_addr, 'group': item.group_name, 'batt_volt':item.batt_volt, 'panel_volt':item.panel_volt, 'battery_current':item.batt_current, 'panel_current': item.panel_current, 'latitude':item.latitude, 'longitude':item.longitude, 'temp': item.temperature});
+        });
+        return poleList;
+        //flash.setMessage("Successfully updated!", 'success');
+    })
+    .catch(function(err){
+        flash.setMessage("Error, update was not successful", 'danger');
+    });       
+    return poleData;  
+  };
+
+  return {
+    fetchPoledata: fetchPoledata
+  };
+
+});
+
 app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'flash', 'userService', function($scope, $http, $httpParamSerializer, flash, userService){
     console.log("Made it to main controller");
     $scope.flashService = flash;
@@ -261,38 +294,22 @@ app.directive('myMap',['$http', function($http){
 }]);
 
 
-app.controller('TableController', ['$scope', '$rootScope', '$http', '$httpParamSerializer', 'flash', 'userService', 'companyService', '$mdToast', function($scope, $rootScope, $http, $httpParamSerializer, flash, userService, companyService, $mdToast){
-    
-    var profile = userService.fetchUserdata();   
-    $scope.poleList = [];    
+app.controller('TableController', ['$scope', '$rootScope', '$http', '$httpParamSerializer', 'flash', 'userService', 'companyService', 'poleService', '$mdToast', function($scope, $rootScope, $http, $httpParamSerializer, flash, userService, companyService, poleService, $mdToast){
+    $scope.poleList = []; 
+    var profile = userService.fetchUserdata();     
     profile.then(function(result){
             $scope.profile = result;
-            console.log("data.name" + $scope.profile.name); 
+            console.log("Profile name: " + $scope.profile.name); 
             
-            var data = { company: $scope.profile.company };
-            $http({
-                method: 'POST',
-                url: '/client/poles', 
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                data: $httpParamSerializer(data)
-            })
-            .then(function(res){
-                console.log("Res.data: ", res.data);
-                var data = res.data;
-                angular.forEach(data, function(item){
-                   console.log("item: ", item);   
-                   //$scope.poleList = []; 
-                   $scope.poleList.push({ 'mac_addr':item.xbee_mac_addr, 'group': item.group_name, 'batt_volt':item.batt_volt, 'panel_volt':item.panel_volt, 'battery_current':item.batt_current, 'panel_current': item.panel_current, 'latitude':item.latitude, 'longitude':item.longitude, 'temp': item.temperature});
-                });
+            var poleData = poleService.fetchPoledata($scope.profile.company);
+            poleData.then(function(result){
+                console.log("poleData result: ", result);
+                $scope.poleList = result;
                 var companyData = companyService.fetchCompanydata($scope.profile.company);
                 companyData.then(function(result){
                     console.log("Oh shit made it to the end: ", result);
                     $scope.companyLocation = result;     
                 });
-        
-            })
-            .catch(function(err){
-                console.log("Error, update was not successful" + err);
             });
     });
     

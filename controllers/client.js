@@ -12,7 +12,7 @@ exports.viewCompany = function(req, res, next){
     })
     .then(data => {
         for(obj in data){
-           console.log("This is batt volt: ", data);
+           console.log("This is viewCompany data: ", data);
        }
         console.log("Data: ", data[0].latitude);
         return res.send(data);
@@ -39,7 +39,7 @@ exports.viewPoles = function(req, res, next){
     })
     .then(data => {
         for(obj in data){
-           console.log("This is batt volt: ", data);
+           console.log("This is viewPoles data: ", data);
        }
         console.log("Data: ", data[1].temperature);
         return res.send(data);
