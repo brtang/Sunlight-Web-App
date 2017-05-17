@@ -1,5 +1,5 @@
 /* Scott's stuff */
-var app = angular.module('myApp', ['countTo', 'rzModule','ngMaterial','mdDataTable']);
+var app = angular.module('myApp', ['countTo', 'rzModule', 'ui.bootstrap','ngMaterial','mdDataTable']);
 
 
 /*
