@@ -1,5 +1,5 @@
 /* Scott's stuff */
-var app = angular.module('myApp', ['ngMaterial','mdDataTable']);
+var app = angular.module('myApp', ['countTo', 'rzModule','ngMaterial','mdDataTable']);
 
 
 /*
@@ -162,22 +162,35 @@ app.service('poleService', function($http, $httpParamSerializer) {
 
 });
 
-app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'flash', 'userService', function($scope, $http, $httpParamSerializer, flash, userService){
+app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'flash', 'userService', 'poleService', function($scope, $http, $httpParamSerializer, flash, userService, poleService){
     console.log("Made it to main controller");
     $scope.flashService = flash;
-    var profile = userService.fetchUserdata();    
+    $scope.poleList = []; 
+    
+    $scope.slider_ticks_values_tooltip = {
+        value: 5,
+        options: {
+            ceil: 10,
+            floor: 0,
+            showTicksValues: true,
+            ticksValuesTooltip: function (v) {
+                return 'Tooltip for ' + v;
+            }
+        }
+    };
+    
+    var profile = userService.fetchUserdata();     
     profile.then(function(result){
             $scope.profile = result;
-         console.log("data.name" + $scope.profile.name); 
+            console.log("Profile name: " + $scope.profile.name); 
+            
+            var poleData = poleService.fetchPoledata($scope.profile.company);
+            poleData.then(function(result){
+                console.log("poleData result: ", result);
+                $scope.poleList = result;
+            });
     });
-    /*Initialize personal header data
-    console.log("Made it to set profile: ", profile.name);
-    $scope.name = profile.name 
-    $scope.email = profile.email;
-    $scope.company = profile.company;    
-    $scope.token = profile.token;
-    $scope.profile = profile;
-    */
+    
     
     $scope.saveUser = function() {      
         var data = { 'email': $scope.profile.email, 

@@ -50,10 +50,7 @@ exports.viewPoles = function(req, res, next){
             success: false,
             error: error.message || error
         });
-    });
-    
-    
-    
+    });   
 
 };
 
