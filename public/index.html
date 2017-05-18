@@ -297,8 +297,9 @@
                 <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                     <div class="info-box mirabella hover-expand-effect">
                         <div class="content">
-                            <div class="text">GRID USAGE $:</div>
-                            <div class="number count-to" data-from="0" data-to="12"   data-speed="15" data-fresh-interval="20">{{products[0].gridUsage}}</div>
+                            <div class="text">GRID USAGE:</div>
+                            <div class="number count-to" data-from="0" data-to="12" data-speed="15" data-fresh-interval="20" style="float: left;"></div>
+                            <div class="text" style="margin-left">$</div>
                         </div>
                     </div>
                 </div>
@@ -308,8 +309,9 @@
                             <i class="material-icons">help</i>
                         </div> -->
                         <div class="content">
-                            <div class="text">BATTERY VOLTAGE V:</div>
-                            <div class="number count" count-to="{{poleList[0].batt_volt}}" value="0" duration="0.5" ></div>
+                            <div class="text">BATTERY VOLTAGE:</div>
+                            <div class="number count" count-to="{{poleList[0].batt_volt}}" value="0" duration="0.5" style="float: left;"></div>
+                             <div class="text" style="margin-left">V</div>
                         </div>
                         
                     </div>
@@ -318,8 +320,9 @@
                     <div class="info-box mirabella hover-expand-effect">
                         
                         <div class="content">
-                            <div class="text">PANEL VOLTAGE V:</div>
-                            <div class="number count" count-to="{{poleList[0].panel_volt}}" value="0" duration="0.5" ></div>
+                            <div class="text">PANEL VOLTAGE:</div>
+                            <div class="number count" count-to="{{poleList[0].panel_volt}}" value="0" duration="0.5" style="float: left;"></div>
+                             <div class="text" style="margin-left">V</div>
                         </div>
                     </div>
                 </div>
@@ -327,8 +330,9 @@
                     <div class="info-box mirabella hover-expand-effect">
                         
                         <div class="content">
-                            <div class="text">BATTERY CURRENTA:</div>
-                            <div class="number count" count-to="{{poleList[0].battery_current}}" value="0" duration="0.5" ></div>
+                            <div class="text">BATTERY CURRENT:</div>
+                            <div class="number count" count-to="{{poleList[0].battery_current}}" value="0" duration="0.5" style="float: left;"></div>
+                             <div class="text" style="margin-left">A</div>
                         </div>
                     </div>
                 </div>
@@ -336,8 +340,9 @@
                     <div class="info-box mirabella hover-expand-effect">
                         
                         <div class="content">
-                            <div class="text">PANEL CURRENT A:</div>
-                            <div class="number count" count-to="{{poleList[0].panel_current}}" value="0" duration="0.5" ></div>
+                            <div class="text">PANEL CURRENT:</div>
+                            <div class="number count" count-to="{{poleList[0].panel_current}}" value="0" duration="0.5" style="float: left;"></div>
+                            <div class="text" style="margin-left">A</div>
                         </div>
                     </div>
                        </div>
@@ -345,9 +350,9 @@
                      <div class="info-box mirabella hover-expand-effect">
                         
                         <div class="content">   
-                            <div class="text">TEMPERATURE F:</div>
-                             <!--<h1 class="count" count-to="{{countTo}}" value="{{countFrom}}" duration="2"></h1>-->
-                            <div class="number count" count-to="{{poleList[0].temp}}" value="0" duration="0.5" ></div>
+                            <div class="text">TEMPERATURE:</div>
+                            <div class="number count" count-to="{{poleList[0].temp}}" value="0" duration="0.5" style="float: left;"></div>
+                            <div class="text" style="margin-left">&#8457;</div>
                         </div>
                     </div>
                 </div>
@@ -359,8 +364,12 @@
             <!-- Usage -->
             <div class="row clearfix">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <!-- slider -->    
+            <!-- slider -->         
+                 <div class="block-header">
+                    <h2>Brightness</h2>
+                </div>
                 <div class="card">
+                    
                      <rzslider rz-slider-model="slider_ticks_values_tooltip.value" rz-slider-options="slider_ticks_values_tooltip.options"></rzslider>
                     <!--
                     <div class="irs-demo slider1">
