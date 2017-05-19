@@ -1,41 +1,12 @@
-/* Scott's stuff */
+
 var app = angular.module('myApp', ['countTo', 'rzModule', 'ui.bootstrap','ngMaterial','mdDataTable']);
 
-
-/*
-app.config(function($routeProvider){
-  //console.log("Hi" + $scope.logged_in_user);
-  $routeProvider
-	.when('/', {
-		controller: 'MainController',
-		templateUrl: 'views/list.html'
-	})
-	.when('/add', {
-		controller: 'AddController',
-		templateUrl: 'views/add.html'
-	})
-	.when('/edit/:id', {
-		controller: 'EditController',
-		templateUrl: 'views/edit.html'
-	
-	})
-	.otherwise({
-		redirectTo: '/'
-	});
-});
-
-
-app.constant("FBURL", 
-  "https://angular-crud-77eb8.firebaseio.com/" //Use the URL of your project here
-); 
-*/
 
 app.factory("flash", function($rootScope) {
    
   $rootScope.flash = {
                 message: "",
                 type: 'success', 
-               
    };  
     
   return {
@@ -271,33 +242,21 @@ app.directive('myMap',['$http', function($http){
             scrollwheel: true
             };
             initMap();
-            
-           // setMarker(map, new google.maps.LatLng(36.9982065, -122.0621593), 'UCSC', 'Just some content');
+           
               
-        scope.$watch('poleList', function(newVal, oldValue) {
-            if(newVal.length < 1) return;
-            var data = newVal;
-            console.log("NewVal DATA: ", data);
-            angular.forEach(data, function(Object){
-                console.log("NewVal poleList LATITUDE: ", Object.Company);
-                setMarker(map, new google.maps.LatLng(Object.latitude, Object.longitude), Object.mac_addr, Object.mac_addr);
-                console.log("MARKER SHOULD AHVE BEEN SET??");
-            });
-        }, true);
+            scope.$watch('poleList', function(newVal, oldValue) {
+                if(newVal.length < 1) return;
+                var data = newVal;
+                console.log("NewVal DATA: ", data);
+                angular.forEach(data, function(Object){
+                    console.log("NewVal poleList LATITUDE: ", Object.Company);
+                    setMarker(map, new google.maps.LatLng(Object.latitude, Object.longitude), Object.mac_addr, Object.mac_addr);
+                });
+            }, true);
              
         });
        
-        /*
-        var mapOptions = {
-            center: new google.maps.LatLng(36.9982065, -122.0621593),
-            zoom : 13,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            scrollwheel: false
-        };
-        */
-        
-     
-        //initMap();
+ 
     };    
     
     
