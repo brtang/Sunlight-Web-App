@@ -188,9 +188,13 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
             poleData.then(function(result){
                 console.log("poleData result: ", result);
                 $scope.poleList = result;
+                $scope.button = result[0];
             });
     });
     
+    $scope.changeSelect = function(name){
+        $scope.button = name;
+    }
     
     $scope.saveUser = function() {      
         var data = { 'email': $scope.profile.email, 
