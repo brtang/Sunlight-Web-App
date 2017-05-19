@@ -283,15 +283,27 @@
         <!-- #END# Left Sidebar -->
  
     </section>
+    
  <!-- Dashboard -->
     <section class="content">
         <div class="container-fluid">
             <div class="block-header">
                 <h2>DASHBOARD</h2>
             </div>
-
-            <!-- Widgets 
-             <div ng-view></div>-->
+            
+            <div class="btn-group" uib-dropdown is-open="status.isopen">
+                <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                    {{pole}} <span class="caret"></span>
+                </button>
+                <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
+                    <li role="menuitem">
+                        <a href="#"  ng-repeat="pole in poleList">{{pole.mac_addr}}</a>
+                    </li>
+                </ul>
+            </div>
+          
+            <br><br>
+          
         
             <div class="row clearfix" >
                 <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
