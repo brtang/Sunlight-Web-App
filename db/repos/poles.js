@@ -10,7 +10,10 @@ module.exports = (rep, pgp) => {
           
           return rep.any('SELECT * FROM Pole WHERE Company = ${Company} ', values, [] )
          },
-      
+      /*
+      insertLog: values =>
+        rep.any('INSERT INTO PoleLog(
+      */
       updatePole: values =>
         rep.any('UPDATE Pole SET Number_of_Users = ${numUsers} WHERE Name = ${Name} RETURNING Number_of_Users', values, pole => company.Number_of_Users),
 

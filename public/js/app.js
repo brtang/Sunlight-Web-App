@@ -116,7 +116,7 @@ app.service('poleService', function($http, $httpParamSerializer) {
         var poleList = [];
         angular.forEach(data, function(item){
             console.log("ITEM IS: ", item);
-            poleList.push({ 'mac_addr':item.xbee_mac_addr, 'group': item.group_name, 'batt_volt':item.batt_volt, 'panel_volt':item.panel_volt, 'battery_current':item.batt_current, 'panel_current': item.panel_current, 'latitude':item.latitude, 'longitude':item.longitude, 'temp': item.temperature});
+            poleList.push({ 'mac_addr':item.xbee_mac_addr, 'group': item.group_name, 'batt_volt':item.batt_volt, 'panel_volt':item.panel_volt, 'battery_current':item.batt_current, 'panel_current': item.panel_current, 'latitude':item.latitude, 'longitude':item.longitude, 'temp': item.temperature, 'brightness_level':item.brightness_level});
         });
         return poleList;
         //flash.setMessage("Successfully updated!", 'success');
@@ -138,17 +138,20 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
     $scope.flashService = flash;
     $scope.poleList = []; 
     
+    /*
     $scope.slider_ticks_values_tooltip = {
-        value: 5,
+        value: $scope.button.brightness_level,
         options: {
-            ceil: 10,
+            ceil: 100,
             floor: 0,
+            stepsArray: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
             showTicksValues: true,
             ticksValuesTooltip: function (v) {
                 return 'Tooltip for ' + v;
             }
         }
     };
+    */
     
     var profile = userService.fetchUserdata();     
     profile.then(function(result){
@@ -160,11 +163,35 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
                 console.log("poleData result: ", result);
                 $scope.poleList = result;
                 $scope.button = result[0];
+                $scope.slider_ticks_values_tooltip = {
+                    value: $scope.button.brightness_level,
+                    options: {
+                        ceil: 100,
+                        floor: 0,
+                        stepsArray: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+                        showTicksValues: true,
+                        ticksValuesTooltip: function (v) {
+                            return 'Tooltip for ' + v;
+                        }
+                    }
+                };
             });
     });
     
     $scope.changeSelect = function(name){
         $scope.button = name;
+         $scope.slider_ticks_values_tooltip = {
+                    value: $scope.button.brightness_level,
+                    options: {
+                        ceil: 100,
+                        floor: 0,
+                        stepsArray: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+                        showTicksValues: true,
+                        ticksValuesTooltip: function (v) {
+                            return 'Tooltip for ' + v;
+                        }
+                    }
+                };
     }
     
     $scope.saveUser = function() {      

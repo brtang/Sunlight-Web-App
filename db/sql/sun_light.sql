@@ -66,6 +66,8 @@ PRIMARY KEY(Pole_Id)
 
 CREATE TABLE PoleLog(
 Pole_Id SERIAL NOT NULL,
+XBee_MAC_addr varchar(50) NOT NULL,
+Company varchar(50) NOT NULL REFERENCES Company(Name),
 Time_stamp timestamp NOT NULL,
 Date_stamp date NOT NULL,
 Batt_Volt int,
