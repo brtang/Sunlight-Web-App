@@ -162,7 +162,7 @@
                             <li class="header">ALERTS</li>
                             <li class="body">
                                 <ul class="menu tasks">
-                                    <li>
+                                    <li style="list-style: none; ">
                                         <a href="javascript:void(0);">
                                             <h4>
                                                 Battery low
@@ -174,7 +174,7 @@
                                             </div>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li style="list-style: none; ">
                                         <a href="javascript:void(0);">
                                             <h4>
                                                 You have 1 unread message
@@ -186,7 +186,7 @@
                                             </div>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li style="list-style: none; ">
                                         <a href="javascript:void(0);">
                                             <h4>
                                                 Warning! The panel has failed!
@@ -288,7 +288,10 @@
     <section class="content">
         <div class="container-fluid" id="popupContainer">
             <div class="block-header">
-                <h2>DASHBOARD</h2>
+                <h2 style="float:left;">DASHBOARD</h2>
+                 <div>
+                        <i class="material-icons" ng-click="showAlertDash($event)" style="font-size: 16px;">help_outline</i>
+                    </div>
             </div>
             
             <div class="btn-group" uib-dropdown is-open="status.isopen">
@@ -381,7 +384,7 @@
                  <div class="block-header" >
                     <h2 style="float:left;">Brightness</h2 > 
                     <div>
-                    <i class="material-icons" ng-click="showAlert($event)" style="font-size: 16px;">help_outline</i>
+                        <i class="material-icons" ng-click="showAlert($event)" style="font-size: 16px;">help_outline</i>
                     </div>
                    
                 </div>

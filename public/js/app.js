@@ -154,21 +154,30 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
     */
     
     $scope.showAlert = function(ev) {
-    // Appending dialog to document.body to cover sidenav in docs app
-    // Modal dialogs should fully cover application
-    // to prevent interaction outside of dialog
     $mdDialog.show(
       $mdDialog.alert()
         .parent(angular.element(document.querySelector('#popupContainer')))
         .clickOutsideToClose(true)
-        .title('This is an alert title')
-        .textContent('You can specify some description text in here.')
+        .title('Brightness')
+        .textContent('Adjust the brightness level by selecting a value on the slider.')
         .ariaLabel('Alert Dialog Demo')
         .ok('Got it!')
         .targetEvent(ev)
     );
   };
     
+     $scope.showAlertDash = function(ev) {
+    $mdDialog.show(
+      $mdDialog.alert()
+        .parent(angular.element(document.querySelector('#popupContainer')))
+        .clickOutsideToClose(true)
+        .title('Dashboard Widgets')
+        .textContent('Select a Pole from the dropdown to view their assets.')
+        .ariaLabel('Alert Dialog Demo')
+        .ok('Got it!')
+        .targetEvent(ev)
+    );
+  };
     
     var profile = userService.fetchUserdata();     
     profile.then(function(result){
