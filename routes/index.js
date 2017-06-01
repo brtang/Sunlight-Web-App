@@ -52,6 +52,8 @@ app.use('/admin', passportService.authenticateAdmin(),
 clientRoutes.post('/poles',  passportService.authenticateClient(),  ClientController.viewPoles);
 
 clientRoutes.post('/company', passportService.authenticateClient(), ClientController.viewCompany);
+
+clientRoutes.post('/notification', passportService.authenticateClient(), ClientController.viewNotification);
  
  app.use('/client', clientRoutes);
 

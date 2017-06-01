@@ -1,4 +1,6 @@
 CREATE TYPE roles AS ENUM('Member', 'Client', 'Owner', 'Admin');
+CREATE TYPE colors as ENUM('yellow', 'cyan', 'green', 'red');
+CREATE TYPE alert_types as ENUM('success', 'info', 'danger', 'warning');
 
 CREATE TABLE Company(
 Name varchar(50) UNIQUE NOT NULL,
@@ -83,16 +85,14 @@ Arch_light varchar(50),
 PRIMARY KEY(Pole_Id)
 );
 
-CREATE TABLE PoleSchedule(
-Pole_Id SERIAL NOT NULL,
-Time_stamp_start timestamp,
-Date_stamp_start date,
-Time_stamp_end timestamp,
-Date_stamp_end date,
-Brightness_level int,
-LED varchar(50),
-Arch_light varchar(50),
-PRIMARY KEY(Pole_Id)
+CREATE TABLE Notifications(
+Notification_Id SERIAL NOT NULL,
+Time_stamp timestamp NOT NULL,
+Company varchar(50) NOT NULL REFERENCES Company(Name),
+Color colors NOT NULL,
+Alert_type alert_types NOT NULL,
+Unread boolean NOT NULL,
+Text varchar(50) NOT NULL
 );
 
 

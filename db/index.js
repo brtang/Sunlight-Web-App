@@ -3,7 +3,8 @@ var config = require('../config/config');
 var repos = {
     users: require('./repos/users'),
     companies: require('./repos/companies'),
-    poles: require('./repos/poles')
+    poles: require('./repos/poles'),
+    notification: require('./repos/notifications')
 };
 
 var options = {
@@ -16,6 +17,7 @@ var options = {
         obj.users = repos.users(obj, pgp);
         obj.companies = repos.companies(obj, pgp);
         obj.poles = repos.poles(obj, pgp);
+        obj.notifications = repos.notification(obj, pgp);
     }
 
 };

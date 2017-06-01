@@ -100,6 +100,47 @@ app.service('companyService', function($http, $httpParamSerializer) {
 
 });
 
+app.service('notificationService', function($http, $httpParamSerializer) {
+
+  var fetchNotificationdata = function(company) {
+    console.log("Made it to FETCHNOTIFICATIONDATA call" + company);
+    var http_data = { company: company };
+    var notificationData = $http({
+            method: 'POST',
+            url: '/client/notification', 
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: $httpParamSerializer(http_data)
+        })
+        .then(function(res){
+            console.log("Response: " + res.data);
+            var data = res.data
+            var notificationList = [];
+            var unread = 0;
+            angular.forEach(data, function(item){
+                console.log("ITEM IS: ", item.unread);
+                notificationList.push({ 'time_stamp':item.time_stamp, 'color': item.color, 'alert_type':item.alert_type, 'unread':item.unread, 'text':item.text, 'id': item.notification_id});
+                if(item.unread == true){
+                    unread++;
+                }
+            });
+            console.log("Unread: " + unread);
+            return [notificationList, unread];
+            flash.setMessage("Successfully updated!", 'success');
+        })
+        .catch(function(err){
+            flash.setMessage("Error, update was not successful", 'danger');
+        });
+        
+    return notificationData;
+   
+  };
+
+  return {
+    fetchNotificationdata: fetchNotificationdata
+  };
+
+});
+
 app.service('poleService', function($http, $httpParamSerializer) {
 
   var fetchPoledata = function(company) {
@@ -133,10 +174,11 @@ app.service('poleService', function($http, $httpParamSerializer) {
 
 });
 
-app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'flash', 'userService', 'poleService', '$mdDialog', function($scope, $http, $httpParamSerializer, flash, userService, poleService, $mdDialog){
+app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'flash', 'userService', 'poleService', 'notificationService', '$mdDialog', function($scope, $http, $httpParamSerializer, flash, userService, poleService, notificationService, $mdDialog){
     console.log("Made it to main controller");
     $scope.flashService = flash;
     $scope.poleList = []; 
+    $scope.notifcationList = [];
     
     /*
     $scope.slider_ticks_values_tooltip = {
@@ -154,30 +196,30 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
     */
     
     $scope.showAlert = function(ev) {
-    $mdDialog.show(
-      $mdDialog.alert()
-        .parent(angular.element(document.querySelector('#popupContainer')))
-        .clickOutsideToClose(true)
-        .title('Brightness')
-        .textContent('Adjust the brightness level by selecting a value on the slider.')
-        .ariaLabel('Alert Dialog Demo')
-        .ok('Got it!')
-        .targetEvent(ev)
-    );
-  };
+        $mdDialog.show(
+            $mdDialog.alert()
+                .parent(angular.element(document.querySelector('#popupContainer')))
+                .clickOutsideToClose(true)
+                .title('Brightness')
+                .textContent('Adjust the brightness level by selecting a value on the slider.')
+                .ariaLabel('Alert Dialog Demo')
+                .ok('Got it!')
+                .targetEvent(ev)
+        );
+    };
     
-     $scope.showAlertDash = function(ev) {
-    $mdDialog.show(
-      $mdDialog.alert()
-        .parent(angular.element(document.querySelector('#popupContainer')))
-        .clickOutsideToClose(true)
-        .title('Dashboard Widgets')
-        .textContent('Select a Pole from the dropdown to view their assets.')
-        .ariaLabel('Alert Dialog Demo')
-        .ok('Got it!')
-        .targetEvent(ev)
-    );
-  };
+    $scope.showAlertDash = function(ev) {
+        $mdDialog.show(
+            $mdDialog.alert()
+                .parent(angular.element(document.querySelector('#popupContainer')))
+                .clickOutsideToClose(true)
+                .title('Dashboard Widgets')
+                .textContent('Select a Pole from the dropdown to view their assets.')
+                .ariaLabel('Alert Dialog Demo')
+                .ok('Got it!')
+                .targetEvent(ev)
+        );
+    };
     
     var profile = userService.fetchUserdata();     
     profile.then(function(result){
@@ -185,6 +227,7 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
             console.log("Profile name: " + $scope.profile.name); 
             
             var poleData = poleService.fetchPoledata($scope.profile.company);
+            var notificationData = notificationService.fetchNotificationdata($scope.profile.company);
             poleData.then(function(result){
                 console.log("poleData result: ", result);
                 $scope.poleList = result;
@@ -201,6 +244,12 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
                         }
                     }
                 };
+            });
+            
+            notificationData.then(function(result){
+                console.log("notificationData result: ", result);
+                $scope.notificationList = result[0];
+                $scope.unread = result[1];
             });
     });
     

@@ -26,7 +26,32 @@ exports.viewCompany = function(req, res, next){
     });
 
 };      
-      
+
+exports.viewNotification = function(req, res, next){
+    console.log("Reached viewNotification route!");
+    console.log("Company is: ", req.body.company);
+    
+    var company = req.body.company;
+    
+    db.notifications.findByCompany({
+        Company: company
+    })
+    .then(data => {
+        for(obj in data){
+           console.log("This is viewNotification data: ", data);
+       }
+        console.log("Data: ", data[1].text);
+        return res.send(data);
+    })
+    .catch(error => {
+        console.log("Error: ", error);
+        return res.json({
+            success: false,
+            error: error.message || error
+        });
+    });   
+
+};      
       
 exports.viewPoles = function(req, res, next){
     console.log("Reached viewPoles route!");
