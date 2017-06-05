@@ -78,9 +78,9 @@ app.use('/', express.static(__dirname + '/public'));
 //app.use('/', routes);
 routes(app);
 
-
+/*
 var CronJob = require('cron').CronJob;
-new CronJob('*/5 * * * * *', function() {
+new CronJob('*//*5 * * * * *', function() {
 var date = new Date();
 
   console.log('You will see this message every 5 second...' + date.toISOString());
@@ -98,8 +98,9 @@ var date = new Date();
     console.log("Error: ", error);
     
   });
+ 
   
-}, null, true, 'America/Los_Angeles'); 
+}, null, true, 'America/Los_Angeles'); */
 
 /*&startTime=1970-01-01T00:01:47.000Z
 request.get(' https://devicecloud.digi.com/ws/DataPoint/00000000-00000000-00409DFF-FF78D78D/serial_data?size=10').auth('Sunlight', 'SunLight1!', true)

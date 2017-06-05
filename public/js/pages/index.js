@@ -2,18 +2,18 @@
     //Widgets count
     $('.count-to').countTo();
 
-    //Sales count to
+    /*Sales count to
     $('.sales-count-to').countTo({
         formatter: function (value, options) {
             return '$' + value.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, ' ').replace('.', ',');
         }
-    });
+    }); */
 
-    initRealTimeChart();
-    initDonutChart();
-    initSparkline();
+   // initRealTimeChart();
+    //initDonutChart();
+   // initSparkline();
 });
-
+/*
 var realtime = 'on';
 function initRealTimeChart() {
     //Real time ==========================================================================================
@@ -61,12 +61,14 @@ function initRealTimeChart() {
     //====================================================================================================
 }
 
+
 function initSparkline() {
     $(".sparkline").each(function () {
         var $this = $(this);
         $this.sparkline('html', $this.data());
     });
 }
+
 
 function initDonutChart() {
     Morris.Donut({
@@ -94,7 +96,7 @@ function initDonutChart() {
         }
     });
 }
-
+*/
 var data = [], totalPoints = 110;
 function getRandomData() {
     if (data.length > 0) data = data.slice(1);

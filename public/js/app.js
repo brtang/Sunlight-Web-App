@@ -1,6 +1,21 @@
 
 var app = angular.module('myApp', ['countTo', 'rzModule', 'ui.bootstrap','ngMaterial','mdDataTable', 'ngMessages', 'material.svgAssetsCache']);
 
+function Stack(){
+ this.stac=new Array();
+ 
+ this.pop=function(){
+  return this.stac.pop();
+ }
+ 
+ this.push=function(item){
+  this.stac.push(item);
+ }
+ this.empty = function(){
+    return this.stac = [];
+ }
+}
+
 
 app.factory("flash", function($rootScope) {
    
@@ -174,12 +189,12 @@ app.service('poleService', function($http, $httpParamSerializer) {
 
 });
 
-app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'flash', 'userService', 'poleService', 'notificationService', '$mdDialog', function($scope, $http, $httpParamSerializer, flash, userService, poleService, notificationService, $mdDialog){
+app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'flash', 'userService', 'poleService', 'notificationService', '$mdDialog', '$timeout', function($scope, $http, $httpParamSerializer, flash, userService, poleService, notificationService, $mdDialog, $timeout){
     console.log("Made it to main controller");
     $scope.flashService = flash;
     $scope.poleList = []; 
     $scope.notifcationList = [];
-    
+    var brightnessStack = new Stack();
     /*
     $scope.slider_ticks_values_tooltip = {
         value: $scope.button.brightness_level,
@@ -241,6 +256,29 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
                         showTicksValues: true,
                         ticksValuesTooltip: function (v) {
                             return 'Tooltip for ' + v;
+                        },
+                        onEnd: function(){
+                            console.log("ON CHANGE: ", $scope.slider_ticks_values_tooltip.value);
+                           brightnessStack.push($scope.slider_ticks_values_tooltip.value);
+                           $timeout(function(){
+                               console.log("POPPED:", brightnessStack.pop());
+                                var data = { 'xbee_mac_addr': $scope.button.mac_addr, 
+                                            'brightness': $scope.slider_ticks_values_tooltip.value                                         
+                                };                              
+                                $http({
+                                    method: 'POST',
+                                    url: '/client/updatePole', 
+                                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                                    data: $httpParamSerializer(data)
+                                })
+                                .then(function(res){
+                                    console.log("Response: " + res);
+                                    flash.setMessage("Successfully updated!", 'success');
+                                })
+                                .catch(function(err){
+                                    flash.setMessage("Error, update was not successful", 'danger');
+                                });
+                           }, 1000);
                         }
                     }
                 };
@@ -264,6 +302,11 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
                         showTicksValues: true,
                         ticksValuesTooltip: function (v) {
                             return 'Tooltip for ' + v;
+                        },
+                        updateBrightness: function(value){
+                            if(value != $scope.button.brightness_level){
+                                console.log("UPDATED BRIGHTNESS LEVEL", value);
+                            }
                         }
                     }
                 };

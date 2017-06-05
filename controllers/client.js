@@ -79,6 +79,29 @@ exports.viewPoles = function(req, res, next){
 
 };
 
+exports.updatePole = function(req, res, next){
+   console.log("Reached updatePole route!");
+    console.log("MAC ADDR is: ", req.body.xbee_mac_addr);
+    console.log("BRIGHTNESS LEVEL TO CHANGE : ", req.body.brightness);
+    
+    db.poles.updateBrightness({
+        xbee_mac_addr: req.body.xbee_mac_addr,
+        brightness_level: req.body.brightness
+    })
+    .then(data => {
+        console.log("Updated brightness data: ", data);
+        return res.send(data);
+    })
+    .catch(error => {
+        console.log("Error: ", error);
+        return res.json({
+            success: false,
+            error: error.message || error
+        });
+    });     
+
+};
+
 exports.updateUserInfo = function(req, res, next) {
     console.log("Reached updateUserInfo subroutine!");
     const email = req.body.email,

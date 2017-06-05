@@ -77,7 +77,7 @@ exports.generalregister = function(req, res, next){
         }else{
             var hash = bcrypt.hashSync(password);
             console.log("No data returned, email has not been registered in the database!");
-            return db.users.insert({
+            db.users.insert({
                   First_Name: firstName,
                   Last_Name: lastName,
                   Password: hash,
@@ -91,7 +91,24 @@ exports.generalregister = function(req, res, next){
                   var token = jwt.sign({ role: data[0].role}, config.secret, {
                         expiresIn: 60*180*999999999 // expires in 180 mins
                   });
-                  return res.render('sign-up-login-form', { success: 'Successfully registered user!' });
+                  var notification_text = firstName + "  " + lastName + " " + "has registered as a user!";
+                  var date = new Date();
+                  db.notifications.insert({
+                    Time_stamp: date.toISOString(),
+                    Company: company,
+                    Color: 'cyan',
+                    Alert_type: 'danger',
+                    Unread: true,
+                    Text: notification_text
+                  }).then(data => {
+                        console.log("This is data returned from Notifications insert: ", data);
+                         return res.render('sign-up-login-form', { success: 'Successfully registered user!' });
+                    })
+                    .catch(error => {
+                            console.log("Error: ", error);
+    
+                    });
+                 
                   /*
                   res.status(201).json({
                     Success: true,
@@ -102,6 +119,10 @@ exports.generalregister = function(req, res, next){
                     UserId: data[0].user_id
                   });*/
                 })
+                 .catch(error => {
+                            console.log("Error: ", error);
+    
+                    });
         }
        
     })

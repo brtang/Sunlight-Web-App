@@ -14,8 +14,8 @@ module.exports = (rep, pgp) => {
       insertLog: values =>
         rep.any('INSERT INTO PoleLog(
       */
-      updatePole: values =>
-        rep.any('UPDATE Pole SET Number_of_Users = ${numUsers} WHERE Name = ${Name} RETURNING Number_of_Users', values, pole => company.Number_of_Users),
+      updateBrightness: values =>
+        rep.any('UPDATE Pole SET Brightness_level = ${brightness_level} WHERE XBee_MAC_addr = ${xbee_mac_addr} RETURNING Company', values, pole => pole.Company),
 
       deletePole: name =>
         rep.result('DELETE FROM Pole WHERE Name = $1', name )      
