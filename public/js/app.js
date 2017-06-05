@@ -133,7 +133,7 @@ app.service('notificationService', function($http, $httpParamSerializer) {
             var unread = 0;
             angular.forEach(data, function(item){
                 console.log("ITEM IS: ", item.unread);
-                notificationList.push({ 'time_stamp':item.time_stamp, 'color': item.color, 'alert_type':item.alert_type, 'unread':item.unread, 'text':item.text, 'id': item.notification_id});
+                notificationList.push({ 'time_stamp':item.time_stamp.substring(0, 10), 'color': item.color, 'alert_type':item.alert_type, 'unread':item.unread, 'text':item.text, 'id': item.notification_id});
                 if(item.unread == true){
                     unread++;
                 }
@@ -303,10 +303,28 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
                         ticksValuesTooltip: function (v) {
                             return 'Tooltip for ' + v;
                         },
-                        updateBrightness: function(value){
-                            if(value != $scope.button.brightness_level){
-                                console.log("UPDATED BRIGHTNESS LEVEL", value);
-                            }
+                        onEnd: function(){
+                            console.log("ON CHANGE: ", $scope.slider_ticks_values_tooltip.value);
+                           brightnessStack.push($scope.slider_ticks_values_tooltip.value);
+                           $timeout(function(){
+                               console.log("POPPED:", brightnessStack.pop());
+                                var data = { 'xbee_mac_addr': $scope.button.mac_addr, 
+                                            'brightness': $scope.slider_ticks_values_tooltip.value                                         
+                                };                              
+                                $http({
+                                    method: 'POST',
+                                    url: '/client/updatePole', 
+                                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                                    data: $httpParamSerializer(data)
+                                })
+                                .then(function(res){
+                                    console.log("Response: " + res);
+                                    flash.setMessage("Successfully updated!", 'success');
+                                })
+                                .catch(function(err){
+                                    flash.setMessage("Error, update was not successful", 'danger');
+                                });
+                           }, 1000);
                         }
                     }
                 };
@@ -331,10 +349,53 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
         })
         .catch(function(err){
             flash.setMessage("Error, update was not successful", 'danger');
-        });
+        });       
+    };    
     
+     $scope.removeNotifications = function(){
+            var newDataList=[];
+            var deleteList=[];
+            $scope.selectedAll = false;
+            angular.forEach($scope.notificationList, function(notification){
+                if(!notification.selected){
+                    newDataList.push(notification);
+                }else{
+                    deleteList.push(notification.id);
+                }
+            }); 
+            $scope.notificationList = newDataList;
+            console.log("DELETE LIST: ", deleteList);
+            var data = {
+                'notifications': deleteList
+            }
+            $http({
+                method: 'POST',
+                url: '/client/deleteNotification', 
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                data: $httpParamSerializer(data)
+            })
+            .then(function(res){
+                console.log("Response: " + res);
+                flash.setMessage("Successfully updated!", 'success');
+            })
+            .catch(function(err){
+                flash.setMessage("Error, update was not successful", 'danger');
+            });     
+        };
+    
+     $scope.checkAll = function () {
+        console.log("REACHED CHECKALL", $scope.selectedAll);
+        if ($scope.selectedAll) {
+            $scope.selectedAll = true;
+        } else {
+            $scope.selectedAll = false;
+        }
         
-    }    
+        angular.forEach($scope.notificationList, function(notification) {
+            notification.selected = $scope.selectedAll;
+        });
+        
+    };  
  
 }]);
 

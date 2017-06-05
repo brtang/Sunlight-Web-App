@@ -12,8 +12,11 @@ module.exports = (rep, pgp) => {
       
       updateNotificationById: values =>
         rep.any("UPDATE Notifications SET unread = 'f' WHERE Notification_Id = ${Id} RETURNING unread", values, notifications => notifications.unread),
-
+        
       deleteNotification: name =>
-        rep.result('DELETE FROM Company WHERE Name = $1', name )      
+        rep.result('DELETE FROM Company WHERE Name = $1', name ),
+        
+      deleteMultiple: values =>
+        rep.any('DELETE FROM Notifications WHERE Notification_Id IN ($1:csv)', [values])
    };
 };

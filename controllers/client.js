@@ -40,7 +40,7 @@ exports.viewNotification = function(req, res, next){
         for(obj in data){
            console.log("This is viewNotification data: ", data);
        }
-        console.log("Data: ", data[1].text);
+        //console.log("Data: ", data[1].text);
         return res.send(data);
     })
     .catch(error => {
@@ -51,7 +51,26 @@ exports.viewNotification = function(req, res, next){
         });
     });   
 
-};      
+};  
+
+exports.deleteNotification = function(req, res, next){  
+    console.log("Reached deleteNotifcation route!");
+    console.log("Notifications to delete: ", req.body.notifications);
+    
+    db.notifications.deleteMultiple(
+        req.body.notifications
+    )
+    .then(data => {
+        return res.send(data);
+    })
+    .catch(error => {
+        console.log("Error: ", error);
+        return res.json({
+            success: false,
+            error: error.message || error
+        });
+    });
+};    
       
 exports.viewPoles = function(req, res, next){
     console.log("Reached viewPoles route!");

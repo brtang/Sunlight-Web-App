@@ -56,6 +56,8 @@ clientRoutes.post('/poles',  passportService.authenticateClient(),  ClientContro
 clientRoutes.post('/company', passportService.authenticateClient(), ClientController.viewCompany);
 
 clientRoutes.post('/notification', passportService.authenticateClient(), ClientController.viewNotification);
+
+clientRoutes.post('/deleteNotification', passportService.authenticateClient(), ClientController.deleteNotification);
  
  app.use('/client', clientRoutes);
 
