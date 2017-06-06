@@ -24,6 +24,9 @@ app.use(session({ secret: config.secret, resave: false, saveUninitialized: true 
 
 app.set('port', process.env.PORT || 8080);
 
+app.get('/forgotPassword', function(req, res){
+    res.render('forgot-password');
+});
 
 app.get('/login', function(req, res) {
     // log user out

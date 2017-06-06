@@ -13,7 +13,7 @@ body {
 
 a {
   text-decoration: none;
-  color: #1ab188;
+  color: #00BCD4;
   -webkit-transition: .5s ease;
   transition: .5s ease;
 }
@@ -59,7 +59,7 @@ a:hover {
   color: #ffffff;
 }
 .tab-group .active a {
-  background: #1ab188;
+  background: ##00BCD4;
   color: #ffffff;
 }
 
@@ -88,7 +88,7 @@ label {
 }
 label .req {
   margin: 2px;
-  color: #1ab188;
+  color: ##00BCD4;
 }
 
 label.active {
@@ -157,7 +157,7 @@ textarea {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .1em;
-  background: #1ab188;
+  background: #00BCD4;
   color: #ffffff;
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
