@@ -9,7 +9,10 @@ const express = require('express');
       config = require('./config/config');
       routes = require('./routes');
       session = require('express-session');
-
+      xml2js = require('xml2js');
+      util = require('util');
+       
+        
 var app = express();
 
 //Configure the app to use bodyParser()
@@ -105,16 +108,72 @@ var date = new Date();
   
 }, null, true, 'America/Los_Angeles'); */
 
-/*&startTime=1970-01-01T00:01:47.000Z
-request.get(' https://devicecloud.digi.com/ws/DataPoint/00000000-00000000-00409DFF-FF78D78D/serial_data?size=10').auth('Sunlight', 'SunLight1!', true)
+/*&startTime=1970-01-01T00:01:47.000Z */
+//2017-05-08T23:26:50.710Z
+/*
+var parser = new xml2js.Parser({explicitArray: false});
+var latestTime;
+var digiRoute = ' https://devicecloud.digi.com/ws/DataPoint/00000000-00000000-00409DFF-FF78D78D/serial_data?size=50&startTime=';
+
+db.poles.getLatestTime()
+.then(data => {
+    console.log("This is data: ", data[0].time_stamp);
+    latestTime = data[0].time_stamp;
+    console.log(latestTime);
+    digiRoute = digiRoute + latestTime.toISOString();
+    console.log(digiRoute);
+    request.get(digiRoute).auth('Sunlight', 'SunLight1!', true)
     .on('response', function(response){
        console.log(response.statusCode);
       // response.setEncoding('utf8');
+       var body = '';
        response.on("data", function(chunk) {
-         console.log("BODY: " + chunk);
+         body += chunk;
         });
+       response.on("end", function(){
+            parser.parseString(body, function(err, result){
+            console.log(result.result.DataPoint);
+            
+            console.log(result.result.DataPoint.length);
+          
+            
+         });
+       }); 
+    });
+    
+    
+})
+.catch(error => {
+        console.log("Error: ", error);
+});     
+
+/*
+request.get(digiRoute).auth('Sunlight', 'SunLight1!', true)
+    .on('response', function(response){
+       console.log(response.statusCode);
+      // response.setEncoding('utf8');
+       var body = '';
+       response.on("data", function(chunk) {
+         body += chunk;
+        });
+       response.on("end", function(){
+            parser.parseString(body, function(err, result){
+            console.log(result.result.DataPoint);
+            
+            console.log(result.result.DataPoint.length);
+            var datapoints = result.result.DataPoint;
+            for(var i = 0; i < datapoints.length; i++){
+                datapoints[i].data.transmission_id;
+            }
+            
+         });
+       }); 
     });
 */
+
+  var date = new Date();
+  console.log("Date ISO: ", date.toISOString);
+  console.log("Date time: ", date.toUTCString());
 
 app.listen(app.get('port'), function(){
    console.log('Express started on http://localhost:' + 

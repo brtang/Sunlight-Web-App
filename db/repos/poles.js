@@ -14,10 +14,16 @@ module.exports = (rep, pgp) => {
       insertLog: values =>
         rep.any('INSERT INTO PoleLog(
       */
+      
+      //SELECT * FROM PoleLog WHERE extract(Month from time_stamp) = 5;
+      
       updateBrightness: values =>
         rep.any('UPDATE Pole SET Brightness_level = ${brightness_level} WHERE XBee_MAC_addr = ${xbee_mac_addr} RETURNING Company', values, pole => pole.Company),
 
       deletePole: name =>
-        rep.result('DELETE FROM Pole WHERE Name = $1', name )      
+        rep.result('DELETE FROM Pole WHERE Name = $1', name ),
+
+       getLatestTime: () =>
+        rep.any('SELECT time_stamp FROM PoleLog ORDER by time_stamp DESC LIMIT 1', []),
    };
 };

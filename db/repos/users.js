@@ -11,6 +11,9 @@ module.exports = (rep, pgp) => {
       
       findById: values =>
           rep.any('SELECT * FROM Users WHERE User_Id = ${Id}', values, users),
+          
+      orderByCompany: () =>
+          rep.any('SELECT * FROM Users ORDER BY Company ', [], user => user.first_name && user.last_name && user.email),  
       
       updateName: values =>
         rep.any('UPDATE Users SET Name = ${newName} WHERE Name = ${Name} RETURNING Name', values, user => user.Name),

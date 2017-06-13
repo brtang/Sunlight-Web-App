@@ -1,5 +1,29 @@
 const bodyParser = require('body-parser'); 
       bcrypt = require('bcrypt-nodejs');
+      request = require('request');
+
+exports.viewUsersByCompany = function(req, res, next){
+    console.log("Reached viewUsersByCompany route!");
+    db.users.orderByCompany()
+    .then(data => {
+        console.log("THIS IS DATAAAA: ", data);
+        /*
+        for(obj in data){
+           console.log("This is orderByCompany data!!!!!: ", data);
+       }
+       */
+        return res.send(data);
+    })
+     .catch(error => {
+        console.log("Error: ", error);
+        return res.json({
+            success: false,
+            error: error.message || error
+        });
+    });
+
+};
+
       
 exports.viewCompany = function(req, res, next){
     console.log("Reached viewCompany route!");
@@ -102,7 +126,32 @@ exports.updatePole = function(req, res, next){
    console.log("Reached updatePole route!");
     console.log("MAC ADDR is: ", req.body.xbee_mac_addr);
     console.log("BRIGHTNESS LEVEL TO CHANGE : ", req.body.brightness);
-    
+    var digiRoute = 'http://developer.idigi.com/ws/sci';
+    var setBrightness =  '00:13:a2:00:40:be:d4:70! set_max_brightness:' + req.body.brightness ;
+    var xmlData = '<sci_request version="1.0">' + "\n" + 
+                                                '<send_message synchronous="True">' + "\n" +
+                                                '<targets>' + "\n" +
+                                                '<device id="00000000-00000000-00409DFF-FF78D78D"/>' + "\n" +
+                                                '</targets>' + "\n" + 
+                                                '<rci_request version="1.1">' + "\n" + 
+                                                '<do_command target="rci_callback_command">' + "\n" +
+                                                setBrightness + "\n" +
+                                                '</do_command>' + "\n" +
+                                                '</rci_request>' + "\n" +
+                                                '</send_message>' + "\n" +
+                                                '</sci_request>';                            
+   console.log("XML: ", xmlData);          
+    request({
+        method: 'POST',
+        url: digiRoute,
+        headers: {'Content-Type': 'application/xml'},
+        body: xmlData
+        
+    }).auth('Sunlight', 'SunLight1!', true)
+    .on('response', function(response){
+     console.log("RESPONSE: ", response.statusCode);
+    });
+    /*
     db.poles.updateBrightness({
         xbee_mac_addr: req.body.xbee_mac_addr,
         brightness_level: req.body.brightness
@@ -117,7 +166,9 @@ exports.updatePole = function(req, res, next){
             success: false,
             error: error.message || error
         });
-    });     
+    });   
+
+  */
 
 };
 
@@ -169,6 +220,68 @@ exports.updateUserInfo = function(req, res, next) {
                   });*/
                 })
         }
+       
+    })
+    .catch(error => {
+        console.log("Error: ", error);
+        return res.json({
+            success: false,
+            error: error.message || error
+        });
+    });     
+    
+   
+};
+
+exports.updateCompanies = function(req, res, next) {
+    console.log("Reached updateCompanies subroutine!");
+    const updatedName = req.body.updated_name,
+        name = req.body.name,
+         location = req.body.location,
+          longitude = req.body.longitude,
+          latitude = req.body.latitude;
+          
+          console.log("Updated name: ", updatedName);
+             
+    db.companies.update({
+        Updated_name: updatedName,
+        Name: name,
+        Location: location,
+        Longitude: longitude,
+        Latitude: latitude
+    })
+    .then(data => {
+        console.log("This is data returned from Companies update query: ", data);
+        return res.send({ success: 'Successfully updated company info!' });
+       
+    })
+    .catch(error => {
+        console.log("Error: ", error);
+        return res.json({
+            success: false,
+            error: error.message || error
+        });
+    });     
+    
+   
+};
+
+exports.addCompanies = function(req, res, next) {
+    console.log("Reached addCompanies subroutine!");
+    const name = req.body.name,
+         location = req.body.location,
+          longitude = req.body.longitude,
+          latitude = req.body.latitude;
+             
+    db.companies.insert({
+        Name: name,
+        Location: location,
+        Longitude: longitude,
+        Latitude: latitude
+    })
+    .then(data => {
+        console.log("This is data returned from Companies insert query: ", data);
+        return res.send({ success: 'Successfully added company to database!' });
        
     })
     .catch(error => {

@@ -26,7 +26,7 @@
     <!-- Custom Css -->
     <link href="../../css/style.css" rel="stylesheet">
     
-    <link href="../../css/admin_style.css" rel="stylesheet">
+    <link href="css/admin_style.css" rel="stylesheet">
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="../../css/themes/all-themes.css" rel="stylesheet" />
@@ -71,7 +71,7 @@
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" href="index.html">{{profile.company}}</a>
+                <a class="navbar-brand" href="/admin">Admin Panel</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -83,7 +83,7 @@
                     <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
                             <i class="material-icons">flag</i>
-                            <span class="label-count">9</span>
+                            <span class="label-count"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="header">ALERTS</li>
@@ -152,7 +152,7 @@
                             <li role="seperator" class="divider"></li>
                             <li><a href="javascript:void(0);"><i class="material-icons">group</i>UNIT</a></li>
                             
-                            <li><a href="signIn.html"><i class="material-icons">input</i>Sign Out</a></li>
+                            <li><a href="/login"><i class="material-icons">input</i>Sign Out</a></li>
                         </ul>
                     </div>
                 </div>
@@ -162,15 +162,15 @@
             <div class="menu">
                 <ul class="list">
                     <li class="header"></li>
-                    <li>
-                        <a href="index.html">
+                    <li >
+                        <a href="admin.html">
                             <i class="material-icons">home</i>
                             <span>Home</span>
                         </a>
                     </li>
                     
-                    <li>
-                        <a href="google.html"/a>
+                    <li class="active">
+                        <a href="admin-companies.html"/a>
                             <i class="material-icons">map</i>
                             <span>Companies</span> 
                         </a>
@@ -183,9 +183,9 @@
                         </a>
                     </li>
                      <li>
-                        <a href="datatable.html"/a>
+                        <a href="admin-companies.html"/a>
                         <i class="material-icons">lightbulb_outline</i>
-                            <span>Assets</span> 
+                            <span>Users</span> 
                         </a>
                     </li>
                     
@@ -211,83 +211,24 @@
     <section class="content">
         <div class="container-fluid">
             
-
-            <!-- Basic Alerts 
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card">
-                        <div class="header">
-                            <h2>
-                                ALERTS
-                                
-                            </h2>
-                            <ul class="header-dropdown m-r--5">
-                                
-                            </ul>
-                        </div>
-                        <div class="body">
-                            <div class="alert alert-success">
-                                <strong>Well done!</strong> You successfully read this important alert message.
-                            </div>
-                            <div class="alert alert-info">
-                                <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
-                            </div>
-                            <div class="alert alert-warning">
-                                <strong>Warning!</strong> Better check yourself, you're not looking too good.
-                            </div>
-                            <div class="alert alert-danger">
-                                <strong>Oh snap!</strong> Change a few things up and try submitting again.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-       <!--     
-        <h1>Admin Account</h1>
-        <div class="flash-message" ng-if="flash">
+     <div class="flash-message" ng-show="flashService.isMessage()">
             <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
+            
         </div>
-        <div class="form-container">
-            <form method="post">
-                <div class="form-group">
-                    <label for="firstName">First name</label>
-                    <input type="text" name="firstName" id="firstName" class="form-control" ng-model="profile.firstName" required />
-                </div>
-                <div class="form-group">
-                    <label for="lastName">Last name</label>
-                    <input type="text" name="lastName" id="lastName" class="form-control" ng-model="profile.lastName" required />
-                </div>
-                <div class="form-group">
-                    <label for="company">Company</label>
-                    <span type="company" name="company" id="company" class="form-control" ng-model="profile.email">{{profile.company}}</span>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" class="form-control" ng-model="profile.email" />
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="text" name="password" id="password" class="form-control" ng-model="profile.password" />
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-primary" ng-click="saveUser()">Save</button>
-                    <button class="btn btn-danger" ng-click="saveUser()">Delete</button>
-                </div>
-            </form>
-        </div>
-        -->
-            <!-- #END# Basic Alerts -->
             
    <div id="divMasterDetailWrapper" style="position:relative;">
 
     <!-- First, we have our left-hand list of Customer names --> 
     <div id="divMasterView">
-        <div id="{{Company.name}}" class="cssOneCompanyRecord" ng-class="{cssCompanySelectedRecord: Company.name == selectedCompany}" ng-repeat='Company in listOfCompanies' ng-click="selectCompany(Company);">
+        <div id="{{Company.name}}" class="cssOneCompanyRecord" ng-class="{cssCompanySelectedRecord: Company.name == selectedCompany.name && !isAdd}" ng-repeat='Company in listOfCompanies' ng-click="selectCompany(Company);">
             <div class="cssCompanyName">{{Company.name}}</div>
             <div class="cssCompanyCity">{{Company.location}}</div>
-            <div class="cssCustomerID">{{Company.num_poles}}</div>
-            <div class="cssCustomerID">{{Company.num_users}}</div>
            
+           
+        </div>
+        <div class="cssOneCompanyRecord"  ng-class="{cssCompanySelectedRecord: isAdd}" ng-click="selectCompany();">
+            <div class="cssCompanyName">Add a Company</div>
+            
         </div>
     </div>
 
@@ -297,40 +238,86 @@
     
     
         <!-- Get AngularJS to create one DIV for each Order that this Customer has made. --> 
-        <div id="Order_{{Order.OrderID}}" ng-repeat="Order in listOfOrders" class="cssOneOrderRecord">
+        <div ng-show="!isAdd">
+        
+        <div id="Company_{{Company.name}}" class="cssOneOrderRecord">
             <!-- Each Order will have a header bar, with Order ID and date. --> 
-            <div class="cssOneOrderHeader">
-                 <div class="form-container">
-                    <form method="post">
-                        <div class="form-group">
-                            <label for="firstName">Name</label>
-                            <input type="text" name="name" id="name" class="form-control" ng-model="Company.Name" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="location">Location</label>
-                            <input type="location" name="location" id="location" class="form-control" ng-model="Company.location" />
-                        </div>
-                        <div class="form-group">
-                            <label for="num_users">Number of Users</label>
-                            <span type="num_users" name="num_users" id="num_users" class="form-control" ng-model="Company.num_users">{{Company.num_users}}</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="num_poles">Number of Poles</label>
-                            <span type="num_poles" name="num_poles" id="num_poles" class="form-control" ng-model="Company.num_poles">{{Company.num_poles}}</span>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-primary" ng-click="saveUser()">Save</button>
-                            <button class="btn btn-danger" ng-click="saveUser()">Delete</button>
-                        </div>
-                    </form>
-                </div>
+            <legend>Company Details </legend>
+            <div >
+                <div >Registered users: {{selectedCompany.number_of_users}}</div>
+                <div>Registered poles: {{selectedCompany.num_poles}}</div>
             </div>
-   
-     
         </div>
+        
+        <br>
+        
+        <div class="cssOneOrderRecord">
+        <legend>Edit </legend>
+            <div class="form-container">
+                <form method="post">
+                
+               <div class="form-group " >
+                    <label for="name">Company name</label>
+                    <input type="text" name="name" id="name" class="form-control" ng-model="updatedName" required/>
+                </div>
+                <div class="form-group">
+                    <label for="email">Location</label>
+                    <input type="text" name="location" id="location" class="form-control" ng-model="selectedCompany.location" required/>
+                </div>
+                <div class="form-group">
+                    <label for="longitude">Longitude</label>
+                    <input type="text" name="longitude" id="longitude" class="form-control" ng-model="selectedCompany.longitude" />
+                </div>
+                <div class="form-group">
+                    <label for="email">Latitude</label>
+                    <input type="text" name="latitude"" id="latitude"" class="form-control" ng-model="selectedCompany.latitude"  />
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-primary" ng-click="saveCompany()">Save</button>
+                    <button class="btn btn-danger" ng-click="saveUser()">Delete</button>
+                </div>
+                </form>
+            </div>
+        </div>
+        </div>
+        
+        <div ng-show="isAdd">
+               <div class="cssOneOrderRecord">
+        <legend>Add a Company </legend>
+            <div class="form-container">
+                <form method="post">
+                
+               <div class="form-group " >
+                    <label for="name">Company name</label>
+                    <input type="name" name="name" id="name" class="form-control" ng-model="newCompany.name" required/>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" name="location" id="location" class="form-control" ng-model="newCompany.location" required />
+                </div>
+                <div class="form-group">
+                    <label for="longitude">Longitude</label>
+                    <input type="text" name="longitude" id="longitude" class="form-control" ng-model="newCompany.longitude" required/>
+                </div>
+                <div class="form-group">
+                    <label for="latitude">Latitude</label>
+                    <input type="text" name="latitude" id="latitude" class="form-control" ng-model="newCompany.latitude" required/>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-primary" ng-click="addCompany()">Add</button>
+                   
+                </div>
+                </form>
+            </div>
+        </div>
+        
+        </div>
+                         
     </div>
 </div>
-           
+
             
         </div>
     </section>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Admin Panel| Sun light</title>
+    
+
+    <!-- Favicon-->
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="../../plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="../../plugins/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="../../plugins/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="../../css/style.css" rel="stylesheet">
+    
+    <link href="css/admin_style.css" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="../../css/themes/all-themes.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/e46989712a.js"></script> 
+</head>
+
+<body ng-app="adminApp" ng-controller='MasterDetailCtrl' class="theme-red">
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+    <!-- #END# Page Loader -->
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+    <!-- #END# Overlay For Sidebars -->
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <div class="search-icon">
+            <i class="material-icons">search</i>
+        </div>
+        <input type="text" placeholder="START TYPING...">
+        <div class="close-search">
+            <i class="material-icons">close</i>
+        </div>
+    </div>
+    <!-- #END# Search Bar -->
+    <!-- Top Bar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand" href="/admin">Admin Panel</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Call Search -->
+                    <li><a href="javascript:void(0);" class="js-search" data-close="true"><i class="material-icons">search</i></a></li>
+                    <!-- #END# Call Search -->
+
+                    <!-- Tasks -->
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <i class="material-icons">flag</i>
+                            <span class="label-count">9</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">ALERTS</li>
+                            <li class="body">
+                                <ul class="menu tasks">
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Battery low
+                                                
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-pink" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 32%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                You have 1 unread message
+                                               
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-cyan" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Warning! The panel has failed!
+                                                
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-red" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 54%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+        
+                        </ul>
+                    </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+     <section>
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar">
+            <!-- User Info -->
+            <div class="user-info">
+                <div class="image">
+                    <img src="images/user.png" width="48" height="48" alt="User" />
+                </div>
+                <div class="info-container">
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{profile.name}}</div>
+                    <div class="email">{{profile.email}}</div>
+                    <div class="btn-group user-helper-dropdown">
+                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
+                            <li role="seperator" class="divider"></li>
+                            <li><a href="javascript:void(0);"><i class="material-icons">group</i>UNIT</a></li>
+                            
+                            <li><a href="/login"><i class="material-icons">input</i>Sign Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- #User Info -->
+            <!-- Menu -->
+            <div class="menu">
+                <ul class="list">
+                    <li class="header"></li>
+                    <li class="active">
+                        <a href="admin.html">
+                            <i class="material-icons">home</i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="alerts.html"/a>
+                            <i class="material-icons">map</i>
+                            <span>Companies</span> 
+                        </a>
+                    </li>
+                    
+                     <li>
+                        <a href="alerts.html"/a>
+                            <i class="material-icons">add_alert</i>
+                            <span>Light Poles</span> 
+                        </a>
+                    </li>
+                     <li>
+                        <a href="datatable.html"/a>
+                        <i class="material-icons">lightbulb_outline</i>
+                            <span>Users</span> 
+                        </a>
+                    </li>
+                    
+            
+
+                    
+                </ul>
+            </div>
+            <!-- #Menu -->
+            <!-- Footer -->
+            <div class="legal">
+                <div class="copyright">
+                    <div class="version">
+                    <b>Version: </b> 1.0.0
+                </div>
+                </div>
+            <!-- #Footer -->
+        </aside>
+        <!-- #END# Left Sidebar -->
+ 
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            
+     <div class="flash-message" ng-show="flashService.isMessage()">
+            <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
+            
+        </div>
+            
+   <div id="divMasterDetailWrapper" style="position:relative;">
+
+    <!-- First, we have our left-hand list of Customer names --> 
+    <div id="divMasterView">
+        <div id="{{Company.name}}" class="cssOneCompanyRecord" ng-class="{cssCompanySelectedRecord: Company.name == selectedCompany.name && !isAdd}" ng-repeat='Company in listOfCompanies' ng-click="selectCompany(Company);">
+            <div class="cssCompanyName">{{Company.name}}</div>
+            <div class="cssCompanyCity">{{Company.location}}</div>
+           
+           
+        </div>
+        <div class="cssOneCompanyRecord"  ng-class="{cssCompanySelectedRecord: isAdd}" ng-click="selectCompany();">
+            <div class="cssCompanyName">Add a Company</div>
+            
+        </div>
+    </div>
+
+    <!-- Then, we have our right-hand panel, showing one Customer's orders --> 
+    <div id="divDetailView">
+        
+    
+    
+        <!-- Get AngularJS to create one DIV for each Order that this Customer has made. --> 
+        <div ng-show="!isAdd">
+        
+        <div id="Company_{{Company.name}}" class="cssOneOrderRecord">
+            <!-- Each Order will have a header bar, with Order ID and date. --> 
+            <legend>Company Details </legend>
+            <div >
+                <div >Registered users: {{selectedCompany.number_of_users}}</div>
+                <div>Registered poles: {{selectedCompany.num_poles}}</div>
+            </div>
+        </div>
+        
+        <br>
+        
+        <div class="cssOneOrderRecord">
+        <legend>Edit </legend>
+            <div class="form-container">
+                <form method="post">
+                
+               <div class="form-group " >
+                    <label for="name">Company name</label>
+                    <input type="text" name="name" id="name" class="form-control" ng-model="updatedName" required/>
+                </div>
+                <div class="form-group">
+                    <label for="email">Location</label>
+                    <input type="text" name="location" id="location" class="form-control" ng-model="selectedCompany.location" required/>
+                </div>
+                <div class="form-group">
+                    <label for="longitude">Longitude</label>
+                    <input type="text" name="longitude" id="longitude" class="form-control" ng-model="selectedCompany.longitude" />
+                </div>
+                <div class="form-group">
+                    <label for="email">Latitude</label>
+                    <input type="text" name="latitude"" id="latitude"" class="form-control" ng-model="selectedCompany.latitude"  />
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-primary" ng-click="saveCompany()">Save</button>
+                    <button class="btn btn-danger" ng-click="saveUser()">Delete</button>
+                </div>
+                </form>
+            </div>
+        </div>
+        </div>
+        
+        <div ng-show="isAdd">
+               <div class="cssOneOrderRecord">
+        <legend>Add a Company </legend>
+            <div class="form-container">
+                <form method="post">
+                
+               <div class="form-group " >
+                    <label for="name">Company name</label>
+                    <input type="name" name="name" id="name" class="form-control" ng-model="newCompany.name" required/>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" name="location" id="location" class="form-control" ng-model="newCompany.location" required />
+                </div>
+                <div class="form-group">
+                    <label for="longitude">Longitude</label>
+                    <input type="text" name="longitude" id="longitude" class="form-control" ng-model="newCompany.longitude" required/>
+                </div>
+                <div class="form-group">
+                    <label for="latitude">Latitude</label>
+                    <input type="text" name="latitude" id="latitude" class="form-control" ng-model="newCompany.latitude" required/>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-primary" ng-click="addCompany()">Add</button>
+                   
+                </div>
+                </form>
+            </div>
+        </div>
+        
+        </div>
+                         
+    </div>
+</div>
+
+            
+        </div>
+    </section>
+    
+      <!-- AngularJS Material Dependencies -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-aria.min.js"></script>
+    <script src="http://ngmaterial.assets.s3.amazonaws.com/svg-assets-cache.js"></script>
+    
+    
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-google-maps/2.2.1/angular-google-maps.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
+<!-- <script src=" https://maps.googleapis.com/maps/api/js?sensor=false"></script> -->
+    
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/md-data-table/1.8.0/md-data-table-templates.min.js"></script>
+     <script type="text/javascript" src="node_modules/md-data-table/dist/md-data-table.js"></script>
+     <script type="text/javascript" src="node_modules/angular-material-icons/angular-material-icons.js"></script>
+   
+
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+    
+    
+    <!-- AngularJS Material Javascript now available via Google CDN; version 1.0.7 used here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.7/angular-material.min.js"></script>
+    
+                               
+
+    <script src="js/admin_app.js"></script>
+    
+    <!-- Jquery Core Js -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core Js -->
+    <script src="../../plugins/bootstrap/js/bootstrap.js"></script>
+
+    <!-- Select Plugin Js -->
+    <script src="../../plugins/bootstrap-select/js/bootstrap-select.js"></script>
+
+    <!-- Slimscroll Plugin Js -->
+    <script src="../../plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script src="../../plugins/node-waves/waves.js"></script>
+
+    <!-- Custom Js -->
+    <script src="../../js/admin.js"></script>
+
+    <!-- Demo Js -->
+    <script src="../../js/demo.js"></script>
+</body>
+
+</html>

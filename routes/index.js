@@ -32,16 +32,12 @@ app.use(passportService.initialize());
 
 app.post('/user', passportService.authenticateClient(), ClientController.updateUserInfo);
 
-//Route for testing Passport
-app.get('/protected', passportService.authenticateClient(), (req, res) => {
-    res.send({ content: 'The protected Client test route is functional!' });
-  });
-  
+
 //Route for Admin panel  
 app.use('/admin', passportService.authenticateAdmin(),
     //res.send({ content: 'The protected Admin test route is functional!' });
    // console.log(path.join(__dirname,'/../public'));
-    express.static(path.join(__dirname,'/../public'),{index: ['admin.html','index.html']})
+    express.static(path.join(__dirname,'/../admin'),{index: ['admin.html']})
     //,{index: ['admin.html','index.html']}
 );
 
@@ -63,6 +59,12 @@ clientRoutes.post('/deleteNotification', passportService.authenticateClient(), C
 
  
 adminRoutes.get('/company', passportService.authenticateAdmin(), ClientController.viewCompanies);
+
+adminRoutes.post('/company', passportService.authenticateAdmin(), ClientController.updateCompanies);
+
+adminRoutes.post('/addCompany', passportService.authenticateAdmin(), ClientController.addCompanies);
+
+adminRoutes.get('/users', passportService.authenticateAdmin(), ClientController.viewUsersByCompany);
 
 app.use('/admin', adminRoutes);
 
