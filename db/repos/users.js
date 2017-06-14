@@ -7,10 +7,10 @@ module.exports = (rep, pgp) => {
         rep.any('INSERT INTO Users(First_name, Last_Name, Password, Email, Company, Role) VALUES (${First_Name}, ${Last_Name}, ${Password} , ${Email}, ${Company}, ${Role}) RETURNING Email, Role, User_Id',values, user => user.Email && user.Role && user.User_Id),
         
       findByEmail: values =>         
-          rep.any('SELECT * FROM Users WHERE Email = ${Email}', values, users ),
+          rep.any('SELECT * FROM Users WHERE Email = ${Email}', values),
       
       findById: values =>
-          rep.any('SELECT * FROM Users WHERE User_Id = ${Id}', values, users),
+          rep.any('SELECT * FROM Users WHERE User_Id = ${Id}', values),
           
       orderByCompany: () =>
           rep.any('SELECT * FROM Users ORDER BY Company ', [], user => user.first_name && user.last_name && user.email),  

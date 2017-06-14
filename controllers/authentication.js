@@ -97,7 +97,7 @@ exports.generalregister = function(req, res, next){
                     Time_stamp: date.toISOString(),
                     Company: company,
                     Color: 'cyan',
-                    Alert_type: 'danger',
+                    Alert_type: 'info',
                     Unread: true,
                     Text: notification_text
                   }).then(data => {

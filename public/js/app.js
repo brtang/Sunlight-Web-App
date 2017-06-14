@@ -195,21 +195,7 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
     $scope.poleList = []; 
     $scope.notifcationList = [];
     var brightnessStack = new Stack();
-    /*
-    $scope.slider_ticks_values_tooltip = {
-        value: $scope.button.brightness_level,
-        options: {
-            ceil: 100,
-            floor: 0,
-            stepsArray: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-            showTicksValues: true,
-            ticksValuesTooltip: function (v) {
-                return 'Tooltip for ' + v;
-            }
-        }
-    };
-    */
-    
+
     $scope.showAlert = function(ev) {
         $mdDialog.show(
             $mdDialog.alert()
@@ -488,8 +474,9 @@ app.directive('myMap',['$http', function($http){
 }]);
 
 
-app.controller('TableController', ['$scope', '$rootScope', '$http', '$httpParamSerializer', 'flash', 'userService', 'companyService', 'poleService', '$mdToast', function($scope, $rootScope, $http, $httpParamSerializer, flash, userService, companyService, poleService, $mdToast){
+app.controller('TableController', ['$scope', '$rootScope', '$http', '$httpParamSerializer', 'flash', 'userService', 'companyService', 'poleService', '$mdToast', 'notificationService' , function($scope, $rootScope, $http, $httpParamSerializer, flash, userService, companyService, poleService, $mdToast, notificationService){
     $scope.poleList = []; 
+     $scope.notifcationList = [];
     var profile = userService.fetchUserdata();     
     profile.then(function(result){
             $scope.profile = result;
@@ -505,6 +492,13 @@ app.controller('TableController', ['$scope', '$rootScope', '$http', '$httpParamS
                     $scope.companyLocation = result;     
                 });
             });
+            var notificationData = notificationService.fetchNotificationdata($scope.profile.company);
+             notificationData.then(function(result){
+                console.log("notificationData result: ", result);
+                $scope.notificationList = result[0];
+                $scope.unread = result[1];
+            });
+            
     });
     
             
