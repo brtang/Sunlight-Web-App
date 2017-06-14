@@ -1,5 +1,4 @@
 const routes = require('express').Router();
-      models = require('./models');
       express = require('express');
       config = require('../config/config');
       jwt = require('jsonwebtoken');
@@ -12,15 +11,9 @@ const routes = require('express').Router();
 
 module.exports = function(app){
 //Initialize route groups
-const apiRoutes = express.Router(), 
-      clientRoutes = express.Router(),
+const clientRoutes = express.Router(),
       adminRoutes = express.Router();    
   
-  
-//Set model routes (mainly used for db testing)
-routes.use('/models', models);
-
-
 //General Registration route
 app.post('/registration', AuthenticationController.generalregister);
 

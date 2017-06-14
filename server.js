@@ -1,5 +1,4 @@
-//Get the packages that we need =============
-//==========================================
+//Get the packages that we need 
 const express = require('express');
       pg = require('pg');
       db = require('./db');
@@ -18,70 +17,59 @@ var app = express();
 //Configure the app to use bodyParser()
 app.use(bodyParser.urlencoded({ extended: true}));
 
-//Add static middleware
-//app.use(express.static(__dirname + '/public'));  
-
+//Initialize EJS template engine
 app.set('view engine', 'ejs');
-//app.set('views', __dirname + '/views');
+
+//Initialize sessions with secret
 app.use(session({ secret: config.secret, resave: false, saveUninitialized: true }));
 
 app.set('port', process.env.PORT || 8080);
 
+//Forgot password route, renders forgot-password template
 app.get('/forgotPassword', function(req, res){
     res.render('forgot-password');
 });
 
+//Log-in route, renders sign-up-login-form template
 app.get('/login', function(req, res) {
-    // log user out
+    //Log user out
     delete req.session.token;
-
-    
     console.log("Rendering login EJS view...");
     res.render('sign-up-login-form');
 });
 
-
-app.get('/', function (req, res, next){ 
-    /* */
+//Middleware route to redirect Admins by checking user's session data
+app.get('/', function (req, res, next){    
     if (req.session.user) {
         if(req.session.user[0].role === 'Admin'){
             return res.redirect('/admin');
         }
-    } 
-    
+    }    
     console.log("Redirecting to next..." );
     next();
 });
 
-
-app.get('*', function(req, res, next){
-    
-     if (req.path !== '/login' && !req.session.token) {
+//Middleware catch-all route to redirect users to login page if they are not logged in with a token
+app.get('*', function(req, res, next){  
+    if (req.path !== '/login' && !req.session.token) {
         console.log("Redirecting to login...");
         return res.redirect('/login');
     }
     next();
 });
 
+//Route to serve user's session data back to returning user
 app.get('/user', function (req, res) {
-  console.log("Reached /user route..." + req.session.user[0].role);
- 
-  var name = req.session.user[0];
-  res.send(name);
+  console.log("Reached /user route..." + req.session.user[0]);
+  var userData = req.session.user[0];
+  res.send(userData);
 });
 
-app.get('/token', function (req, res) {
-    console.log("Reached /token route...");
-    res.send(req.session.token);
-});
 
 app.use('/', express.static(__dirname + '/public'));
 
 
-
-
 //Handle all routes in routes middleware
-//app.use('/', routes);
 routes(app);
 
 /*
