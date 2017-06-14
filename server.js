@@ -110,11 +110,13 @@ var date = new Date();
 
 /*&startTime=1970-01-01T00:01:47.000Z */
 //2017-05-08T23:26:50.710Z
-/*
+
 var parser = new xml2js.Parser({explicitArray: false});
 var latestTime;
-var digiRoute = ' https://devicecloud.digi.com/ws/DataPoint/00000000-00000000-00409DFF-FF78D78D/serial_data?size=50&startTime=';
+//var digiRoute = ' https://devicecloud.digi.com/ws/DataPoint/00000000-00000000-00409DFF-FF78D78D/serial_data?size=50&startTime=';
 
+var digiRoute = ' https://devicecloud.digi.com/ws/DataPoint/00000000-00000000-00409DFF-FF78D78D/serial_data';
+/*
 db.poles.getLatestTime()
 .then(data => {
     console.log("This is data: ", data[0].time_stamp);
@@ -146,7 +148,7 @@ db.poles.getLatestTime()
 .catch(error => {
         console.log("Error: ", error);
 });     
-
+*/
 /*
 request.get(digiRoute).auth('Sunlight', 'SunLight1!', true)
     .on('response', function(response){
@@ -163,7 +165,9 @@ request.get(digiRoute).auth('Sunlight', 'SunLight1!', true)
             console.log(result.result.DataPoint.length);
             var datapoints = result.result.DataPoint;
             for(var i = 0; i < datapoints.length; i++){
-                datapoints[i].data.transmission_id;
+                var string = datapoints[i].data.toString().split(/"/);
+                console.log(string[7]);
+                console.log(string[3]);
             }
             
          });
@@ -171,9 +175,13 @@ request.get(digiRoute).auth('Sunlight', 'SunLight1!', true)
     });
 */
 
+/*
+
   var date = new Date();
   console.log("Date ISO: ", date.toISOString);
   console.log("Date time: ", date.toUTCString());
+  
+*/  
 
 app.listen(app.get('port'), function(){
    console.log('Express started on http://localhost:' + 

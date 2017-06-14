@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser'); 
       bcrypt = require('bcrypt-nodejs');
       request = require('request');
+       ADMIN = 'Admin';
 
 exports.viewUsersByCompany = function(req, res, next){
     console.log("Reached viewUsersByCompany route!");
@@ -24,6 +25,86 @@ exports.viewUsersByCompany = function(req, res, next){
 
 };
 
+exports.viewPolesByCompany = function(req, res, next){
+    console.log("Reached viewPolesByCompany route!");
+    db.poles.orderByCompany()
+    .then(data => {
+        console.log("THIS IS DATAAAA: ", data);
+        /*
+        for(obj in data){
+           console.log("This is orderByCompany data!!!!!: ", data);
+       }
+       */
+        return res.send(data);
+    })
+     .catch(error => {
+        console.log("Error: ", error);
+        return res.json({
+            success: false,
+            error: error.message || error
+        });
+    });
+
+};
+
+
+exports.addAdmin = function(req, res, next){
+
+ console.log("Reached addAdmin route...");
+    
+    const email = req.body.email,
+          firstName = req.body.firstname,
+          lastName = req.body.lastname,
+          password = req.body.password;
+       
+
+ 
+    //Query DB for user
+    db.users.findByEmail({
+        Email: email
+    })
+    .then(data => {
+        console.log("This is data returned from User query: ", data);
+        if(data.length > 0){      
+            return res.send({ success: false, error: 'Email address is already in use.' });
+            //return res.status(422).send({ error: 'Email address is already in use.' });
+        }else{
+            var hash = bcrypt.hashSync(password);
+            console.log("No data returned, email has not been registered in the database!");
+            db.users.insert({
+                  First_Name: firstName,
+                  Last_Name: lastName,
+                  Password: hash,
+                  Email: email,                
+                  Company: 'Mira Bella',
+                  Role: ADMIN,
+                  //Company_Id: companyId
+               })  
+               .then(data => {
+                  console.log("Reaching here means new User was created: ", data);
+                  return res.send(data);
+                 
+                })
+                 .catch(error => {
+                        console.log("Error: ", error);
+                        return res.json({
+                            success: false,
+                            error: error.message || error
+                        });    
+                    });
+        }
+       
+    })
+    .catch(error => {
+        console.log("Error: ", error);
+        return res.json({
+            success: false,
+            error: error.message || error
+        });
+    });     
+
+
+};
       
 exports.viewCompany = function(req, res, next){
     console.log("Reached viewCompany route!");
@@ -282,6 +363,35 @@ exports.addCompanies = function(req, res, next) {
     .then(data => {
         console.log("This is data returned from Companies insert query: ", data);
         return res.send({ success: 'Successfully added company to database!' });
+       
+    })
+    .catch(error => {
+        console.log("Error: ", error);
+        return res.json({
+            success: false,
+            error: error.message || error
+        });
+    });     
+    
+   
+};
+
+exports.addPole = function(req, res, next) {
+    console.log("Reached addPole subroutine!");
+    const xbee_mac_addr = req.body.xbee_mac_addr,
+         company = req.body.company,
+          longitude = req.body.longitude,
+          latitude = req.body.latitude;
+             
+    db.poles.insert({
+        XBee_MAC_addr: xbee_mac_addr,
+        Company: company,
+        Longitude: longitude,
+        Latitude: latitude
+    })
+    .then(data => {
+        console.log("This is data returned from Poles insert query: ", data);
+        return res.send({ success: 'Successfully added Pole to database!' });
        
     })
     .catch(error => {

@@ -85,50 +85,7 @@
                             <i class="material-icons">flag</i>
                             <span class="label-count"></span>
                         </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">ALERTS</li>
-                            <li class="body">
-                                <ul class="menu tasks">
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Battery low
-                                                
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-pink" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 32%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                You have 1 unread message
-                                               
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-cyan" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <h4>
-                                                Warning! The panel has failed!
-                                                
-                                            </h4>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-red" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 54%">
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-        
-                        </ul>
+                     
                     </ul>
             </div>
         </div>
@@ -162,13 +119,7 @@
             <div class="menu">
                 <ul class="list">
                     <li class="header"></li>
-                    <li >
-                        <a href="admin.html">
-                            <i class="material-icons">home</i>
-                            <span>Home</span>
-                        </a>
-                    </li>
-                    
+             
                     <li>
                         <a href="/admin">
                             <i class="material-icons">map</i>
@@ -177,13 +128,13 @@
                     </li>
                     
                      <li>
-                        <a href="alerts.html"/a>
+                        <a href="admin-poles.html"/a>
                             <i class="material-icons">add_alert</i>
                             <span>Light Poles</span> 
                         </a>
                     </li>
                      <li class="active">
-                        <a href="datatable.html"/a>
+                        <a href="/"/a>
                         <i class="material-icons">lightbulb_outline</i>
                             <span>Users</span> 
                         </a>
@@ -227,7 +178,7 @@
            
         </div>
         <div class="cssOneCompanyRecord"  ng-class="{cssCompanySelectedRecord: isAdd}" ng-click="selectCompany();">
-            <div class="cssCompanyName">Add a User</div>
+            <div class="cssCompanyName">Add an Admin</div>
             
         </div>
     </div>
@@ -258,29 +209,29 @@
         
         <div ng-show="isAdd">
                <div class="cssOneOrderRecord">
-        <legend>Add a Company </legend>
+        <legend>Add an Admin </legend>
             <div class="form-container">
                 <form method="post">
                 
                <div class="form-group " >
-                    <label for="name">Company name</label>
-                    <input type="name" name="name" id="name" class="form-control" ng-model="newCompany.name" required/>
+                    <label for="firstname">First name</label>
+                    <input type="text" name="firstname" id="firstname" class="form-control" ng-model="newAdmin.firstname" required/>
                 </div>
                 <div class="form-group">
-                    <label for="location">Location</label>
-                    <input type="text" name="location" id="location" class="form-control" ng-model="newCompany.location" required />
+                    <label for="lastname">Last name</label>
+                    <input type="text" name="lastname" id="lastname" class="form-control" ng-model="newAdmin.lastname" required />
                 </div>
                 <div class="form-group">
-                    <label for="longitude">Longitude</label>
-                    <input type="text" name="longitude" id="longitude" class="form-control" ng-model="newCompany.longitude" required/>
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" ng-model="newAdmin.email" required/>
                 </div>
                 <div class="form-group">
-                    <label for="latitude">Latitude</label>
-                    <input type="text" name="latitude" id="latitude" class="form-control" ng-model="newCompany.latitude" required/>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" ng-model="newAdmin.password" required/>
                 </div>
                 
                 <div class="form-group">
-                    <button class="btn btn-primary" ng-click="addCompany()">Add</button>
+                    <button class="btn btn-primary" ng-click="addAdmin()">Add</button>
                    
                 </div>
                 </form>

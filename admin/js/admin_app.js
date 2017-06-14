@@ -132,29 +132,28 @@ app.service('userService', function($http, $httpParamSerializer) {
 
 app.service('poleService', function($http, $httpParamSerializer) {
 
-  var fetchPoledata = function(company) {
-    console.log("Made it to FETCHPOLEDATA call" + company);
-    var http_data = { company: company };
+  var fetchPoledata = function() {
+    console.log("REACHED POLE SERVICE");
     var poleData = $http({
-        method: 'POST',
-        url: '/client/poles', 
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        data: $httpParamSerializer(http_data)
-    }).then(function(res){
-        console.log("Response: " + res.data);
-        var data = res.data;
-        var poleList = [];
-        angular.forEach(data, function(item){
-            console.log("ITEM IS: ", item);
-            poleList.push({ 'mac_addr':item.xbee_mac_addr, 'group': item.group_name, 'batt_volt':item.batt_volt, 'panel_volt':item.panel_volt, 'battery_current':item.batt_current, 'panel_current': item.panel_current, 'latitude':item.latitude, 'longitude':item.longitude, 'temp': item.temperature, 'brightness_level':item.brightness_level});
+            method: 'GET',
+            url: '/admin/poles',            
+        })
+        .then(function(res){
+            var data = res.data
+            var list = [];
+            angular.forEach(data, function(item){
+                list.push(item);
+            });
+            console.log("List from Pole service: ", list); 
+            return list;
+           // flash.setMessage("Successfully updated!", 'success');
+        })
+        .catch(function(err){
+            //flash.setMessage("Error, update was not successful", 'danger');
         });
-        return poleList;
-        //flash.setMessage("Successfully updated!", 'success');
-    })
-    .catch(function(err){
-        flash.setMessage("Error, update was not successful", 'danger');
-    });       
-    return poleData;  
+        
+    return poleData;
+   
   };
 
   return {
@@ -222,6 +221,127 @@ app.controller('UsersDetailCtrl', ['$scope', '$http', '$httpParamSerializer', 'p
             }
           
         }
+        
+          $scope.addAdmin = function () {
+            //  Reset our list of orders  (when binded, this'll ensure the previous list of orders disappears from the screen while we're loading our JSON data)
+            var data = { 'firstname': $scope.newAdmin.firstname,
+                     'lastname': $scope.newAdmin.lastname,
+                     'email': $scope.newAdmin.email,
+                     'password': $scope.newAdmin.password
+                    }
+
+            $http({
+                method: 'POST',
+                url: '/admin/addAdmin', 
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                data: $httpParamSerializer(data)
+            })
+            .then(function(res){
+                console.log("Response: " + res);
+                if(res.data.success != false){
+                    flash.setMessage("Successfully added Admin to database!", 'success');
+                }else{
+                    flash.setMessage(res.data.error, 'danger');
+                }    
+            })
+            .catch(function(err){
+                flash.setMessage("Error, update was not successful", 'danger');
+            });       
+        }
+        
+       
+       
+    }]);
+
+    
+    
+app.controller('PoleDetailCtrl', ['$scope', '$http', '$httpParamSerializer', 'profileService', 'poleService', 'flash',
+    function ($scope, $http, $httpParamSerializer, profileService, poleService, flash) {
+        
+        $scope.selectedCompany = null;
+        $scope.isAdd = false;
+        $scope.flashService = flash;
+        var listOfCompanies = [];
+        var listOfPoles =  [];
+        
+        var profile = profileService.fetchUserdata();    
+        profile.then(function(result){
+            $scope.profile = result;
+            console.log("data.name" + $scope.profile.name); 
+        });
+        
+        var poles = poleService.fetchPoledata();
+        poles.then(function(result){
+             var currCompany = result[0].company;
+             listOfCompanies.push(currCompany);
+             var tempArray = [];
+             for(var i = 0; i < result.length; i++){
+                if(i != result.length - 1){                 
+                    if(result[i].company !== currCompany){
+                        currCompany = result[i].company;
+                        listOfCompanies.push(currCompany);
+                        listOfPoles.push(tempArray);
+                        tempArray = [];
+                        tempArray.push(result[i]);
+                    }else{
+                        tempArray.push(result[i]);
+                    }
+                }else{
+                    tempArray.push(result[i]);
+                    listOfPoles.push(tempArray);
+                }
+             }
+             console.log("LIST OF POLES: ", listOfPoles);
+             console.log("LIST OF COMPANIES: ", listOfCompanies);
+             $scope.listOfPoles = listOfPoles;
+             $scope.listOfCompanies = listOfCompanies;
+             $scope.selectedCompany = listOfCompanies[0];
+             $scope.selectedCompanyPole = listOfPoles[0];
+           
+        });
+        
+        $scope.selectCompany = function (val, index) {
+            //  If the user clicks on a <div>, we can get the ng-click to call this function, to set a new selected Customer.
+            console.log(val);
+            if(val){
+                console.log("$INDEX: ", index);
+                $scope.isAdd = false ;
+                $scope.selectedCompany = val;
+                $scope.selectedCompanyPole = listOfPoles[index];
+            }else{
+                console.log("val is undefined");   
+                $scope.isAdd = true ;
+            }
+          
+        }
+        
+          $scope.addPole = function () {
+            //  Reset our list of orders  (when binded, this'll ensure the previous list of orders disappears from the screen while we're loading our JSON data)
+            var data = { 'xbee_mac_addr': $scope.newPole.xbee_mac_addr,
+                     'company': $scope.newPole.company,
+                     'longitude': $scope.newPole.longitude,
+                     'latitude': $scope.newPole.latitude
+                    }
+
+            $http({
+                method: 'POST',
+                url: '/admin/addPole', 
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                data: $httpParamSerializer(data)
+            })
+            .then(function(res){
+                console.log("Response: " + res);
+                if(res.data.success != false){
+                    flash.setMessage("Successfully added Pole to database!", 'success');
+                }else{
+                    flash.setMessage(res.data.error, 'danger');
+                }    
+            })
+            .catch(function(err){
+                flash.setMessage("Error, update was not successful", 'danger');
+            });       
+        }
+        
        
        
     }]);

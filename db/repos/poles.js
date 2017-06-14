@@ -4,7 +4,10 @@ module.exports = (rep, pgp) => {
          rep.any('SELECT * FROM Pole', []),
       
       insert: values =>
-        rep.any('INSERT INTO Pole(XBee_MAC_addr, Group_Id, Region_Id, Company_Id) VALUES (${XBee_MAC_addr}, ${Group_Id}, ${Region_Id}, ${Company_Id}) RETURNING XBee_MAC_addr ',values, pole => pole.XBee_MAC_addr),
+        rep.any('INSERT INTO Pole(XBee_MAC_addr, Company, Longitude, Latitude) VALUES (${XBee_MAC_addr}, ${Company}, ${Longitude}, ${Latitude}) RETURNING XBee_MAC_addr ',values, pole => pole.XBee_MAC_addr),
+        
+      orderByCompany: () =>
+          rep.any('SELECT * FROM Pole ORDER BY Company ', []),    
         
       findByCompany: values => {
           
@@ -18,7 +21,7 @@ module.exports = (rep, pgp) => {
       //SELECT * FROM PoleLog WHERE extract(Month from time_stamp) = 5;
       
       updateBrightness: values =>
-        rep.any('UPDATE Pole SET Brightness_level = ${brightness_level} WHERE XBee_MAC_addr = ${xbee_mac_addr} RETURNING Company', values, pole => pole.Company),
+        rep.any('UPDATE Pole SET Brightness_level = ${brightness_level}, Batt_volt = ${batt_volt}, Batt_current = ${batt_current}, Panel_volt = ${Panel_volt}, Panel_current = ${Panel_current} WHERE XBee_MAC_addr = ${xbee_mac_addr} RETURNING Company', values, pole => pole.Company),
 
       deletePole: name =>
         rep.result('DELETE FROM Pole WHERE Name = $1', name ),

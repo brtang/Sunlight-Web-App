@@ -66,6 +66,12 @@ adminRoutes.post('/addCompany', passportService.authenticateAdmin(), ClientContr
 
 adminRoutes.get('/users', passportService.authenticateAdmin(), ClientController.viewUsersByCompany);
 
+adminRoutes.post('/addAdmin', passportService.authenticateAdmin(), ClientController.addAdmin);
+
+adminRoutes.get('/poles', passportService.authenticateAdmin(), ClientController.viewPolesByCompany);
+
+adminRoutes.post('/addPole', passportService.authenticateAdmin(), ClientController.addPole);
+
 app.use('/admin', adminRoutes);
 
 
