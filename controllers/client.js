@@ -203,12 +203,31 @@ exports.viewPoles = function(req, res, next){
 
 };
 
-exports.updatePole = function(req, res, next){
+
+
+exports.updatePoleLed = function(req, res, next){
    console.log("Reached updatePole route!");
     console.log("MAC ADDR is: ", req.body.xbee_mac_addr);
-    console.log("BRIGHTNESS LEVEL TO CHANGE : ", req.body.brightness);
+    console.log("Led value TO CHANGE : ", req.body.led);
+    var ledValue;
+    
+    switch(req.body.led){
+        case 'On':
+            ledValue = 1;
+            break;
+        case 'Off': 
+            ledValue = 0;
+            break;
+        case 'Automatic': 
+            ledValue = 2;
+            break;
+        default:
+            ledValue = 0;
+            
+    }
+    
     var digiRoute = 'http://developer.idigi.com/ws/sci';
-    var setBrightness =  '00:13:a2:00:40:be:d4:70! set_max_brightness:' + req.body.brightness ;
+    var setBrightness =  '00:13:a2:00:40:f5:d8:52! set_main_light_status:' + ledValue ;
     var xmlData = '<sci_request version="1.0">' + "\n" + 
                                                 '<send_message synchronous="True">' + "\n" +
                                                 '<targets>' + "\n" +
@@ -230,7 +249,106 @@ exports.updatePole = function(req, res, next){
         
     }).auth('Sunlight', 'SunLight1!', true)
     .on('response', function(response){
-     console.log("RESPONSE: ", response.statusCode);
+        console.log("RESPONSE: ", response.statusCode);
+        if(response.statusCode == 200){
+            
+            return res.send({ success: "Successfully updated LED value "  });
+            /*
+            db.poles.updateBrightness({
+                xbee_mac_addr: req.body.xbee_mac_addr,
+                brightness_level: req.body.brightness
+            })
+            .then(data => {
+                console.log("Updated brightness data: ", data);
+                return res.send({ success: "Successfully updated brightness level of " + req.body.xbee_mac_addr });
+            })
+            .catch(error => {
+                console.log("Error: ", error);
+                return res.json({
+                    success: false,
+                    error: error.message || error
+                });
+            });   
+            */
+        }else{
+            return res.json({
+            success: false,
+            error: "Digi Server responded with error"
+            });
+        }
+    });
+    /*
+    db.poles.updateBrightness({
+        xbee_mac_addr: req.body.xbee_mac_addr,
+        brightness_level: req.body.brightness
+    })
+    .then(data => {
+        console.log("Updated brightness data: ", data);
+        return res.send(data);
+    })
+    .catch(error => {
+        console.log("Error: ", error);
+        return res.json({
+            success: false,
+            error: error.message || error
+        });
+    });   
+
+  */
+
+};
+
+
+exports.updatePoleBrightness = function(req, res, next){
+   console.log("Reached updatePole route!");
+    console.log("MAC ADDR is: ", req.body.xbee_mac_addr);
+    console.log("BRIGHTNESS LEVEL TO CHANGE : ", req.body.brightness);
+    var digiRoute = 'http://developer.idigi.com/ws/sci';
+    var setBrightness =  '00:13:a2:00:40:f5:d8:52! set_max_brightness:' + req.body.brightness ;
+    var xmlData = '<sci_request version="1.0">' + "\n" + 
+                                                '<send_message synchronous="True">' + "\n" +
+                                                '<targets>' + "\n" +
+                                                '<device id="00000000-00000000-00409DFF-FF78D78D"/>' + "\n" +
+                                                '</targets>' + "\n" + 
+                                                '<rci_request version="1.1">' + "\n" + 
+                                                '<do_command target="rci_callback_command">' + "\n" +
+                                                setBrightness + "\n" +
+                                                '</do_command>' + "\n" +
+                                                '</rci_request>' + "\n" +
+                                                '</send_message>' + "\n" +
+                                                '</sci_request>';                            
+   console.log("XML: ", xmlData);          
+    request({
+        method: 'POST',
+        url: digiRoute,
+        headers: {'Content-Type': 'application/xml'},
+        body: xmlData
+        
+    }).auth('Sunlight', 'SunLight1!', true)
+    .on('response', function(response){
+        console.log("RESPONSE: ", response.statusCode);
+        if(response.statusCode == 200){
+            db.poles.updateBrightness({
+                xbee_mac_addr: req.body.xbee_mac_addr,
+                brightness_level: req.body.brightness
+            })
+            .then(data => {
+                console.log("Updated brightness data: ", data);
+                return res.send({ success: "Successfully updated brightness level of " + req.body.xbee_mac_addr });
+            })
+            .catch(error => {
+                console.log("Error: ", error);
+                return res.json({
+                    success: false,
+                    error: error.message || error
+                });
+            });   
+        }else{
+            return res.json({
+            success: false,
+            error: "Digi Server responded with error"
+            });
+        }
     });
     /*
     db.poles.updateBrightness({

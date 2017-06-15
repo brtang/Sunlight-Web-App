@@ -1,6 +1,8 @@
 CREATE TYPE roles AS ENUM('Member', 'Client', 'Owner', 'Admin');
 CREATE TYPE colors as ENUM('yellow', 'cyan', 'green', 'red');
 CREATE TYPE alert_types as ENUM('success', 'info', 'danger', 'warning');
+CREATE TYPE led_types as ENUM('On', 'Off', 'Automatic');
+
 
 CREATE TABLE Company(
 Name varchar(50) UNIQUE NOT NULL,
@@ -59,7 +61,7 @@ Temperature int,
 Power_source varchar(50),
 Brightness_level int,
 MAN_LED_Override varchar(50),
-LED varchar(50),
+LED led_types,
 Arch_light varchar(50),
 longitude numeric,
 latitude numeric,

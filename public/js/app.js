@@ -23,6 +23,10 @@ app.factory("flash", function($rootScope) {
                 message: "",
                 type: 'success', 
    };  
+   
+    $rootScope.hideFlash = function(){
+        $rootScope.flash.message = "";
+    };
     
   return {
     setMessage: function(message, type) {
@@ -172,7 +176,7 @@ app.service('poleService', function($http, $httpParamSerializer) {
         var poleList = [];
         angular.forEach(data, function(item){
             console.log("ITEM IS: ", item);
-            poleList.push({ 'mac_addr':item.xbee_mac_addr, 'group': item.group_name, 'batt_volt':item.batt_volt, 'panel_volt':item.panel_volt, 'battery_current':item.batt_current, 'panel_current': item.panel_current, 'latitude':item.latitude, 'longitude':item.longitude, 'temp': item.temperature, 'brightness_level':item.brightness_level});
+            poleList.push({ 'mac_addr':item.xbee_mac_addr, 'group': item.group_name, 'batt_volt':item.batt_volt, 'panel_volt':item.panel_volt, 'battery_current':item.batt_current, 'panel_current': item.panel_current, 'latitude':item.latitude, 'longitude':item.longitude, 'temp': item.temperature, 'brightness_level':item.brightness_level, 'led': item.led});
         });
         return poleList;
         //flash.setMessage("Successfully updated!", 'success');
@@ -194,6 +198,7 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
     $scope.flashService = flash;
     $scope.poleList = []; 
     $scope.notifcationList = [];
+    $scope.lightOptions = ["On", "Off", "Automatic"];
     var brightnessStack = new Stack();
 
     $scope.showAlert = function(ev) {
@@ -216,6 +221,19 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
                 .clickOutsideToClose(true)
                 .title('Dashboard Widgets')
                 .textContent('Select a Pole from the dropdown to view their assets.')
+                .ariaLabel('Alert Dialog Demo')
+                .ok('Got it!')
+                .targetEvent(ev)
+        );
+    };
+    
+    $scope.showAlertMainLight = function(ev) {
+        $mdDialog.show(
+            $mdDialog.alert()
+                .parent(angular.element(document.querySelector('#popupContainer')))
+                .clickOutsideToClose(true)
+                .title("Adjust the Main Light's control")
+                .textContent('Select a control option for the Main LED Light.')
                 .ariaLabel('Alert Dialog Demo')
                 .ok('Got it!')
                 .targetEvent(ev)
@@ -256,16 +274,16 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
                                     
                                 $http({
                                     method: 'POST',
-                                    url: '/client/updatePole', 
+                                    url: '/client/updatePoleBrightness', 
                                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                                     data: $httpParamSerializer(data)
                                 })
                                 .then(function(res){
                                     console.log("Response: " + res);
-                                    flash.setMessage("Successfully updated!", 'success');
+                                    flash.setMessage(res.data.success, 'success');
                                 })
                                 .catch(function(err){
-                                    flash.setMessage("Error, update was not successful", 'danger');
+                                    flash.setMessage(res.data.error, 'danger');
                                 });
                                 
                                 
@@ -310,16 +328,16 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
                                     
                                 $http({
                                     method: 'POST',
-                                    url: '/client/updatePole', 
+                                    url: '/client/updatePoleBrightness', 
                                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                                     data: $httpParamSerializer(data)
                                 })
                                 .then(function(res){
-                                    console.log("Response: " + res);
-                                    flash.setMessage("Successfully updated!", 'success');
+                                    console.log("Response: " + res.data.success);
+                                    flash.setMessage(res.data.success, 'success');
                                 })
                                 .catch(function(err){
-                                    flash.setMessage("Error, update was not successful", 'danger');
+                                    flash.setMessage(res.data.error, 'danger');
                                 });
                                 
                            }, 1000);
@@ -327,6 +345,30 @@ app.controller('MainController', ['$scope', '$http', '$httpParamSerializer', 'fl
                     }
                 };
     }
+    
+    $scope.changeLed = function(item) {
+        $scope.button.led = item;
+        var data = { 'xbee_mac_addr': $scope.button.mac_addr, 
+                        'led': item                                         
+                   };   
+                             
+
+                                    
+        $http({
+            method: 'POST',
+            url: '/client/updatePoleLed', 
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: $httpParamSerializer(data)
+        })
+        .then(function(res){
+            console.log("Response: " + res.data.success);
+            flash.setMessage(res.data.success, 'success');
+        })
+        .catch(function(err){
+            flash.setMessage(res.data.error, 'danger');
+        });
+        
+    };
     
     $scope.saveUser = function() {      
         var data = { 'email': $scope.profile.email, 

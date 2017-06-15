@@ -137,7 +137,8 @@ db.poles.getLatestTime()
         console.log("Error: ", error);
 });     
 */
-/*
+
+
 request.get(digiRoute).auth('Sunlight', 'SunLight1!', true)
     .on('response', function(response){
        console.log(response.statusCode);
@@ -152,16 +153,17 @@ request.get(digiRoute).auth('Sunlight', 'SunLight1!', true)
             
             console.log(result.result.DataPoint.length);
             var datapoints = result.result.DataPoint;
+            
             for(var i = 0; i < datapoints.length; i++){
                 var string = datapoints[i].data.toString().split(/"/);
-                console.log(string[7]);
+                console.log(string);
                 console.log(string[3]);
             }
             
          });
        }); 
     });
-*/
+
 
 /*
 

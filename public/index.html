@@ -207,6 +207,11 @@
  <!-- Dashboard -->
     <section class="content">
         <div class="container-fluid" id="popupContainer">
+                    
+            <div class="flash-message" ng-show="flashService.isMessage()">
+                <div class="{{'alert alert-' + flash.type}}" >{{flash.message}}<span id="close" style="float:right; display:inline-block; padding:2px 5px; background:#ccc;" ng-click="hideFlash()"> x </span></div>
+                 
+            </div>
             <div class="block-header">
                 <h2 style="float:left;">DASHBOARD</h2>
                  <div>
@@ -300,7 +305,49 @@
             <!-- Usage -->
             <div class="row clearfix">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <!-- slider -->         
+            <!-- slider -->
+                 
+                    <div class="col-xs-6" style="padding: 0px">
+                        <div class="block-header">
+                            <h2 style="float:left;">Main Light</h2>
+                            <div>
+                                <i class="material-icons" ng-click="showAlertMainLight($event)" style="font-size: 16px;">help_outline</i>
+                            </div>
+                        </div>
+                
+                        <div class="btn-group" uib-dropdown >
+                            <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                            {{button.led}} <span class="caret"></span>
+                            </button>
+                            <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
+                                <li role="menuitem">
+                                    <a href="#" ng-click="changeLed(item)"  ng-repeat="item in lightOptions">{{item}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="cos-xs-6">
+                        <div class="block-header">
+                            <h2 style="float:left;">Architectural Light</h2>
+                            <div>
+                                <i class="material-icons" ng-click="showAlertMainLight($event)" style="font-size: 16px;">help_outline</i>
+                            </div>
+                        </div>
+                
+                        <div class="btn-group" uib-dropdown >
+                            <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                            {{button.led}} <span class="caret"></span>
+                            </button>
+                            <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
+                                <li role="menuitem">
+                                    <a href="#" ng-click="changeLed(item)"  ng-repeat="item in lightOptions">{{item}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>    
+              
+                </br></br>
+                
                  <div class="block-header" >
                     <h2 style="float:left;">Brightness</h2 > 
                     <div>
