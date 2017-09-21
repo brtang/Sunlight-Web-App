@@ -7,7 +7,7 @@ exports.viewUsersByCompany = function(req, res, next){
     console.log("Reached viewUsersByCompany route!");
     db.users.orderByCompany()
     .then(data => {
-        console.log("THIS IS DATAAAA: ", data);
+       
         /*
         for(obj in data){
            console.log("This is orderByCompany data!!!!!: ", data);
@@ -29,7 +29,7 @@ exports.viewPolesByCompany = function(req, res, next){
     console.log("Reached viewPolesByCompany route!");
     db.poles.orderByCompany()
     .then(data => {
-        console.log("THIS IS DATAAAA: ", data);
+       
         /*
         for(obj in data){
            console.log("This is orderByCompany data!!!!!: ", data);

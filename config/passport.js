@@ -9,7 +9,9 @@ const config = require('./config'),
       LocalStrategy = require('passport-local'),
       JwtStrategy = require('passport-jwt').Strategy,
       ExtractJwt = require('passport-jwt').ExtractJwt;
-      
+
+
+//Custom wrote extractor function      
 var sessionExtractor = function(req) {
     var token = null;
     if (req && req.session)
@@ -37,8 +39,8 @@ module.exports = function(){
    //Jwt strategy to authenticate user's with Client role
    passport.use('jwt-1',  new JwtStrategy(jwtAdminOptions, function(payload, done) {
         console.log("Payload: ", payload["role"]);
-        var string = payload["role"];
-        if(string === 'Client'){
+        var role = payload["role"];
+        if(role === 'Client'){
             return done(null, true);
         }else{
             return done(null, false);
@@ -49,8 +51,8 @@ module.exports = function(){
    passport.use('jwt-2',  new JwtStrategy(jwtAdminOptions, function(payload, done) {
         console.log("Payload: ", payload["role"]);
         console.log("Company: ", payload["companyId"]);
-        var string = payload["role"];
-        if(string === 'Admin'){
+        var role = payload["role"];
+        if(role === 'Admin'){
             return done(null, true);
         }else{
             return done(null, false);

@@ -145,7 +145,7 @@ exports.login = function( req, res, next) {
     const password = req.body.password;
   
     if(!email){
-        return res.status(422).send({ error: 'You must enter an email address AHHHHHHH. ' });        
+        return res.status(422).send({ error: 'You must enter an email address . ' });        
     }
     if(!password){
         return res.status(422).send({ error: 'You must enter a password. '});
